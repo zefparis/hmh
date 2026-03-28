@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HMH – Portail</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #0b1220;
+        color: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 960px;
+        width: 100%;
+        padding: 2rem;
+      }
+
+      .card {
+        background: radial-gradient(circle at top left, #1d4ed8, #0b1220 50%),
+          radial-gradient(circle at bottom right, #22c55e, #020617 55%);
+        border-radius: 1.5rem;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        backdrop-filter: blur(16px);
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin: 0 0 0.5rem;
+      }
+
+      p.subtitle {
+        margin: 0 0 2rem;
+        color: #cbd5f5;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .tile {
+        background: rgba(15, 23, 42, 0.85);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.15s ease, box-shadow 0.15s ease,
+          border-color 0.15s ease, background 0.15s ease;
+      }
+
+      .tile:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -18px rgba(15, 23, 42, 0.95);
+        border-color: #60a5fa;
+        background: radial-gradient(circle at top, rgba(37, 99, 235, 0.4), rgba(15, 23, 42, 0.95));
+      }
+
+      .tile h2 {
+        margin: 0 0 0.35rem;
+        font-size: 1.15rem;
+      }
+
+      .tile p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #9ca3af;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: 999px;
+        padding: 0.15rem 0.7rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        background: rgba(15, 23, 42, 0.88);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: #e5e7eb;
+        margin-bottom: 0.75rem;
+      }
+
+      .dot {
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 999px;
+        background: #22c55e;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+      }
+
+      .footer {
+        margin-top: 2rem;
+        font-size: 0.75rem;
+        color: #6b7280;
+      }
+
+      @media (max-width: 640px) {
+        .card {
+          padding: 2rem 1.5rem;
+        }
+
+        h1 {
+          font-size: 1.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <section class="card">
+        <div class="badge">
+          <span class="dot"></span>
+          HMH | Portail d’accès
+        </div>
+        <h1>Bienvenue sur la plateforme HMH</h1>
+        <p class="subtitle">
+          Choisissez un environnement pour accéder au prototype correspondant.
+        </p>
+
+        <div class="grid">
+          <a href="01_AEC-Gateway-Powered-by-HMH.html" class="tile">
+            <div>
+              <h2>AEC Gateway – powered by HMH</h2>
+              <p>
+                Accédez au gateway AEC, conçu pour illustrer les capacités
+                de la plateforme HMH.
+              </p>
+            </div>
+          </a>
+
+          <a href="02_INFRAGATE-AFRICA-Final.html" class="tile">
+            <div>
+              <h2>INFRAGATE AFRICA</h2>
+              <p>
+                Prototype final pour INFRAGATE AFRICA : infrastructure,
+                services et parcours dédiés.
+              </p>
+            </div>
+          </a>
+
+          <a href="03_NEXUS-Gateway-Prototype.html" class="tile">
+            <div>
+              <h2>NEXUS Gateway – Prototype</h2>
+              <p>
+                Explorez le gateway NEXUS et découvrez une autre variante
+                des expériences HMH.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <p class="footer">
+          Déployé en mode statique – servez simplement ce dossier comme racine
+          du site (Netlify : <strong>publish directory</strong> = racine du repo,
+          sans commande de build).
+        </p>
+      </section>
+    </main>
+  </body>
+  </html>
