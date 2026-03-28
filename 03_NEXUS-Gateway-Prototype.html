@@ -857,6 +857,37 @@
     color: var(--muted);
     font-size: 12px;
   }
+
+  /* ── RESPONSIVE: LOGIQUE COMMUNE MOBILE/TABLET ── */
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: 240px 1fr; }
+    .right-panel { display: none; }
+    .main { padding: 20px; }
+  }
+
+  @media (max-width: 768px) {
+    nav { height:auto; padding:10px 14px; flex-wrap:wrap; row-gap:6px; }
+    .nav-links { overflow-x:auto; }
+    .nav-right { width:100%; justify-content:flex-end; }
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position:relative; height:auto; top:0; }
+    .sidebar-section { padding-inline:14px; }
+    .main { padding:18px 16px 28px; }
+    .search-bar { padding-inline:12px; }
+    .stats-row { grid-template-columns: repeat(2, minmax(0,1fr)); gap:10px; }
+    .section-header { flex-direction:column; align-items:flex-start; gap:8px; }
+  }
+
+  @media (max-width: 520px) {
+    .layout { margin-top:56px; }
+    .main { padding-inline:14px; }
+    .stats-row { grid-template-columns:1fr; }
+    .project-card { padding:14px 14px; }
+    .card-top { flex-direction:column; align-items:flex-start; gap:6px; }
+    .card-right { align-items:flex-start; margin-left:0; }
+    .card-meta { flex-direction:column; gap:4px; }
+    .chip-row { gap:4px; }
+  }
 </style>
 </head>
 <body>

@@ -357,6 +357,56 @@ footer{background:var(--deep);border-top:1px solid var(--b1);padding:44px 80px 3
 .toast::before{content:'✓';color:var(--teal);font-weight:700;}
 input[type=text],input[type=email],select,textarea{color:var(--white);}
 select option{background:var(--panel);}
+
+/* ── RESPONSIVE: LOGIQUE COMMUNE MOBILE/TABLET ── */
+@media (max-width: 1024px) {
+  nav{padding:0 18px;gap:10px;}
+  .nlinks{overflow-x:auto;}
+  .hero{padding:96px 32px 56px;}
+  .plat-wrap{margin-top:40px;}
+  .pbody{display:block;}
+  .pleft,.pcenter,.pright{width:100%;max-height:none;border-right:none;border-left:none;}
+  .pleft{border-bottom:1px solid var(--b1);}
+  .pright{border-top:1px solid var(--b1);}
+}
+
+@media (max-width: 768px) {
+  nav{height:auto;padding:10px 16px;flex-wrap:wrap;row-gap:6px;}
+  .nlogo{margin-right:10px;}
+  .nright{width:100%;justify-content:flex-end;}
+  .hero{padding:88px 18px 40px;}
+  .h-sub{font-size:14px;}
+  .h-stats{flex-wrap:wrap;row-gap:18px;margin-top:40px;padding-top:22px;}
+  .sec{padding:60px 20px;}
+  .how-grid::before{left:12%;right:12%;}
+  .how-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .eco-grid{grid-template-columns:1fr 1fr;}
+  .partner-grid{grid-template-columns:1fr;}
+  .std-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .bs-grid{grid-template-columns:1fr;gap:40px;}
+  .lc-grid{grid-template-columns:1fr;gap:40px;}
+  .ia-grid{grid-template-columns:1fr;gap:40px;}
+  .cofi-grid{grid-template-columns:1fr 1fr;}
+  .acc-grid{grid-template-columns:1fr;gap:32px;}
+  footer{padding:40px 20px 28px;}
+  .ft{grid-template-columns:1.5fr 1fr;gap:24px;}
+}
+
+@media (max-width: 520px) {
+  .hero{padding:80px 16px 32px;}
+  .h-title{font-size:clamp(34px,8vw,40px);}
+  .h-title .l2{font-size:clamp(24px,5.5vw,30px);}
+  .h-sub{font-size:13px;margin:20px 0 28px;}
+  .h-ctas{flex-direction:column;align-items:stretch;}
+  .how-grid{grid-template-columns:1fr;}
+  .eco-grid{grid-template-columns:1fr;}
+  .std-grid{grid-template-columns:1fr;}
+  .cofi-grid{grid-template-columns:1fr;}
+  .sec{padding-inline:16px;}
+  .ticker-wrap{padding-inline:10px;}
+  .ft{grid-template-columns:1fr;}
+  .fb{flex-direction:column;align-items:flex-start;gap:10px;}
+}
 </style>
 </head>
 <body>
