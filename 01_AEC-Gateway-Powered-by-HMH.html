@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEC Project Gateway — Powered by HMH</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@200;300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap');
+
+:root{
+  --ink:#05080B;--deep:#080D12;--base:#0B1218;--lift:#101A22;--raise:#152230;
+  --rim:#1C3044;--rim2:#233848;--rim3:#2A4258;
+  --fire:#E8A020;--fire2:#F5BB4A;--fdim:rgba(232,160,32,0.10);--fdim2:rgba(232,160,32,0.05);
+  --ember:#C84B1A;--ice:#1BBFA8;--idim:rgba(27,191,168,0.10);
+  --sky:#3080FF;--sdim:rgba(48,128,255,0.10);
+  --rose:#D94F4F;--violet:#7B5EE8;--jade:#2EBC6E;
+  --fog:#7A9DB8;--mist:#4A6B80;--pale:#C8DFF0;--snow:#ECF4FA;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--fog);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--rim2);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(5,8,11,0.96);backdrop-filter:blur(28px);border-bottom:1px solid var(--rim);display:flex;align-items:center;padding:0 32px;z-index:900;gap:0;}
+.nlogo{display:flex;align-items:center;gap:12px;margin-right:32px;flex-shrink:0;}
+.nlogo-aec{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--snow);letter-spacing:0.04em;}
+.nlogo-aec span{color:var(--fire);}
+.nlogo-sep{width:1px;height:20px;background:var(--rim2);}
+.nlogo-hmh{font-family:'DM Mono',monospace;font-size:9px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);}
+.nlinks{display:flex;gap:1px;flex:1;overflow:hidden;}
+.nl{font-family:'DM Mono',monospace;font-size:9.5px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);padding:6px 11px;cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;white-space:nowrap;}
+.nl:hover{color:var(--pale);}
+.nl.on{color:var(--fire);border-bottom-color:var(--fire);}
+.nright{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0;}
+.nlive{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ice);padding:4px 10px;border:1px solid rgba(27,191,168,0.2);border-radius:2px;}
+.nlive::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ice);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.naccess{padding:7px 18px;background:var(--fire);border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:all 0.2s;}
+.naccess:hover{background:var(--fire2);}
+
+/* ── HERO ── */
+@keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 80px 80px;gap:80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 70% 50%,rgba(232,160,32,0.04) 0%,transparent 70%);pointer-events:none;}
+.hero::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-42deg,transparent,transparent 44px,rgba(232,160,32,0.008) 44px,rgba(232,160,32,0.008) 45px);pointer-events:none;}
+.hero-left{position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid rgba(232,160,32,0.25);border-radius:2px;margin-bottom:24px;animation:up 0.6s ease forwards;opacity:0;}
+.hero-badge-aec{font-family:'Playfair Display',serif;font-size:11px;font-weight:600;color:var(--fire);letter-spacing:0.05em;}
+.hero-badge-sep{width:1px;height:12px;background:var(--rim2);}
+.hero-badge-hmh{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist);}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(48px,5.5vw,80px);font-weight:700;line-height:0.95;color:var(--snow);margin-bottom:10px;animation:up 0.6s 0.08s ease forwards;opacity:0;}
+.hero-title em{font-style:italic;color:var(--fire);}
+.hero-title .l2{display:block;font-size:clamp(32px,3.5vw,52px);color:var(--fog);font-weight:400;margin-top:6px;}
+.hero-sub{font-size:14px;font-weight:300;color:var(--fog);line-height:1.9;max-width:480px;margin:28px 0 36px;animation:up 0.6s 0.16s ease forwards;opacity:0;}
+.hero-ctas{display:flex;gap:12px;animation:up 0.6s 0.24s ease forwards;opacity:0;}
+.cta-fire{padding:13px 30px;background:var(--fire);border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:all 0.2s;}
+.cta-fire:hover{background:var(--fire2);transform:translateY(-1px);}
+.cta-ghost{padding:13px 30px;background:transparent;border:1px solid var(--rim2);border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--fog);cursor:pointer;transition:all 0.2s;}
+.cta-ghost:hover{border-color:var(--fire);color:var(--fire);}
+.hero-stats{display:flex;gap:0;margin-top:56px;padding-top:28px;border-top:1px solid var(--rim);animation:up 0.6s 0.32s ease forwards;opacity:0;}
+.hst{padding-right:36px;margin-right:36px;border-right:1px solid var(--rim);}
+.hst:last-child{border-right:none;}
+.hst-n{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--snow);line-height:1;margin-bottom:4px;}
+.hst-n em{font-style:normal;color:var(--fire);}
+.hst-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);}
+.hero-right{position:relative;z-index:1;animation:up 0.6s 0.2s ease forwards;opacity:0;}
+.hero-visual{background:var(--deep);border:1px solid var(--rim);border-radius:4px;overflow:hidden;}
+.hv-header{background:var(--base);border-bottom:1px solid var(--rim);padding:12px 16px;display:flex;align-items:center;gap:8px;}
+.hv-dots{display:flex;gap:5px;}
+.hv-dot{width:8px;height:8px;border-radius:50%;}
+.hv-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist);margin-left:8px;}
+.hv-live{margin-left:auto;display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:8px;color:var(--ice);letter-spacing:0.1em;text-transform:uppercase;}
+.hv-live::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--ice);animation:pulse 1.5s infinite;}
+.hv-body{padding:14px;}
+.hv-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:2px;margin-bottom:5px;border:1px solid var(--rim);background:var(--lift);cursor:default;transition:all 0.2s;}
+.hv-row:hover{border-color:var(--fire);background:var(--raise);}
+.hv-sector{width:4px;height:32px;border-radius:2px;flex-shrink:0;}
+.hv-info{flex:1;}
+.hv-name{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--pale);margin-bottom:2px;}
+.hv-meta{font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);letter-spacing:0.05em;}
+.hv-right{text-align:right;}
+.hv-val{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--fire);margin-bottom:3px;}
+.hv-badges{display:flex;gap:3px;justify-content:flex-end;}
+.hvb{font-family:'DM Mono',monospace;font-size:8px;padding:1px 5px;border-radius:1px;letter-spacing:0.06em;text-transform:uppercase;}
+
+/* ── TICKER ── */
+.tick-wrap{background:var(--deep);border-top:1px solid var(--rim);border-bottom:1px solid var(--rim);padding:10px 0;overflow:hidden;}
+.tick{display:flex;animation:scroll 60s linear infinite;white-space:nowrap;}
+@keyframes scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.ti{display:flex;align-items:center;gap:7px;padding:0 20px;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--mist);flex-shrink:0;}
+.td{width:3px;height:3px;border-radius:50%;flex-shrink:0;}
+
+/* ── SECTIONS ── */
+.sec{padding:88px 80px;}
+.sec-eyebrow{font-family:'DM Mono',monospace;font-size:9px;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:var(--fire);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.sec-eyebrow::before{content:'';width:20px;height:1px;background:var(--fire);}
+.sec-h{font-family:'Playfair Display',serif;font-size:clamp(32px,3.8vw,52px);font-weight:700;line-height:1.05;color:var(--snow);margin-bottom:14px;}
+.sec-h em{font-style:italic;color:var(--fire);}
+.sec-p{font-size:14px;font-weight:300;color:var(--fog);line-height:1.9;max-width:540px;}
+
+/* ── SECTOR GRID ── */
+.sector-mega{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rim);margin-top:52px;border:1px solid var(--rim);}
+.sector-block{background:var(--deep);padding:22px 20px;transition:background 0.2s;cursor:default;}
+.sector-block:hover{background:var(--base);}
+.sb-icon{font-size:22px;margin-bottom:10px;}
+.sb-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--pale);margin-bottom:6px;}
+.sb-items{display:flex;flex-direction:column;gap:3px;}
+.sb-item{font-family:'DM Mono',monospace;font-size:9.5px;color:var(--mist);letter-spacing:0.04em;display:flex;align-items:center;gap:5px;}
+.sb-item::before{content:'›';color:var(--fire);font-size:10px;}
+.sb-count{margin-top:10px;font-family:'DM Mono',monospace;font-size:9px;color:var(--fire);letter-spacing:0.08em;}
+
+/* ── INSTITUTION LAYERS ── */
+.inst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rim);margin-top:52px;border:1px solid var(--rim);}
+.inst-col{background:var(--deep);padding:24px 20px;}
+.inst-ch{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--rim);}
+.inst-sub{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin:12px 0 6px;}
+.inst-item{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(28,48,68,0.5);transition:all 0.15s;}
+.inst-item:last-child{border:none;}
+.inst-item:hover{padding-left:4px;}
+.inst-d{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+.inst-n{font-size:11.5px;color:var(--fog);flex:1;transition:color 0.15s;}
+.inst-item:hover .inst-n{color:var(--pale);}
+.inst-t{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:var(--mist);text-transform:uppercase;}
+
+/* ── PLATFORM ── */
+.plat-wrap{margin-top:52px;border:1px solid var(--rim);border-radius:4px;overflow:hidden;background:var(--deep);}
+.ptabs{display:flex;background:var(--base);border-bottom:1px solid var(--rim);overflow-x:auto;}
+.ptab{font-family:'DM Mono',monospace;font-size:9.5px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:13px 16px;color:var(--mist);cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0;}
+.ptab:hover{color:var(--fog);}
+.ptab.on{color:var(--fire);border-bottom-color:var(--fire);}
+.pbody{display:grid;grid-template-columns:220px 1fr 260px;min-height:600px;}
+.pleft{border-right:1px solid var(--rim);padding:14px 0;background:var(--base);overflow-y:auto;}
+.pcenter{padding:18px;overflow-y:auto;max-height:600px;}
+.pright{border-left:1px solid var(--rim);padding:14px 0;background:var(--base);overflow-y:auto;}
+
+/* Sidebar */
+.psl{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--mist);padding:0 13px;margin:13px 0 5px;}
+.pfi{display:flex;align-items:center;justify-content:space-between;padding:6px 13px;cursor:pointer;transition:all 0.15s;}
+.pfi:hover{background:rgba(255,255,255,0.02);}
+.pfi.on{background:var(--fdim);}
+.pfi-l{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--fog);}
+.pfi.on .pfi-l{color:var(--fire);}
+.pfdot{width:5px;height:5px;border-radius:1px;flex-shrink:0;}
+.pfc{font-family:'DM Mono',monospace;font-size:8px;color:var(--mist);background:rgba(255,255,255,0.04);padding:1px 5px;border-radius:8px;}
+
+/* AI bar */
+.aibar{display:flex;gap:8px;background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:9px 12px;margin-bottom:12px;align-items:center;transition:border-color 0.2s;}
+.aibar:focus-within{border-color:var(--fire);}
+.aibar input{flex:1;background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;color:var(--snow);}
+.aibar input::placeholder{color:var(--mist);}
+.aibtn{padding:6px 14px;background:var(--fire);border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+.aibtn:hover{background:var(--fire2);}
+
+/* AI response */
+.airesp{background:linear-gradient(135deg,rgba(27,191,168,0.04),rgba(48,128,255,0.03));border:1px solid rgba(27,191,168,0.16);border-radius:2px;padding:12px 14px;margin-bottom:12px;display:none;}
+.airesp.on{display:block;}
+.airesp-h{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ice);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.airesp-h::before{content:'●';animation:pulse 1.5s infinite;}
+.airesp-t{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--fog);line-height:1.8;}
+.aitags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;}
+.aitag{padding:2px 7px;border-radius:1px;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.07em;background:rgba(27,191,168,0.08);border:1px solid rgba(27,191,168,0.16);color:var(--ice);text-transform:uppercase;}
+
+/* Stats */
+.sstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px;}
+.sst{background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:10px 12px;transition:border-color 0.2s;}
+.sst:hover{border-color:var(--fire);}
+.sst-l{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);margin-bottom:4px;}
+.sst-v{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--snow);line-height:1;}
+.sst-v em{font-style:normal;color:var(--fire);}
+.sst-s{font-family:'DM Mono',monospace;font-size:8.5px;color:var(--ice);margin-top:3px;}
+
+/* Chips */
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px;}
+.chip{padding:4px 10px;border-radius:20px;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;transition:all 0.15s;border:1px solid var(--rim);color:var(--mist);background:var(--lift);}
+.chip:hover{border-color:var(--fog);color:var(--fog);}
+.chip.on{border-color:var(--fire);color:var(--fire);background:var(--fdim);}
+
+/* Project cards */
+.pcards{display:flex;flex-direction:column;gap:7px;}
+.pcard{background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:12px 14px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.pcard:hover{border-color:var(--fire);background:rgba(232,160,32,0.02);}
+.pcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;}
+.pcard-id{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;color:var(--mist);margin-bottom:3px;text-transform:uppercase;}
+.pcard-title{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--snow);line-height:1.2;}
+.pcard-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--fire);text-align:right;margin-bottom:4px;}
+.stpill{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;}
+.st-b{background:rgba(27,191,168,0.1);color:var(--ice);border:1px solid rgba(27,191,168,0.2);}
+.st-f{background:rgba(48,128,255,0.1);color:var(--sky);border:1px solid rgba(48,128,255,0.2);}
+.st-p{background:rgba(232,160,32,0.1);color:var(--fire);border:1px solid rgba(232,160,32,0.2);}
+.st-c{background:rgba(200,160,80,0.1);color:#C8A050;border:1px solid rgba(200,160,80,0.2);}
+.pcard-meta{display:flex;gap:12px;margin-bottom:7px;flex-wrap:wrap;}
+.pmi{font-family:'DM Mono',monospace;font-size:9.5px;color:var(--mist);}
+.pmi span{color:var(--fog);}
+.ptag{font-family:'DM Mono',monospace;font-size:8px;padding:2px 6px;border-radius:1px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-right:3px;}
+.vs-w{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);}
+.vp{width:10px;height:3px;border-radius:1px;background:var(--rim);}
+.vp.on{background:var(--ice);}
+.bsr-w{display:flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);}
+.bsring{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;border:1.5px solid;}
+
+/* Right panel */
+.prs{padding:0 13px 13px;border-bottom:1px solid var(--rim);margin-bottom:13px;}
+.prs:last-child{border-bottom:none;margin-bottom:0;}
+.prl{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:8px;}
+.act{display:flex;gap:7px;padding:5px 0;border-bottom:1px solid rgba(28,48,68,0.4);}
+.act:last-child{border:none;}
+.act-d{width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.act-t{font-size:10.5px;color:var(--fog);line-height:1.5;flex:1;}
+.act-tm{font-family:'DM Mono',monospace;font-size:8.5px;color:var(--mist);}
+.src-r{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(28,48,68,0.35);}
+.src-r:last-child{border:none;}
+.src-ic{width:22px;height:22px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;}
+.src-n{font-size:10.5px;color:var(--fog);}
+.src-c{font-family:'DM Mono',monospace;font-size:8px;color:var(--mist);}
+.dfi-r{display:flex;align-items:center;padding:4px 0;}
+.dfi-n{font-size:10.5px;color:var(--fog);width:68px;}
+.dfi-b{flex:1;height:2px;background:var(--rim);border-radius:1px;margin:0 7px;}
+.dfi-f{height:2px;background:var(--sky);border-radius:1px;}
+.dfi-p{font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);width:26px;text-align:right;}
+
+/* Tab content */
+.tc{display:none;}.tc.on{display:block;}
+
+/* ── TRACKING FRAMEWORK ── */
+.track-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rim);margin-top:52px;border:1px solid var(--rim);}
+.track-col{background:var(--deep);padding:22px 18px;border-right:1px solid var(--rim);transition:background 0.2s;}
+.track-col:last-child{border-right:none;}
+.track-col:hover{background:var(--base);}
+.track-icon{font-size:20px;margin-bottom:10px;}
+.track-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--pale);margin-bottom:8px;}
+.track-items{display:flex;flex-direction:column;gap:4px;}
+.track-item{font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);letter-spacing:0.03em;display:flex;align-items:flex-start;gap:5px;line-height:1.5;}
+.track-item::before{content:'›';color:var(--fire);flex-shrink:0;}
+
+/* ── FEE MODEL ── */
+.fee-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:52px;}
+.fee-card{background:var(--deep);border:1px solid var(--rim);border-radius:3px;padding:22px;transition:all 0.2s;}
+.fee-card:hover{border-color:var(--fire);transform:translateY(-2px);}
+.fee-tier{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:6px;}
+.fee-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--snow);margin-bottom:4px;}
+.fee-price{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--fire);margin-bottom:10px;}
+.fee-desc{font-size:12px;color:var(--mist);line-height:1.8;}
+
+/* ── HMH ARCHITECTURE ── */
+.arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:52px;align-items:center;}
+.arch-layers{display:flex;flex-direction:column;gap:0;}
+.arch-layer{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--rim);position:relative;}
+.arch-layer:last-child{border:none;}
+.arch-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--mist);width:24px;flex-shrink:0;}
+.arch-bar{width:3px;height:36px;border-radius:2px;flex-shrink:0;}
+.arch-info{flex:1;}
+.arch-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--pale);margin-bottom:2px;}
+.arch-desc{font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);letter-spacing:0.04em;}
+.arch-tag{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.09em;padding:2px 7px;border-radius:1px;text-transform:uppercase;flex-shrink:0;}
+.arch-arrow{display:flex;justify-content:center;align-items:center;padding:8px 0;}
+.arch-arrow::before{content:'↓';color:var(--fire);font-size:16px;}
+
+/* ── ACCESS SECTION ── */
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:52px;}
+.acc-form{background:var(--deep);border:1px solid var(--rim);border-radius:3px;padding:28px;}
+.afl{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist);margin-bottom:5px;display:block;}
+.afi{width:100%;background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:9px 12px;color:var(--snow);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;outline:none;margin-bottom:10px;transition:border-color 0.2s;}
+.afi:focus{border-color:var(--fire);}
+.afi-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.afbtn{width:100%;padding:12px;background:var(--fire);border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:all 0.2s;margin-top:3px;}
+.afbtn:hover{background:var(--fire2);}
+.atier{background:var(--deep);border:1px solid var(--rim);border-radius:2px;padding:16px;margin-bottom:9px;transition:border-color 0.2s;}
+.atier:hover{border-color:var(--fire);}
+.atier-name{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--snow);margin-bottom:3px;}
+.atier-desc{font-size:12px;color:var(--mist);line-height:1.7;margin-bottom:7px;}
+.atier-price{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--fire);}
+
+/* ── FOOTER ── */
+footer{background:var(--deep);border-top:1px solid var(--rim);padding:52px 80px 32px;}
+.ft{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.fl-aec{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--snow);margin-bottom:3px;}
+.fl-aec span{color:var(--fire);}
+.fl-hmh{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist);margin-bottom:12px;}
+.ft-tgl{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--mist);margin-bottom:12px;}
+.ft-ia{display:flex;align-items:center;gap:8px;padding:7px 11px;background:var(--fdim2);border:1px solid rgba(232,160,32,0.16);border-radius:2px;margin-top:12px;font-size:10px;color:var(--mist);max-width:240px;}
+.ft-ia strong{color:var(--fire);}
+.ft-col-t{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--mist);margin-bottom:12px;}
+.flink{display:block;font-size:12px;color:var(--mist);margin-bottom:6px;cursor:pointer;transition:color 0.2s;}
+.flink:hover{color:var(--fire);}
+.fb{display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid var(--rim);}
+.fcopy{font-size:11px;color:var(--mist);}
+.fcopy a{color:var(--fire);cursor:pointer;text-decoration:none;}
+.flangs{display:flex;gap:5px;}
+.flang{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--mist);padding:3px 7px;border:1px solid var(--rim);border-radius:1px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
+.flang:hover,.flang.on{color:var(--fire);border-color:var(--fire);}
+
+/* UTILITIES */
+.loader{display:none;position:fixed;inset:0;background:rgba(5,8,11,0.92);backdrop-filter:blur(8px);z-index:800;align-items:center;justify-content:center;flex-direction:column;gap:14px;}
+.loader.on{display:flex;}
+.lring{width:32px;height:32px;border:1px solid var(--rim2);border-top-color:var(--fire);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ltxt{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mist);}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--base);border:1px solid var(--ice);border-radius:2px;padding:11px 16px;font-size:12px;color:var(--pale);z-index:900;display:none;align-items:center;gap:9px;max-width:340px;}
+.toast.on{display:flex;}
+.toast::before{content:'✓';color:var(--ice);font-weight:700;}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(5,8,11,0.92);backdrop-filter:blur(8px);z-index:700;align-items:center;justify-content:center;}
+.modal-bg.on{display:flex;}
+.modal{background:var(--base);border:1px solid var(--rim2);border-radius:4px;padding:28px;max-width:580px;width:90%;max-height:85vh;overflow-y:auto;position:relative;}
+.modal-x{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--mist);font-size:18px;cursor:pointer;transition:color 0.2s;}
+.modal-x:hover{color:var(--snow);}
+select option{background:var(--lift);}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader"><div class="lring"></div><div class="ltxt" id="lmsg">Processing</div></div>
+<div class="toast" id="toast"></div>
+<div class="modal-bg" id="mbg" onclick="if(event.target===this)this.classList.remove('on')">
+  <div class="modal"><button class="modal-x" onclick="document.getElementById('mbg').classList.remove('on')">✕</button><div id="mcontent"></div></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nlogo">
+    <div class="nlogo-aec">AEC <span>Gateway</span></div>
+    <div class="nlogo-sep"></div>
+    <div class="nlogo-hmh">Powered by HMH</div>
+  </div>
+  <div class="nlinks">
+    <div class="nl on" onclick="setNav(this);sTo('hero')">Overview</div>
+    <div class="nl" onclick="setNav(this);sTo('sectors')">Sectors</div>
+    <div class="nl" onclick="setNav(this);sTo('institutions')">Institutions</div>
+    <div class="nl" onclick="setNav(this);sTo('platform')">Platform</div>
+    <div class="nl" onclick="setNav(this);sTo('tracking')">Tracking</div>
+    <div class="nl" onclick="setNav(this);sTo('fees')">Fee Model</div>
+    <div class="nl" onclick="setNav(this);sTo('architecture')">HMH Layer</div>
+    <div class="nl" onclick="setNav(this);sTo('access')">Access</div>
+  </div>
+  <div class="nright">
+    <div class="nlive">Live · 247 Projects</div>
+    <button class="naccess" onclick="sTo('access')">Request Access</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <div class="hero-badge-aec">African Energy Chamber</div>
+      <div class="hero-badge-sep"></div>
+      <div class="hero-badge-hmh">Infrastructure by HMH</div>
+    </div>
+    <h1 class="hero-title">The reference.<br><em>Above all.</em><span class="l2">Every deal. Every institution.</span></h1>
+    <p class="hero-sub">AEC Gateway powered by HMH is the continent's first verified, behavioural-scored, full-lifecycle infrastructure project platform — connecting every sector, every institution type, and every stakeholder through a single authenticated intelligence layer. HMH owns the rails. AEC runs the network.</p>
+    <div class="hero-ctas">
+      <button class="cta-fire" onclick="sTo('platform')">Enter Platform</button>
+      <button class="cta-ghost" onclick="sTo('sectors')">Explore Sectors</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hst"><div class="hst-n" id="c1">0<em>+</em></div><div class="hst-l">Sectors Covered</div></div>
+      <div class="hst"><div class="hst-n" id="c2">0<em>+</em></div><div class="hst-l">Institution Types</div></div>
+      <div class="hst"><div class="hst-n" id="c3">0</div><div class="hst-l">Countries</div></div>
+      <div class="hst"><div class="hst-n">$<em id="c4">0</em>T</div><div class="hst-l">Pipeline Value</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hv-header">
+        <div class="hv-dots">
+          <div class="hv-dot" style="background:#E85D5D"></div>
+          <div class="hv-dot" style="background:#E8A020"></div>
+          <div class="hv-dot" style="background:#3EC97E"></div>
+        </div>
+        <div class="hv-title">AEC Gateway — Live Pipeline</div>
+        <div class="hv-live">Live · HMH Verified</div>
+      </div>
+      <div class="hv-body">
+        <div class="hv-row">
+          <div class="hv-sector" style="background:#E8A020"></div>
+          <div class="hv-info"><div class="hv-name">Lamu Basin Upstream Dev.</div><div class="hv-meta">Kenya · Oil & Gas · AfDB + IFC</div></div>
+          <div class="hv-right"><div class="hv-val">$2.4B</div><div class="hv-badges"><span class="hvb" style="background:rgba(27,191,168,0.12);color:#1BBFA8">Bankable</span><span class="hvb" style="background:rgba(232,160,32,0.12);color:#E8A020">BS 82</span></div></div>
+        </div>
+        <div class="hv-row">
+          <div class="hv-sector" style="background:#1BBFA8"></div>
+          <div class="hv-info"><div class="hv-name">Egypt Suez Wind Farm 800MW</div><div class="hv-meta">Egypt · Renewable Energy · NREA</div></div>
+          <div class="hv-right"><div class="hv-val">$920M</div><div class="hv-badges"><span class="hvb" style="background:rgba(27,191,168,0.12);color:#1BBFA8">Bankable</span><span class="hvb" style="background:rgba(62,201,126,0.12);color:#3EC97E">BS 86</span></div></div>
+        </div>
+        <div class="hv-row">
+          <div class="hv-sector" style="background:#7B5EE8"></div>
+          <div class="hv-info"><div class="hv-name">DRC Cobalt Corridor PPP</div><div class="hv-meta">DRC/Zambia · Mining · TDB + AFC</div></div>
+          <div class="hv-right"><div class="hv-val">$1.8B</div><div class="hv-badges"><span class="hvb" style="background:rgba(27,191,168,0.12);color:#1BBFA8">Bankable</span><span class="hvb" style="background:rgba(232,160,32,0.12);color:#E8A020">BS 74</span></div></div>
+        </div>
+        <div class="hv-row">
+          <div class="hv-sector" style="background:#3080FF"></div>
+          <div class="hv-info"><div class="hv-name">Morocco Atlantic Logistics Hub</div><div class="hv-meta">Morocco · Logistics · TMSA</div></div>
+          <div class="hv-right"><div class="hv-val">$540M</div><div class="hv-badges"><span class="hvb" style="background:rgba(48,128,255,0.12);color:#3080FF">Feasibility</span><span class="hvb" style="background:rgba(232,160,32,0.12);color:#E8A020">BS 79</span></div></div>
+        </div>
+        <div class="hv-row">
+          <div class="hv-sector" style="background:#C84B1A"></div>
+          <div class="hv-info"><div class="hv-name">Tanzania LNG Phase 2 Terminal</div><div class="hv-meta">Tanzania · LNG · TPDC/TotalEnergies</div></div>
+          <div class="hv-right"><div class="hv-val">$1.9B</div><div class="hv-badges"><span class="hvb" style="background:rgba(48,128,255,0.12);color:#3080FF">Feasibility</span><span class="hvb" style="background:rgba(232,160,32,0.12);color:#E8A020">BS 76</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="tick-wrap"><div class="tick" id="tkr"></div></div>
+
+<!-- SECTORS -->
+<section class="sec" id="sectors" style="background:var(--deep);border-top:1px solid var(--rim)">
+  <div class="sec-eyebrow">Project Sectors</div>
+  <h2 class="sec-h">Every sector.<br><em>One verified standard.</em></h2>
+  <p class="sec-p">AEC Gateway covers the full spectrum of African and international infrastructure investment — from upstream oil and gas to offshore marine, from grid infrastructure to digital, from mining to government priority programs.</p>
+  <div class="sector-mega" id="sector-mega"></div>
+</section>
+
+<!-- INSTITUTIONS -->
+<section class="sec" id="institutions" style="background:var(--ink);border-top:1px solid var(--rim)">
+  <div class="sec-eyebrow">The Institutional Ecosystem</div>
+  <h2 class="sec-h">Every institution.<br><em>One gateway.</em></h2>
+  <p class="sec-p">AEC Gateway connects every category of financial institution, advisory firm, and market participant — African and international — through a single authenticated platform operated by HMH.</p>
+  <div class="inst-grid" id="inst-grid"></div>
+</section>
+
+<!-- PLATFORM -->
+<section class="sec" id="platform" style="background:var(--deep);border-top:1px solid var(--rim);padding-top:68px;padding-bottom:68px">
+  <div class="sec-eyebrow">Live Platform</div>
+  <h2 class="sec-h">The <em>intelligence layer</em><br>above all others</h2>
+  <div class="plat-wrap">
+    <div class="ptabs">
+      <div class="ptab on" onclick="setTab(this,'pipeline')">Pipeline</div>
+      <div class="ptab" onclick="setTab(this,'verify')">AI Verify</div>
+      <div class="ptab" onclick="setTab(this,'dossier')">Dossier</div>
+      <div class="ptab" onclick="setTab(this,'behaviour')">BS Score</div>
+      <div class="ptab" onclick="setTab(this,'submit')">Submit</div>
+      <div class="ptab" onclick="setTab(this,'match')">DFI Match</div>
+      <div class="ptab" onclick="setTab(this,'tracking')">Live Tracking</div>
+      <div class="ptab" onclick="setTab(this,'lc')">Local Content</div>
+    </div>
+    <div class="pbody">
+      <!-- LEFT -->
+      <div class="pleft" id="pleft">
+        <div class="psl">Sector</div>
+        <div class="pfi on" onclick="filt(this,'s','all')"><span class="pfi-l">⬡ All Sectors</span><span class="pfc">312</span></div>
+        <div class="pfi" onclick="filt(this,'s','oil')"><span class="pfi-l"><span class="pfdot" style="background:#E8A020"></span>Oil &amp; Gas</span><span class="pfc">64</span></div>
+        <div class="pfi" onclick="filt(this,'s','gas')"><span class="pfi-l"><span class="pfdot" style="background:#C84B1A"></span>LNG / Gas</span><span class="pfc">28</span></div>
+        <div class="pfi" onclick="filt(this,'s','renewable')"><span class="pfi-l"><span class="pfdot" style="background:#3EC97E"></span>Renewables</span><span class="pfc">72</span></div>
+        <div class="pfi" onclick="filt(this,'s','power')"><span class="pfi-l"><span class="pfdot" style="background:#1BBFA8"></span>Power &amp; Grids</span><span class="pfc">38</span></div>
+        <div class="pfi" onclick="filt(this,'s','mining')"><span class="pfi-l"><span class="pfdot" style="background:#7B5EE8"></span>Mining &amp; Minerals</span><span class="pfc">51</span></div>
+        <div class="pfi" onclick="filt(this,'s','logistics')"><span class="pfi-l"><span class="pfdot" style="background:#3080FF"></span>Logistics &amp; Transport</span><span class="pfc">44</span></div>
+        <div class="pfi" onclick="filt(this,'s','marine')"><span class="pfi-l"><span class="pfdot" style="background:#1BBFA8"></span>Marine &amp; Offshore</span><span class="pfc">22</span></div>
+        <div class="pfi" onclick="filt(this,'s','pipeline')"><span class="pfi-l"><span class="pfdot" style="background:#C84B1A"></span>Pipelines &amp; Storage</span><span class="pfc">18</span></div>
+        <div class="pfi" onclick="filt(this,'s','gov')"><span class="pfi-l"><span class="pfdot" style="background:#E8A020"></span>Gov Priority Programs</span><span class="pfc">31</span></div>
+        <div class="pfi" onclick="filt(this,'s','security')"><span class="pfi-l"><span class="pfdot" style="background:#D94F4F"></span>Security &amp; Defence</span><span class="pfc">14</span></div>
+        <div class="pfi" onclick="filt(this,'s','digital')"><span class="pfi-l"><span class="pfdot" style="background:#3080FF"></span>Digital Infra</span><span class="pfc">30</span></div>
+        <div class="psl">Region</div>
+        <div class="pfi" onclick="filt(this,'r','west')"><span class="pfi-l">West Africa</span><span class="pfc">92</span></div>
+        <div class="pfi" onclick="filt(this,'r','east')"><span class="pfi-l">East Africa</span><span class="pfc">71</span></div>
+        <div class="pfi" onclick="filt(this,'r','south')"><span class="pfi-l">Southern Africa</span><span class="pfc">68</span></div>
+        <div class="pfi" onclick="filt(this,'r','central')"><span class="pfi-l">Central Africa</span><span class="pfc">40</span></div>
+        <div class="pfi" onclick="filt(this,'r','north')"><span class="pfi-l">North Africa</span><span class="pfc">41</span></div>
+        <div class="psl">Stage</div>
+        <div class="pfi" onclick="filt(this,'t','bankable')"><span class="pfi-l" style="color:var(--ice)">● Bankable</span><span class="pfc">48</span></div>
+        <div class="pfi" onclick="filt(this,'t','feasibility')"><span class="pfi-l" style="color:var(--sky)">● Feasibility</span><span class="pfc">84</span></div>
+        <div class="pfi" onclick="filt(this,'t','prefeas')"><span class="pfi-l" style="color:var(--fire)">● Pre-Feas</span><span class="pfc">112</span></div>
+        <div class="pfi" onclick="filt(this,'t','concept')"><span class="pfi-l" style="color:#C8A050">● Concept</span><span class="pfc">68</span></div>
+        <div class="psl">BS Score</div>
+        <div class="pfi" onclick="filt(this,'b','high')"><span class="pfi-l" style="color:var(--jade)">● High ≥ 80</span><span class="pfc">112</span></div>
+        <div class="pfi" onclick="filt(this,'b','med')"><span class="pfi-l" style="color:var(--fire)">● Medium 50–79</span><span class="pfc">144</span></div>
+        <div class="pfi" onclick="filt(this,'b','low')"><span class="pfi-l" style="color:var(--rose)">● Low &lt; 50</span><span class="pfc">56</span></div>
+      </div>
+
+      <!-- CENTER -->
+      <div class="pcenter">
+
+        <!-- PIPELINE -->
+        <div id="tp-pipeline" class="tc on">
+          <div class="aibar">
+            <span style="color:var(--fire);font-size:15px;flex-shrink:0">⌕</span>
+            <input id="aiq" placeholder="e.g. bankable offshore oil projects West Africa above $500M with ESG certification…">
+            <button class="aibtn" onclick="runAI()">Query AI</button>
+          </div>
+          <div class="airesp" id="airesp"><div class="airesp-h">HMH Intelligence Engine</div><div class="airesp-t" id="airesp-t"></div><div class="aitags" id="aitags"></div></div>
+          <div class="sstrip">
+            <div class="sst"><div class="sst-l">Projects</div><div class="sst-v">312</div><div class="sst-s">+18 this week</div></div>
+            <div class="sst"><div class="sst-l">Pipeline</div><div class="sst-v">$<em>124</em>B</div><div class="sst-s">All sectors</div></div>
+            <div class="sst"><div class="sst-l">Bankable</div><div class="sst-v" style="color:var(--ice)">48</div><div class="sst-s">Ready now</div></div>
+            <div class="sst"><div class="sst-l">Avg BS</div><div class="sst-v" style="color:var(--jade)">76</div><div class="sst-s">Behavioural</div></div>
+          </div>
+          <div class="chips">
+            <div class="chip on" onclick="setChip(this,'all')">All</div>
+            <div class="chip" onclick="setChip(this,'bankable')">Bankable</div>
+            <div class="chip" onclick="setChip(this,'afdb')">AfDB</div>
+            <div class="chip" onclick="setChip(this,'ifc')">IFC</div>
+            <div class="chip" onclick="setChip(this,'afc')">AFC</div>
+            <div class="chip" onclick="setChip(this,'cofi')">Co-fi open</div>
+            <div class="chip" onclick="setChip(this,'esg')">ESG certified</div>
+            <div class="chip" onclick="setChip(this,'gov')">Gov priority</div>
+            <div class="chip" onclick="setChip(this,'highbs')">High BS</div>
+            <div class="chip" onclick="setChip(this,'offshore')">Offshore</div>
+          </div>
+          <div id="rcount" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);margin-bottom:9px">Showing 12 of 312 projects</div>
+          <div class="pcards" id="pcards"></div>
+        </div>
+
+        <!-- VERIFY -->
+        <div id="tp-verify" class="tc">
+          <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:6px">AI Verification — HMH INFRAGATE Standard</div>
+          <p style="font-size:12px;color:var(--mist);line-height:1.85;margin-bottom:12px">Submit project details for full AI assessment. Produces VS 1–5 + BS 0–100 + ESG rating + KYC flag + Local Content score. Compatible with AfDB, DBSA, TDB, AFC, IFC, EIB, and all AADFI member DFI submission requirements.</p>
+          <textarea id="vin" style="width:100%;background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:11px 13px;color:var(--snow);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;resize:vertical;min-height:100px;outline:none;margin-bottom:9px;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--fire)'" onblur="this.style.borderColor='var(--rim)'" placeholder="Project name, sector, country, stage, capital required, promoter, brief description…"></textarea>
+          <button class="aibtn" style="padding:9px 22px;font-size:9.5px" onclick="runVerify()">Run Full Verification</button>
+          <div id="vresult" style="display:none;margin-top:12px;background:var(--lift);border:1px solid rgba(27,191,168,0.2);border-radius:2px;padding:16px">
+            <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ice);margin-bottom:9px">Verification Report · AEC Gateway · HMH</div>
+            <div id="vout"></div>
+          </div>
+        </div>
+
+        <!-- DOSSIER -->
+        <div id="tp-dossier" class="tc">
+          <p style="font-size:12px;color:var(--mist);line-height:1.85;margin-bottom:13px">Click any verified project to generate an institution-grade investor dossier — technical summary, capital structure, risk register, ESG and ESD assessment, KYC status, local content score, and DFI instrument recommendations.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px" id="dlist"></div>
+          <div id="dresult" style="display:none;margin-top:13px;background:var(--lift);border:1px solid rgba(232,160,32,0.2);border-radius:2px;padding:16px">
+            <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--fire);margin-bottom:9px">Investor Dossier · AEC Gateway · HMH</div>
+            <div id="dout"></div>
+          </div>
+        </div>
+
+        <!-- BS SCORE -->
+        <div id="tp-behaviour" class="tc">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:5px">Behavioural Intelligence Score — HMH Engine</div>
+          <p style="font-size:12px;color:var(--mist);line-height:1.85;margin-bottom:13px">BS 0–100 assesses every platform actor across four dimensions using HCS-U7 cognitive signals, platform interaction history, and third-party data (OFAC/EU/UN sanctions, credit bureaus, court records). Click any profile for full report.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:13px" id="bsgrid"></div>
+          <div style="background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:13px">
+            <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:9px">Run BS Assessment on Any Actor</div>
+            <div style="display:flex;gap:8px">
+              <input id="bsin" style="flex:1;background:var(--ink);border:1px solid var(--rim);border-radius:2px;padding:8px 11px;color:var(--snow);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--fire)'" onblur="this.style.borderColor='var(--rim)'" placeholder="Actor, organisation, project ID, or institution…">
+              <button class="aibtn" onclick="runBS()">Assess</button>
+            </div>
+            <div id="bsresult" style="display:none;margin-top:12px;background:var(--ink);border:1px solid rgba(27,191,168,0.18);border-radius:2px;padding:14px">
+              <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ice);margin-bottom:9px">Behavioural Intelligence Report · HMH</div>
+              <div id="bsout"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <div id="tp-submit" class="tc">
+          <p style="font-size:12px;color:var(--mist);line-height:1.85;margin-bottom:13px">Governments, sponsors, developers, and advisors submit projects for AI pre-screening across all dimensions — VS scoring, BS assessment, ESG rating, KYC/AML screening, local content mapping, and DFI matching. All submissions authenticated via HCS-U7. Response within 48 hours.</p>
+          <div style="border:1px dashed var(--rim2);border-radius:2px;padding:20px;text-align:center;cursor:pointer;margin-bottom:12px;transition:all 0.2s" onmouseover="this.style.borderColor='var(--fire)'" onmouseout="this.style.borderColor='var(--rim2)'">
+            <div style="font-size:22px;margin-bottom:6px">⬆</div>
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);letter-spacing:0.06em">Upload project documents · PDF, DOCX, XLSX · Max 50MB</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px">
+            <div><label class="afl">Project Name</label><input class="afi" placeholder="Full project name" style="margin-bottom:0"></div>
+            <div><label class="afl">Country</label><input class="afi" placeholder="Country" style="margin-bottom:0"></div>
+            <div><label class="afl">Sector</label>
+              <select class="afi" style="margin-bottom:0">
+                <option>Oil &amp; Gas — Upstream</option><option>Oil &amp; Gas — Midstream</option><option>Oil &amp; Gas — Downstream</option>
+                <option>LNG / Gas</option><option>Renewable Energy — Solar</option><option>Renewable Energy — Wind</option>
+                <option>Renewable Energy — Hydro</option><option>Power Generation</option><option>Grid &amp; Transmission</option>
+                <option>Mining — Metals</option><option>Mining — Minerals / Critical</option><option>Mining — Coal</option>
+                <option>Logistics &amp; Transport</option><option>Marine &amp; Offshore</option><option>Port &amp; Harbour</option>
+                <option>Pipeline &amp; Storage</option><option>Government Priority Program</option><option>Security &amp; Defence</option>
+                <option>Digital Infrastructure</option><option>Water &amp; Sanitation</option><option>Finance Infrastructure</option>
+              </select>
+            </div>
+            <div><label class="afl">Capital Required (USD)</label><input class="afi" placeholder="e.g. 500,000,000" style="margin-bottom:0"></div>
+            <div><label class="afl">Stage</label>
+              <select class="afi" style="margin-bottom:0">
+                <option>Concept</option><option>Pre-Feasibility</option><option>Full Feasibility</option><option>Bankable</option><option>Finance Ready</option>
+              </select>
+            </div>
+            <div><label class="afl">Promoter</label><input class="afi" placeholder="Promoter / sponsor name" style="margin-bottom:0"></div>
+          </div>
+          <textarea class="afi" style="resize:vertical;min-height:60px;margin-bottom:10px" placeholder="Brief project description, key parameters, financing ask…"></textarea>
+          <button class="aibtn" style="padding:10px 24px;font-size:9.5px" onclick="showToast('Submitted. AEC Gateway · HMH team will respond within 48 hours.')">Submit for AI Pre-Screening</button>
+        </div>
+
+        <!-- DFI MATCH -->
+        <div id="tp-match" class="tc">
+          <p style="font-size:12px;color:var(--mist);line-height:1.85;margin-bottom:13px">Match any project to the most relevant financing institutions — African DFIs, international development banks, commercial banks, private funds, and ECAs — based on sector mandate, country eligibility, stage, ticket size, and 2025/2026 deployment priorities.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px" id="dfigrid"></div>
+          <div style="background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:13px">
+            <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:9px">Run Full AI DFI + Institutional Match</div>
+            <div style="display:flex;gap:8px">
+              <input id="dfiq" style="flex:1;background:var(--ink);border:1px solid var(--rim);border-radius:2px;padding:8px 11px;color:var(--snow);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--fire)'" onblur="this.style.borderColor='var(--rim)'" placeholder="Describe the project — sector, country, capital, stage, any special parameters…">
+              <button class="aibtn" onclick="runDFI()">Match</button>
+            </div>
+            <div id="dfiresult" style="display:none;margin-top:11px;background:var(--ink);border:1px solid rgba(48,128,255,0.18);border-radius:2px;padding:14px">
+              <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--sky);margin-bottom:9px">Institutional Match Report · AEC Gateway</div>
+              <div id="dfiout"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIVE TRACKING -->
+        <div id="tp-tracking" class="tc">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:5px">Full-Lifecycle Project Tracking</div>
+          <p style="font-size:12px;color:var(--mist);line-height:1.85;margin-bottom:13px">Integrated with HMH's TGPDC and Flex software — every tracked project has a live, auditable data trail across all dimensions. Investors and DFIs see ground-truth status, not promoter claims.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px" id="track-demo"></div>
+          <div style="background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:14px">
+            <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:10px">Query Live Project Status</div>
+            <div style="display:flex;gap:8px">
+              <input id="trkq" style="flex:1;background:var(--ink);border:1px solid var(--rim);border-radius:2px;padding:8px 11px;color:var(--snow);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--fire)'" onblur="this.style.borderColor='var(--rim)'" placeholder="Project ID or name to retrieve live status…">
+              <button class="aibtn" onclick="runTrack()">Track</button>
+            </div>
+            <div id="trkresult" style="display:none;margin-top:11px;background:var(--ink);border:1px solid rgba(232,160,32,0.18);border-radius:2px;padding:14px">
+              <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fire);margin-bottom:9px">Live Project Status · HMH TGPDC + Flex</div>
+              <div id="trkout"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOCAL CONTENT -->
+        <div id="tp-lc" class="tc">
+          <p style="font-size:12px;color:var(--mist);line-height:1.85;margin-bottom:13px">Local content compliance per project per country — mapped against regulatory frameworks, employment commitments, procurement plans, and supply chain localisation milestones. Feeds DFI development impact reporting.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px" id="lcgrid"></div>
+        </div>
+
+      </div><!-- end pcenter -->
+
+      <!-- RIGHT PANEL -->
+      <div class="pright">
+        <div class="prs">
+          <div class="prl">Live Activity</div>
+          <div class="act"><div class="act-d" style="background:var(--ice)"></div><div><div class="act-t">Egypt Suez Wind — VS 5.0 certified · Finance Ready</div><div class="act-tm">1m · HMH Engine</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--fire)"></div><div><div class="act-t">Nigeria Deepwater Block — $2.1B · new bankable</div><div class="act-tm">4m · AfDB Portal</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--jade)"></div><div><div class="act-t">AFC confirmed — DRC Cobalt Corridor match</div><div class="act-tm">9m · DFI Match</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--sky)"></div><div><div class="act-t">Mazars — audit mandate · Zambia Copper Rail</div><div class="act-tm">18m · Advisory</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--violet)"></div><div><div class="act-t">Morocco Atlantic Hub — EIB co-financing open</div><div class="act-tm">26m · EIB</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--ember)"></div><div><div class="act-t">Flag: Sudan Pipeline — KYC review required</div><div class="act-tm">41m · KYC/AML</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--fire)"></div><div><div class="act-t">AEC Roadshow — 5 projects featured · Lagos</div><div class="act-tm">1h · AEC</div></div></div>
+        </div>
+        <div class="prs">
+          <div class="prl">Data Sources</div>
+          <div class="src-r"><div style="display:flex;align-items:center;gap:7px"><div class="src-ic" style="background:var(--fdim);color:var(--fire)">AB</div><div><div class="src-n">AfDB Portal</div><div class="src-c">312 indexed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--ice)"></div></div>
+          <div class="src-r"><div style="display:flex;align-items:center;gap:7px"><div class="src-ic" style="background:var(--sdim);color:var(--sky)">WB</div><div><div class="src-n">World Bank</div><div class="src-c">891 indexed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--ice)"></div></div>
+          <div class="src-r"><div style="display:flex;align-items:center;gap:7px"><div class="src-ic" style="background:var(--idim);color:var(--ice)">DB</div><div><div class="src-n">DBSA Pipeline</div><div class="src-c">148 indexed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--ice)"></div></div>
+          <div class="src-r"><div style="display:flex;align-items:center;gap:7px"><div class="src-ic" style="background:var(--fdim);color:var(--fire)">AE</div><div><div class="src-n">AEC Intelligence</div><div class="src-c">Live · 1,500+ members</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--ice)"></div></div>
+          <div class="src-r"><div style="display:flex;align-items:center;gap:7px"><div class="src-ic" style="background:var(--sdim);color:var(--sky)">EC</div><div><div class="src-n">Energy Capital Power</div><div class="src-c">Live · Deal tracker</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--ice)"></div></div>
+          <div class="src-r"><div style="display:flex;align-items:center;gap:7px"><div class="src-ic" style="background:rgba(200,75,26,0.1);color:var(--ember)">CN</div><div><div class="src-n">CBEX China</div><div class="src-c">Live · EPC pipeline</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--fire)"></div></div>
+          <div class="src-r"><div style="display:flex;align-items:center;gap:7px"><div class="src-ic" style="background:rgba(123,94,232,0.1);color:var(--violet)">TN</div><div><div class="src-n">Gov Tenders · 54 countries</div><div class="src-c">Crawl active</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--ice)"></div></div>
+          <div class="src-r"><div style="display:flex;align-items:center;gap:7px"><div class="src-ic" style="background:var(--fdim);color:var(--fire)">HM</div><div><div class="src-n">HMH TGPDC + Flex</div><div class="src-c">Live operational data</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--jade)"></div></div>
+        </div>
+        <div class="prs" style="border:none">
+          <div class="prl">Institutional Demand</div>
+          <div class="dfi-r"><div class="dfi-n">AfDB</div><div class="dfi-b"><div class="dfi-f" style="width:94%"></div></div><div class="dfi-p">94%</div></div>
+          <div class="dfi-r"><div class="dfi-n">IFC</div><div class="dfi-b"><div class="dfi-f" style="width:88%"></div></div><div class="dfi-p">88%</div></div>
+          <div class="dfi-r"><div class="dfi-n">AFC</div><div class="dfi-b"><div class="dfi-f" style="width:84%"></div></div><div class="dfi-p">84%</div></div>
+          <div class="dfi-r"><div class="dfi-n">DBSA</div><div class="dfi-b"><div class="dfi-f" style="width:79%"></div></div><div class="dfi-p">79%</div></div>
+          <div class="dfi-r"><div class="dfi-n">TDB</div><div class="dfi-b"><div class="dfi-f" style="width:72%"></div></div><div class="dfi-p">72%</div></div>
+          <div class="dfi-r"><div class="dfi-n">EIB</div><div class="dfi-b"><div class="dfi-f" style="width:66%"></div></div><div class="dfi-p">66%</div></div>
+          <div class="dfi-r"><div class="dfi-n">Afrexim</div><div class="dfi-b"><div class="dfi-f" style="width:61%"></div></div><div class="dfi-p">61%</div></div>
+          <div class="dfi-r"><div class="dfi-n">DFC</div><div class="dfi-b"><div class="dfi-f" style="width:55%"></div></div><div class="dfi-p">55%</div></div>
+          <div class="dfi-r"><div class="dfi-n">JBIC</div><div class="dfi-b"><div class="dfi-f" style="width:48%"></div></div><div class="dfi-p">48%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKING FRAMEWORK -->
+<section class="sec" id="tracking" style="background:var(--ink);border-top:1px solid var(--rim)">
+  <div class="sec-eyebrow">Full-Lifecycle Tracking</div>
+  <h2 class="sec-h">Ground truth.<br><em>Not promoter claims.</em></h2>
+  <p class="sec-p">Integrated with HMH's TGPDC and Flex software, every project on the gateway has a live, tamper-proof data trail. Investors see actual status — financial disbursements, employment numbers, ESG events, procurement records — in real time.</p>
+  <div class="track-grid" id="track-grid"></div>
+</section>
+
+<!-- FEE MODEL -->
+<section class="sec" id="fees" style="background:var(--deep);border-top:1px solid var(--rim)">
+  <div class="sec-eyebrow">Revenue Model</div>
+  <h2 class="sec-h">Every deal.<br><em>Remunerated.</em></h2>
+  <p class="sec-p">HMH captures value at every layer of the infrastructure financing chain. Subscription access from institutions. Verification fees from sponsors. And a transaction success fee on every deal that closes through the platform — the long-term revenue engine.</p>
+  <div class="fee-grid" id="fee-grid"></div>
+</section>
+
+<!-- HMH ARCHITECTURE -->
+<section class="sec" id="architecture" style="background:var(--ink);border-top:1px solid var(--rim)">
+  <div class="sec-eyebrow">HMH — The Layer Above All</div>
+  <h2 class="sec-h">HMH owns the rails.<br><em>Everyone else runs on them.</em></h2>
+  <p class="sec-p">AEC Gateway is one branded instance of the HMH infrastructure layer. AEC is a client. ECP is a client. DFIs are clients. Governments are clients. Every institution that uses this platform sits on top of technology that HMH owns entirely — the standard, the data, the authentication, the intelligence.</p>
+  <div class="arch-grid" id="arch-grid-wrap">
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:16px">HMH Technology Stack — Proprietary</div>
+      <div class="arch-layers" id="arch-layers"></div>
+    </div>
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:16px">White-Label Client Instances</div>
+      <div id="wl-grid"></div>
+      <div style="margin-top:20px;padding:16px;background:var(--deep);border:1px solid var(--rim);border-radius:2px;font-size:12px;color:var(--mist);line-height:1.85">
+        <strong style="color:var(--fire);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;display:block;margin-bottom:6px">The HMH Value Architecture</strong>
+        HMH does not compete with AEC or ECP. HMH is the infrastructure they run on. Every project that flows through any branded instance — AEC Gateway, ECP Intelligence, a government portal, a DFI window — feeds back into the HMH central data asset. That asset compounds with every new client, every new project, every new transaction. After five years, it is the most complete African infrastructure intelligence dataset in existence. It is not a platform. It is infrastructure for the infrastructure market.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section class="sec" id="access" style="background:var(--deep);border-top:1px solid var(--rim)">
+  <div class="sec-eyebrow">Institutional Access</div>
+  <h2 class="sec-h">Request access.<br><em>Join the reference.</em></h2>
+  <p class="sec-p">AEC Gateway is available by institutional application. All participants are onboarded through HCS-U7 authentication (IA-SOLUTION). Operated by HMH — Hybrid Mobility Holdings. Endorsed by the African Energy Chamber.</p>
+  <div class="acc-grid">
+    <div class="acc-form">
+      <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mist);margin-bottom:18px">Request Institutional Access · AEC Gateway by HMH</div>
+      <label class="afl">Organisation Name</label>
+      <input class="afi" placeholder="Full institution or company name" id="af-org">
+      <div class="afi-2">
+        <div><label class="afl">First Name</label><input class="afi" placeholder="First name" style="margin-bottom:0"></div>
+        <div><label class="afl">Last Name</label><input class="afi" placeholder="Last name" style="margin-bottom:0"></div>
+      </div>
+      <label class="afl" style="margin-top:10px">Work Email</label>
+      <input class="afi" placeholder="name@institution.org" type="email" id="af-em">
+      <label class="afl">Participant Type</label>
+      <select class="afi" id="af-type">
+        <option value="">Select participant type…</option>
+        <option>Development Finance Institution (DFI) — African</option>
+        <option>Development Finance Institution (DFI) — International</option>
+        <option>Multilateral Development Bank</option>
+        <option>Commercial Bank</option>
+        <option>Investment Bank</option>
+        <option>Private Equity / Infrastructure Fund</option>
+        <option>Venture Capital</option>
+        <option>Sovereign Wealth Fund</option>
+        <option>Export Credit Agency (ECA)</option>
+        <option>Project Sponsor / Developer</option>
+        <option>Government / Ministry / SOE</option>
+        <option>Oil &amp; Gas Operator</option>
+        <option>Mining Company</option>
+        <option>Renewable Energy Developer</option>
+        <option>EPC / Construction Contractor</option>
+        <option>Legal Advisory Firm</option>
+        <option>Audit / Financial Advisory</option>
+        <option>Technical Advisory</option>
+        <option>ESG / Sustainability Advisory</option>
+        <option>Media / Intelligence Platform</option>
+      </select>
+      <label class="afl">Country</label>
+      <input class="afi" placeholder="Country of headquarters">
+      <label class="afl">Brief Note</label>
+      <textarea class="afi" style="resize:vertical;min-height:60px" placeholder="Your interest in AEC Gateway, sectors of focus, or specific use case…"></textarea>
+      <button class="afbtn" onclick="submitAccess()">Submit Access Request</button>
+      <div style="margin-top:10px;font-family:'DM Mono',monospace;font-size:8.5px;color:var(--mist);line-height:1.8;letter-spacing:0.03em">Authenticated via HCS-U7 · IA-SOLUTION · <a href="https://www.ia-solution.fr" target="_blank" style="color:var(--fire)">ia-solution.fr</a> · HMH will respond within 48 hours</div>
+    </div>
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--fog);line-height:1.9;margin-bottom:24px">"HMH is not building a marketplace. HMH is building the infrastructure that the infrastructure market runs on — the rails, the standard, the data, the authentication. Every institution on the platform is a client. Every deal that closes creates value for HMH."</div>
+      <div id="tiers"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="fl-aec">AEC <span>Gateway</span></div>
+      <div class="fl-hmh">Powered by HMH — Hybrid Mobility Holdings</div>
+      <div class="ft-tgl">The Reference. Above All.</div>
+      <p style="font-size:12px;color:var(--mist);line-height:1.85;max-width:280px">The continental infrastructure project gateway — verified, behavioural-scored, and fully tracked from concept to financial close. HMH owns the infrastructure. AEC endorses the standard.</p>
+      <div class="ft-ia"><div class="dot" style="background:var(--ice)"></div><div>Secured by <strong>IA-SOLUTION HCS-U7</strong><br><a href="https://www.ia-solution.fr" style="color:var(--mist);font-size:10px;text-decoration:none" target="_blank">ia-solution.fr</a></div></div>
+      <div style="margin-top:10px;font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);letter-spacing:0.04em">HMH — Hybrid Mobility Holdings<br>Sandton, South Africa · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfbcb0b1abbebcab9fb7b2b7f2beb9adb6bcbef1bcb0b2">[email&#160;protected]</a></div>
+    </div>
+    <div>
+      <div class="ft-col-t">Platform</div>
+      <div class="flink" onclick="sTo('platform')">Pipeline</div>
+      <div class="flink" onclick="sTo('platform')">AI Verification</div>
+      <div class="flink" onclick="sTo('platform')">Investor Dossiers</div>
+      <div class="flink" onclick="sTo('platform')">BS Score</div>
+      <div class="flink" onclick="sTo('platform')">DFI Match</div>
+      <div class="flink" onclick="sTo('tracking')">Live Tracking</div>
+      <div class="flink" onclick="sTo('platform')">Local Content</div>
+      <div class="flink" onclick="sTo('access')">Request Access</div>
+    </div>
+    <div>
+      <div class="ft-col-t">Sectors</div>
+      <div class="flink">Oil &amp; Gas</div>
+      <div class="flink">LNG &amp; Gas</div>
+      <div class="flink">Renewable Energy</div>
+      <div class="flink">Power &amp; Grids</div>
+      <div class="flink">Mining &amp; Minerals</div>
+      <div class="flink">Logistics &amp; Transport</div>
+      <div class="flink">Marine &amp; Offshore</div>
+      <div class="flink">Pipelines &amp; Storage</div>
+      <div class="flink">Gov Priority Programs</div>
+      <div class="flink">Security &amp; Defence</div>
+      <div class="flink">Digital Infrastructure</div>
+    </div>
+    <div>
+      <div class="ft-col-t">Partners</div>
+      <div class="flink" onclick="window.open('https://www.energychamber.org','_blank')">African Energy Chamber ↗</div>
+      <div class="flink" onclick="window.open('https://www.energycapitalpower.com','_blank')">Energy Capital Power ↗</div>
+      <div class="flink" onclick="window.open('https://www.ia-solution.fr','_blank')">IA-SOLUTION ↗</div>
+      <div class="ft-col-t" style="margin-top:14px">HMH Group</div>
+      <div class="flink">Hybrid Mobility Holdings</div>
+      <div class="flink">IA-SOLUTION</div>
+      <div class="flink">TGPDC Software</div>
+      <div class="flink">Flex Platform</div>
+      <div class="flink">Hybrid Vector</div>
+      <div class="flink">HMH Oversight Advisor</div>
+    </div>
+  </div>
+  <div class="fb">
+    <div class="fcopy">© 2026 AEC Gateway · Infrastructure by <a>HMH — Hybrid Mobility Holdings</a> · Secured by <a href="https://www.ia-solution.fr" target="_blank">IA-SOLUTION</a></div>
+    <div class="flangs">
+      <div class="flang on" onclick="setLang(this)">EN</div>
+      <div class="flang" onclick="setLang(this)">FR</div>
+      <div class="flang" onclick="setLang(this)">PT</div>
+      <div class="flang" onclick="setLang(this)">AR</div>
+      <div class="flang" onclick="setLang(this)">ZH</div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ═══════════ SECTORS DATA ═══════════ */
+const SECTORS = [
+  {icon:'🛢️',name:'Oil & Gas',count:'64 projects',items:['Upstream Exploration','Upstream Production','Midstream Processing','Downstream Refining','Oil Field Services','Petrochemicals']},
+  {icon:'🔥',name:'LNG & Gas',count:'28 projects',items:['LNG Liquefaction','LNG Terminals','Gas-to-Power','Gas Pipelines','FLNG Offshore','Gas Storage']},
+  {icon:'☀️',name:'Renewable Energy',count:'72 projects',items:['Solar PV Utility','Wind Onshore','Wind Offshore','Hydro & Mini-hydro','Geothermal','Green Hydrogen']},
+  {icon:'⚡',name:'Power & Grids',count:'38 projects',items:['Power Generation (thermal)','Transmission Lines','Grid Interconnectors','Smart Grid','Energy Storage','Rural Electrification']},
+  {icon:'⛏️',name:'Mining & Minerals',count:'51 projects',items:['Gold & Precious Metals','Copper & Base Metals','Cobalt & Critical Minerals','Iron Ore & Bauxite','Coal & Anthracite','Mineral Processing']},
+  {icon:'🚛',name:'Logistics & Transport',count:'44 projects',items:['Rail & Rolling Stock','Road Infrastructure','Dry Ports & ICD','Air Cargo Hubs','Cold Chain Logistics','Cross-border Corridors']},
+  {icon:'⚓',name:'Marine & Offshore',count:'22 projects',items:['Deepwater Upstream','Offshore Platforms','FPSO Vessels','Port Development','Subsea Infrastructure','Marine Services']},
+  {icon:'🔧',name:'Pipelines & Storage',count:'18 projects',items:['Crude Oil Pipelines','Gas Transmission','Product Pipelines','Tank Farms & Depots','Underground Storage','Pipeline Security']},
+  {icon:'🏛️',name:'Gov Priority Programs',count:'31 projects',items:['National Development Plans','PPP Frameworks','SEZ & Industrial Parks','Energy Access Programs','Water & Sanitation','Social Infrastructure']},
+  {icon:'🛡️',name:'Security & Defence',count:'14 projects',items:['Critical Infrastructure Protection','Cybersecurity','Border Security Systems','Maritime Security','Command & Control','Surveillance Infrastructure']},
+  {icon:'📡',name:'Digital Infrastructure',count:'30 projects',items:['Subsea Cable Systems','Data Centres','Fibre Networks','Mobile Towers','Smart City Systems','Satellite Infrastructure']},
+  {icon:'💧',name:'Water & Finance Infra',count:'10 projects',items:['Water Treatment','Irrigation Systems','Financial Platforms','Payment Infrastructure','Trade Finance Systems','Insurance Infrastructure']},
+];
+
+/* ═══════════ INSTITUTIONS DATA ═══════════ */
+const INSTITUTIONS = [
+  {
+    col:'African DFIs', color:'var(--fire)',
+    groups:[
+      {sub:'Continental',items:[['AfDB','Multilateral'],['AFC','Pan-African'],['Afreximbank','Pan-African'],['DBSA','SADC']]},
+      {sub:'Regional',items:[['TDB Group','East & South'],['BOAD','West Africa'],['BDEAC','Central Africa'],['EADB','East Africa'],['EBID','ECOWAS'],['BADEA','Arab-Africa']]},
+      {sub:'National (select)',items:[['IDC SA','South Africa'],['DBN Namibia','Namibia'],['BDA Angola','Angola'],['TIB Dev Bank','Tanzania'],['NDB Nigeria','Nigeria'],['ADDB Algeria','Algeria']]}
+    ]
+  },
+  {
+    col:'International DFIs & Banks', color:'var(--sky)',
+    groups:[
+      {sub:'Multilateral',items:[['IFC','World Bank Group'],['EIB / EIB Global','European Union'],['AIIB','Asia-Pacific'],['IsDB','Islamic Development'],['EBRD','Europe & MENA'],['IDB','Inter-American']]},
+      {sub:'Bilateral DFIs',items:[['DFC','United States'],['BII','United Kingdom'],['DEG','Germany'],['Proparco','France'],['FMO','Netherlands'],['Norfund','Norway'],['JBIC / JICA','Japan'],['Swedfund','Sweden'],['FinDev','Canada'],['SIFEM','Switzerland']]},
+      {sub:'ECAs',items:[['US Exim Bank','United States'],['UK Export Finance','United Kingdom'],['Euler Hermes','Germany'],['Bpifrance','France'],['NEXI','Japan'],['SINOSURE','China'],['ECIC','South Africa']]}
+    ]
+  },
+  {
+    col:'Commercial Banks, Funds & Advisory', color:'var(--ice)',
+    groups:[
+      {sub:'Commercial Banks',items:[['Standard Bank','South Africa'],['Absa / Barclays Africa','South Africa'],['Rand Merchant Bank','South Africa'],['Nedbank CIB','South Africa'],['Citi Africa','Global'],['Standard Chartered','Global'],['Société Générale Africa','France'],['Ecobank','Pan-African'],['UBA','Pan-African'],['Access Bank','Nigeria']]},
+      {sub:'Funds & Private Capital',items:[['Actis','Infrastructure PE'],['Helios Investment','Africa PE'],['AfricInvest','Pan-African'],['Emerging Capital Partners','Africa PE'],['DPI','Infrastructure'],['Amethis','Africa PE'],['ILX Fund','DFI Bonds'],['AIDF','Infra Debt']]},
+      {sub:'Audit, Legal & Advisory',items:[['Deloitte Africa','Audit'],['PwC Africa','Audit'],['KPMG Africa','Audit'],['EY Africa','Audit'],['Mazars Africa','Audit'],['BDO Africa','Audit'],['ENS Africa','Legal'],['Bowmans','Legal'],['White & Case','Legal'],['Clifford Chance','Legal'],['Allen & Overy','Legal'],['SRK Consulting','Technical'],['WSP Africa','Technical'],['AECOM Africa','Technical']]}
+    ]
+  }
+];
+
+/* ═══════════ PROJECTS DATA ═══════════ */
+const PROJECTS = [
+  {id:'AEG-OIL-0042',title:'Lamu Basin Upstream Development',country:'Kenya',region:'east',sector:'oil',val:'$2.4B',stage:'bankable',sc:'st-b',sl:'Bankable',promoter:'Kenya National Oil Corp.',src:'AfDB Portal',vs:[1,1,1,1,1],bs:82,cofi:true,afdb:true,esg:true,local:82},
+  {id:'AEG-REN-0204',title:'Egypt Suez Wind Farm 800MW',country:'Egypt',region:'north',sector:'renewable',val:'$920M',stage:'bankable',sc:'st-b',sl:'Bankable',promoter:'NREA / IFC Co-dev',src:'World Bank / ECP',vs:[1,1,1,1,1],bs:86,cofi:true,afdb:true,ifc:true,esg:true,local:73},
+  {id:'AEG-MIN-0031',title:'DRC Cobalt Corridor PPP',country:'DRC/Zambia',region:'south',sector:'mining',val:'$1.8B',stage:'bankable',sc:'st-b',sl:'Bankable',promoter:'Gécamines / Private JV',src:'World Bank',vs:[1,1,1,1,0],bs:74,cofi:true,afc:true,local:71},
+  {id:'AEG-GAS-0301',title:'Tanzania LNG Phase 2 Onshore Terminal',country:'Tanzania',region:'east',sector:'gas',val:'$1.9B',stage:'feasibility',sc:'st-f',sl:'Feasibility',promoter:'TPDC / TotalEnergies JV',src:'World Bank / ECP',vs:[1,1,1,0,0],bs:76,cofi:true,afdb:true,local:69},
+  {id:'AEG-LOG-0089',title:'Nacala Dry Port & Rail Expansion',country:'Mozambique',region:'south',sector:'logistics',val:'$420M',stage:'feasibility',sc:'st-f',sl:'Feasibility',promoter:'Port Authority of Mozambique',src:'DBSA Pipeline',vs:[1,1,1,0,0],bs:71,cofi:false,dbsa:true,local:74},
+  {id:'AEG-LOG-0412',title:'Morocco Atlantic Logistics Hub',country:'Morocco',region:'north',sector:'logistics',val:'$540M',stage:'feasibility',sc:'st-f',sl:'Feasibility',promoter:'TMSA / Ministry of Transport',src:'AfDB Portal',vs:[1,1,1,0,0],bs:79,cofi:false,afdb:true,local:80},
+  {id:'AEG-OIL-0055',title:'Congo Basin Gas-to-Power Project',country:'Rep. of Congo',region:'central',sector:'oil',val:'$780M',stage:'prefeas',sc:'st-p',sl:'Pre-Feas',promoter:'SNPC / Eni JV',src:'AfDB Portal',vs:[1,1,0,0,0],bs:60,cofi:true,afdb:true,local:58},
+  {id:'AEG-MAR-0188',title:'Nigeria Deepwater Block OPL-319',country:'Nigeria',region:'west',sector:'marine',val:'$2.1B',stage:'bankable',sc:'st-b',sl:'Bankable',promoter:'NNPCL / Seplat JV',src:'AEC Intelligence',vs:[1,1,1,1,1],bs:80,cofi:true,esg:true,local:76,gov:true},
+  {id:'AEG-REN-0311',title:'Sahel Solar Belt 500MW IPP',country:'Niger / Mali',region:'west',sector:'renewable',val:'$610M',stage:'prefeas',sc:'st-p',sl:'Pre-Feas',promoter:'West Africa Power Pool',src:'Gov Tenders / AfDB',vs:[1,1,0,0,0],bs:62,cofi:true,afdb:true,local:61},
+  {id:'AEG-PIP-0077',title:'East Africa Crude Oil Pipeline Phase 2',country:'Uganda/Tanzania',region:'east',sector:'pipeline',val:'$3.2B',stage:'feasibility',sc:'st-f',sl:'Feasibility',promoter:'EACOP Ltd / TotalEnergies',src:'AEC Intelligence',vs:[1,1,1,0,0],bs:68,cofi:true,esg:true,local:64},
+  {id:'AEG-PWR-0219',title:'Zambia-Zimbabwe Grid Interconnector',country:'Zambia/Zimbabwe',region:'south',sector:'power',val:'$340M',stage:'prefeas',sc:'st-p',sl:'Pre-Feas',promoter:'ZESCO / ZETDC',src:'AfDB Portal',vs:[1,1,0,0,0],bs:65,cofi:true,afdb:true,local:68},
+  {id:'AEG-MIN-0198',title:'Mauritania Tiris Zemmour Iron Ore',country:'Mauritania',region:'west',sector:'mining',val:'$1.4B',stage:'concept',sc:'st-c',sl:'Concept',promoter:'SNIM / Consortium',src:'Self-Submitted',vs:[1,0,0,0,0],bs:50,cofi:true,local:52},
+];
+
+/* ═══════════ TRACKING DATA ═══════════ */
+const TRACKING_DIMS = [
+  {icon:'💰',name:'Financial Management',desc:'Capital raised vs disbursed, drawdown schedule, cost overrun flags, auditor sign-off at each milestone'},
+  {icon:'🌿',name:'ESG Tracking',desc:'Environmental events, community consultation records, biodiversity, carbon accounting, IFC Performance Standards alignment'},
+  {icon:'🏭',name:'ESD / Local Procurement',desc:'Local spend %, SME suppliers onboarded, supply chain localisation milestones, BBBEE and country LC compliance'},
+  {icon:'🔍',name:'KYC / AML Screening',desc:'Promoter and actor identity via HCS-U7, OFAC/EU/UN sanctions, beneficial ownership, PEP flags, ongoing monitoring'},
+  {icon:'👷',name:'Employment & Social',desc:'Direct jobs (local vs expat), indirect employment, skills transfer programs, women and youth participation %'},
+  {icon:'📊',name:'Financial Tracking',desc:'Budget vs actual, working capital, DSCR for operational projects, insurance status, guarantee instruments'},
+  {icon:'📋',name:'Stage Gate Audit Trail',desc:'Every stage transition logged with timestamp, identity-signed document evidence, and HCS-U7 actor authentication'},
+  {icon:'📡',name:'Investor Reporting',desc:'Each stakeholder class gets a filtered dashboard — DFI sees ESG + compliance, bank sees debt service, equity sees IRR'},
+];
+
+/* ═══════════ FEE DATA ═══════════ */
+const FEES = [
+  {tier:'Stream 1',name:'DFI & Institutional Subscription',price:'$80,000 – $200,000 / year',desc:'Full pipeline access, AI query engine, VS + BS scoring, dossier generation, DFI match tools, live tracking dashboards, behavioural profiles, local content and ESG reporting. Priced by institution size and user count.'},
+  {tier:'Stream 2',name:'Project Listing & Verification',price:'$5,000 – $25,000 / project',desc:'Full AI pre-screening, VS verification (1–5), BS score generation, KYC/AML screening, ESG rating, local content mapping, DFI matching, and investor dossier production. Non-refundable. Filters serious sponsors.'},
+  {tier:'Stream 3',name:'Advisory Partner Access',price:'$30,000 – $80,000 / year',desc:'Early deal flow access for legal firms, auditors, and technical advisors. Preferred partner status on verified projects. Behavioural accreditation badge. Mazars, Bowmans, ENS, White & Case, SRK — preferred partner tier.'},
+  {tier:'Stream 4 — Primary Engine',name:'Transaction Success Fee',price:'0.10% – 0.50% of financial close',desc:'Paid by project sponsor at financial close. Every institution that accessed the project through AEC Gateway is a qualifying institution. HCS-U7 audit trail proves facilitation. Tapers with deal size: 0.50% sub-$50M, 0.25% $50M–$500M, 0.10%–0.20% above $500M. At 50 closings/yr averaging $200M: $20M+ annually from this stream alone.'},
+];
+
+/* ═══════════ HMH ARCH DATA ═══════════ */
+const ARCH_LAYERS = [
+  {num:'L6',color:'#E8A020',name:'AEC Gateway (Client Instance)',desc:'AEC-branded interface · Their members · Their governance · HMH engine'},
+  {num:'L5',color:'#3EC97E',name:'INFRAGATE Standard',desc:'VS 1–5 + BS Score + ESG + KYC/AML · HMH owns · Institutions endorse'},
+  {num:'L4',color:'#1BBFA8',name:'TGPDC + Flex Integration',desc:'Live operational data · Ground truth · No other platform has this'},
+  {num:'L3',color:'#3080FF',name:'Multi-AI Intelligence Engine',desc:'Claude + GPT + Gemini + Mistral · Each AI plays a defined role · HMH orchestrates'},
+  {num:'L2',color:'#7B5EE8',name:'HCS-U7 Authentication',desc:'IA-SOLUTION · Post-quantum · Cognitive · BS Score feed · Patent protected'},
+  {num:'L1',color:'#E8A020',name:'HMH Proprietary Data Asset',desc:'Every project · Every actor · Every transaction · Compounds with every client'},
+];
+
+const WL_CLIENTS = [
+  {name:'AEC Gateway',sub:'African Energy Chamber · Energy sector',color:'#E8A020',status:'Live'},
+  {name:'ECP Intelligence',sub:'Energy Capital Power · Deal tracking',color:'#3080FF',status:'Contracted'},
+  {name:'AADFI Standard',sub:'80+ African DFIs · Verification methodology',color:'#1BBFA8',status:'In discussion'},
+  {name:'Gov Country Portals',sub:'Nigeria · SA · Kenya · Morocco · Egypt',color:'#3EC97E',status:'Roadmap Q3 2026'},
+];
+
+/* ═══════════ INIT ═══════════ */
+window.addEventListener('DOMContentLoaded',()=>{
+  buildTicker();
+  animCounters();
+  buildSectorMega();
+  buildInstGrid();
+  renderProjects(PROJECTS);
+  buildDossierList();
+  buildBSGrid();
+  buildDFIGrid();
+  buildTrackDemo();
+  buildTrackGrid();
+  buildFeeGrid();
+  buildArchGrid();
+  buildWLGrid();
+  buildLCGrid();
+  buildTiers();
+});
+
+/* ═══════════ TICKER ═══════════ */
+function buildTicker(){
+  const items=[
+    ['#E8A020','AfDB'],['#1BBFA8','IFC'],['#3080FF','AFC'],['#7B5EE8','TDB Group'],['#E8A020','Afreximbank'],
+    ['#3EC97E','DBSA'],['#E8A020','African Energy Chamber'],['#3080FF','Energy Capital Power'],
+    ['#C84B1A','CBEX China'],['#3080FF','EIB Global'],['#1BBFA8','US DFC'],['#7B5EE8','JBIC / JICA'],
+    ['#E8A020','Mazars Africa'],['#3080FF','Deloitte Africa'],['#1BBFA8','PwC Africa'],['#7B5EE8','KPMG Africa'],
+    ['#E8A020','ENS Africa · Bowmans · White & Case'],['#C84B1A','TotalEnergies · ENI · Shell Africa'],
+    ['#3080FF','COVEC · China Power · Sinohydro'],['#3EC97E','Standard Bank · Absa · RMB'],
+    ['#E8A020','HMH — Hybrid Mobility Holdings'],['#1BBFA8','IA-SOLUTION · HCS-U7'],
+    ['#7B5EE8','TGPDC · Flex · HMH Stack'],
+  ];
+  document.getElementById('tkr').innerHTML=[...items,...items].map(([c,t])=>`<div class="ti"><div class="td" style="background:${c}"></div>${t}</div>`).join('');
+}
+
+/* ═══════════ COUNTERS ═══════════ */
+function animCounters(){
+  const a=(id,to,ms)=>{
+    const el=document.getElementById(id);if(!el)return;
+    const s=Date.now();
+    const t=()=>{const p=Math.min((Date.now()-s)/ms,1),e=1-Math.pow(1-p,3);
+      el.innerHTML=Number.isInteger(to)?Math.round(e*to):(e*to).toFixed(1);
+      if(p<1)requestAnimationFrame(t);};t();
+  };
+  setTimeout(()=>{a('c1',12,900);a('c2',20,1100);a('c3',54,1200);a('c4',1.2,1400);},600);
+}
+
+/* ═══════════ SECTOR MEGA ═══════════ */
+function buildSectorMega(){
+  document.getElementById('sector-mega').innerHTML=SECTORS.map(s=>`
+    <div class="sector-block">
+      <div class="sb-icon">${s.icon}</div>
+      <div class="sb-name">${s.name}</div>
+      <div class="sb-items">${s.items.map(i=>`<div class="sb-item">${i}</div>`).join('')}</div>
+      <div class="sb-count">${s.count}</div>
+    </div>`).join('');
+}
+
+/* ═══════════ INSTITUTION GRID ═══════════ */
+function buildInstGrid(){
+  document.getElementById('inst-grid').innerHTML=INSTITUTIONS.map(col=>`
+    <div class="inst-col">
+      <div class="inst-ch" style="color:${col.color}">${col.col}</div>
+      ${col.groups.map(g=>`
+        <div class="inst-sub">${g.sub}</div>
+        ${g.items.map(([n,t])=>`<div class="inst-item"><div class="inst-d" style="background:${col.color}"></div><div class="inst-n">${n}</div><div class="inst-t">${t}</div></div>`).join('')}
+      `).join('')}
+    </div>`).join('');
+}
+
+/* ═══════════ FILTERS ═══════════ */
+let CF={s:'all',r:null,t:null,b:null,chip:'all'};
+
+function filt(el,type,val){
+  if(type==='s'){CF.s=val;el.closest('.pleft').querySelectorAll('.pfi').forEach(f=>f.classList.remove('on'));el.classList.add('on');}
+  if(type==='r')CF.r=CF.r===val?null:val;
+  if(type==='t')CF.t=CF.t===val?null:val;
+  if(type==='b')CF.b=CF.b===val?null:val;
+  applyFilters();
+}
+
+function setChip(el,val){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');CF.chip=val;applyFilters();
+}
+
+function applyFilters(){
+  let list=[...PROJECTS];
+  if(CF.s!=='all')list=list.filter(p=>p.sector===CF.s);
+  if(CF.r)list=list.filter(p=>p.region===CF.r);
+  if(CF.t)list=list.filter(p=>p.stage===CF.t);
+  if(CF.b==='high')list=list.filter(p=>p.bs>=80);
+  if(CF.b==='med')list=list.filter(p=>p.bs>=50&&p.bs<80);
+  if(CF.b==='low')list=list.filter(p=>p.bs<50);
+  if(CF.chip==='bankable')list=list.filter(p=>p.stage==='bankable');
+  if(CF.chip==='afdb')list=list.filter(p=>p.afdb);
+  if(CF.chip==='ifc')list=list.filter(p=>p.ifc);
+  if(CF.chip==='afc')list=list.filter(p=>p.afc);
+  if(CF.chip==='cofi')list=list.filter(p=>p.cofi);
+  if(CF.chip==='esg')list=list.filter(p=>p.esg);
+  if(CF.chip==='gov')list=list.filter(p=>p.gov);
+  if(CF.chip==='highbs')list=list.filter(p=>p.bs>=75);
+  if(CF.chip==='offshore')list=list.filter(p=>p.sector==='marine'||p.sector==='pipeline');
+  renderProjects(list);
+}
+
+/* ═══════════ SECTOR TAG COLORS ═══════════ */
+const SCOL={oil:'#E8A020',gas:'#C84B1A',renewable:'#3EC97E',power:'#1BBFA8',mining:'#7B5EE8',logistics:'#3080FF',marine:'#1BBFA8',pipeline:'#C84B1A',gov:'#E8A020',security:'#D94F4F',digital:'#3080FF'};
+
+function renderProjects(list){
+  document.getElementById('rcount').textContent=`Showing ${list.length} of 312 projects`;
+  const c=document.getElementById('pcards');
+  if(!list.length){c.innerHTML='<div style="text-align:center;padding:32px;color:var(--mist);font-family:DM Mono,monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase">No projects match current filters</div>';return;}
+  const bsC=bs=>bs>=80?'#3EC97E':bs>=60?'#E8A020':'#D94F4F';
+  c.innerHTML=list.map((p,i)=>`
+    <div class="pcard" style="border-left-color:${SCOL[p.sector]||'var(--rim2)'};animation:up 0.4s ${i*0.04}s ease forwards;opacity:0">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+        <div><div class="pcard-id">${p.id} · ${p.country}</div><div class="pcard-title">${p.title}</div></div>
+        <div style="text-align:right;flex-shrink:0;margin-left:12px"><div class="pcard-val">${p.val}</div><span class="stpill ${p.sc}">${p.sl}</span></div>
+      </div>
+      <div class="pcard-meta">
+        <div class="pmi">Promoter: <span>${p.promoter}</span></div>
+        <div class="pmi">Source: <span>${p.src}</span></div>
+        <div class="pmi">LC: <span style="color:var(--ice)">${p.local}%</span></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:3px;flex-wrap:wrap">
+          <span class="ptag" style="background:${SCOL[p.sector]}20;color:${SCOL[p.sector]}">${p.sector}</span>
+          ${p.cofi?`<span class="ptag" style="background:rgba(27,191,168,0.1);color:var(--ice)">co-fi</span>`:''}
+          ${p.esg?`<span class="ptag" style="background:rgba(62,201,126,0.1);color:var(--jade)">esg</span>`:''}
+          ${p.gov?`<span class="ptag" style="background:rgba(232,160,32,0.1);color:var(--fire)">gov</span>`:''}
+          ${p.local>=70?`<span class="ptag" style="background:rgba(232,160,32,0.08);color:var(--fire)">high lc</span>`:''}
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="vs-w">VS <div class="vs-pips">${p.vs.map(v=>`<div class="vp${v?' on':''}"></div>`).join('')}</div></div>
+          <div class="bsr-w">BS <div class="bsring" style="color:${bsC(p.bs)};border-color:${bsC(p.bs)}">${p.bs}</div></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+/* ═══════════ DOSSIER LIST ═══════════ */
+function buildDossierList(){
+  document.getElementById('dlist').innerHTML=PROJECTS.slice(0,8).map(p=>`
+    <div style="background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:12px;cursor:pointer;transition:all 0.2s"
+      onmouseover="this.style.borderColor='var(--fire)'" onmouseout="this.style.borderColor='var(--rim)'"
+      onclick="genDossier(${JSON.stringify(p.id)},${JSON.stringify(p.title)})">
+      <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;color:var(--mist);margin-bottom:3px;text-transform:uppercase">${p.id} · ${p.country}</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--snow);margin-bottom:7px">${p.title}</div>
+      <div style="display:flex;gap:4px;align-items:center">
+        <span class="ptag" style="background:${SCOL[p.sector]}20;color:${SCOL[p.sector]}">${p.sector}</span>
+        <span class="stpill ${p.sc}">${p.sl}</span>
+        <span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:12px;color:var(--fire)">${p.val}</span>
+      </div>
+    </div>`).join('');
+}
+
+/* ═══════════ BS GRID ═══════════ */
+function buildBSGrid(){
+  const actors=[
+    {name:'NNPCL / Seplat JV',type:'Promoter',score:80,color:'#3EC97E',dims:[['Responsiveness',84],['Doc Consistency',78],['HCS-U7 Signal',82],['Platform History',76]]},
+    {name:'AfDB PICU.3',type:'Institution',score:91,color:'#1BBFA8',dims:[['Engagement',94],['Mandate Fit',90],['Response Speed',88],['Closure Rate',92]]},
+    {name:'China Power Engineering',type:'Contractor',score:74,color:'#3080FF',dims:[['Delivery Record',76],['Local Content',65],['Sanctions',90],['Disputes',68]]},
+    {name:'Mazars Africa',type:'Advisor',score:88,color:'#7B5EE8',dims:[['Independence',92],['Conflict Check',95],['Work Quality',86],['Accreditation',88]]},
+  ];
+  document.getElementById('bsgrid').innerHTML=actors.map(a=>`
+    <div style="background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:12px;cursor:pointer;transition:border-color 0.2s"
+      onmouseover="this.style.borderColor='var(--fire)'" onmouseout="this.style.borderColor='var(--rim)'"
+      onclick="openProfile(${JSON.stringify(a.name)},${JSON.stringify(a.type)},${a.score})">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:9px">
+        <div><div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist)">${a.type}</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--pale);margin-top:2px">${a.name}</div></div>
+        <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:${a.color}">${a.score}</div>
+      </div>
+      ${a.dims.map(([l,v])=>`<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);width:100px;flex-shrink:0">${l}</div>
+        <div style="flex:1;height:2px;background:var(--rim);border-radius:1px"><div style="height:2px;background:${a.color};border-radius:1px;width:${v}%"></div></div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--fog);width:20px;text-align:right">${v}</div>
+      </div>`).join('')}
+    </div>`).join('');
+}
+
+/* ═══════════ DFI GRID ═══════════ */
+function buildDFIGrid(){
+  const dfis=[
+    ['AfDB','Pan-African · All sectors · $10M+','94%'],['IFC','Global · Private sector · $10M+','88%'],
+    ['AFC','Pan-African · Infrastructure · $50M+','85%'],['EIB Global','European · Climate · $20M+','81%'],
+    ['DBSA','SADC · All sectors · $5M+','78%'],['TDB','East & South · Trade · $10M+','74%'],
+    ['DFC (US)','Global · Energy security · $30M+','68%'],['Afreximbank','Pan-African · Trade · $20M+','64%'],
+    ['JBIC','Japan · Infra · $50M+','58%'],['DEG','Germany · Private · $5M+','54%'],
+    ['Proparco','France · Climate · $10M+','50%'],['IsDB','Islamic · All · $10M+','47%'],
+  ];
+  document.getElementById('dfigrid').innerHTML=dfis.map(([n,d,m])=>`
+    <div style="background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:11px;cursor:default;transition:all 0.2s"
+      onmouseover="this.style.borderColor='var(--fire)'" onmouseout="this.style.borderColor='var(--rim)'">
+      <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ice);margin-bottom:3px">Match ${m}</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--snow);margin-bottom:2px">${n}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--mist)">${d}</div>
+    </div>`).join('');
+}
+
+/* ═══════════ TRACK DEMO ═══════════ */
+function buildTrackDemo(){
+  const items=[
+    {label:'Financial Disbursed',val:'$340M / $420M',pct:81,color:'#E8A020'},
+    {label:'Local Employment',val:'2,847 jobs',pct:74,color:'#3EC97E'},
+    {label:'ESG Compliance',val:'IFC PS Aligned',pct:88,color:'#1BBFA8'},
+    {label:'KYC / AML',val:'All actors clear',pct:100,color:'#7B5EE8'},
+    {label:'Local Content',val:'74% LC achieved',pct:74,color:'#E8A020'},
+    {label:'Stage Progress',val:'VS 4.2 / 5.0',pct:84,color:'#3080FF'},
+  ];
+  document.getElementById('track-demo').innerHTML=items.map(i=>`
+    <div style="background:var(--lift);border:1px solid var(--rim);border-radius:2px;padding:12px;transition:border-color 0.2s" onmouseover="this.style.borderColor='${i.color}'" onmouseout="this.style.borderColor='var(--rim)'">
+      <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);margin-bottom:5px">${i.label}</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--snow);margin-bottom:7px">${i.val}</div>
+      <div style="width:100%;height:3px;background:var(--rim);border-radius:2px"><div style="height:3px;background:${i.color};border-radius:2px;width:${i.pct}%"></div></div>
+    </div>`).join('');
+}
+
+/* ═══════════ TRACKING GRID ═══════════ */
+function buildTrackGrid(){
+  document.getElementById('track-grid').innerHTML=TRACKING_DIMS.map(t=>`
+    <div class="track-col">
+      <div class="track-icon">${t.icon}</div>
+      <div class="track-name">${t.name}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9.5px;color:var(--mist);line-height:1.7">${t.desc}</div>
+    </div>`).join('');
+}
+
+/* ═══════════ FEE GRID ═══════════ */
+function buildFeeGrid(){
+  document.getElementById('fee-grid').innerHTML=FEES.map(f=>`
+    <div class="fee-card">
+      <div class="fee-tier">${f.tier}</div>
+      <div class="fee-name">${f.name}</div>
+      <div class="fee-price">${f.price}</div>
+      <div class="fee-desc">${f.desc}</div>
+    </div>`).join('');
+}
+
+/* ═══════════ ARCH + WL ═══════════ */
+function buildArchGrid(){
+  document.getElementById('arch-layers').innerHTML=ARCH_LAYERS.map(l=>`
+    <div class="arch-layer">
+      <div class="arch-num">${l.num}</div>
+      <div class="arch-bar" style="background:${l.color}"></div>
+      <div style="flex:1"><div class="arch-name">${l.name}</div><div class="arch-desc">${l.desc}</div></div>
+    </div>`).join('');
+}
+
+function buildWLGrid(){
+  document.getElementById('wl-grid').innerHTML=WL_CLIENTS.map(c=>`
+    <div style="background:var(--deep);border:1px solid var(--rim);border-radius:2px;padding:14px;margin-bottom:9px;display:flex;align-items:center;gap:12px;transition:border-color 0.2s" onmouseover="this.style.borderColor='${c.color}'" onmouseout="this.style.borderColor='var(--rim)'">
+      <div style="width:3px;height:36px;border-radius:2px;background:${c.color};flex-shrink:0"></div>
+      <div style="flex:1"><div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--snow);margin-bottom:2px">${c.name}</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--mist)">${c.sub}</div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:8.5px;padding:3px 8px;border-radius:1px;background:${c.color}18;color:${c.color};letter-spacing:0.08em;text-transform:uppercase">${c.status}</div>
+    </div>`).join('');
+}
+
+/* ═══════════ LC GRID ═══════════ */
+function buildLCGrid(){
+  const data=[
+    ['🇿🇦','South Africa','BBBEE + MPRDA','#E8A020',85],['🇳🇬','Nigeria','NCDMB Framework','#1BBFA8',78],
+    ['🇦🇴','Angola','Angolanization','#3080FF',70],['🇲🇿','Mozambique','Lei n.15/2011','#7B5EE8',65],
+    ['🇹🇿','Tanzania','LCR 2014','#E8A020',62],['🇨🇩','DRC','Mining Code 2018','#D94F4F',55],
+    ['🇬🇭','Ghana','GNPC / LCR','#1BBFA8',60],['🇸🇳','Senegal','Code Pétrolier 2019','#E8A020',58],
+    ['🇰🇪','Kenya','NEMA + Mining Act','#3080FF',63],['🇿🇲','Zambia','Mines Act 2015','#7B5EE8',57],
+    ['🇨🇲','Cameroon','Hydrocarbons Code','#E8A020',52],['🇪🇬','Egypt','Investment Law 72/2017','#1BBFA8',66],
+    ['🇲🇦','Morocco','Investment Charter','#3EC97E',72],['🇹🇬','Tanzania (offshore)','EITI Compliant','#E8A020',64],
+  ];
+  document.getElementById('lcgrid').innerHTML=data.map(([f,n,fw,c,p])=>`
+    <div style="display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--lift);border:1px solid var(--rim);border-radius:2px;transition:all 0.2s" onmouseover="this.style.borderColor='${c}'" onmouseout="this.style.borderColor='var(--rim)'">
+      <span style="font-size:16px">${f}</span>
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--pale);font-weight:400;margin-bottom:1px">${n}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:8.5px;color:var(--mist)">${fw}</div>
+        <div style="width:100%;height:2px;background:var(--rim);border-radius:1px;margin-top:5px"><div style="height:2px;background:${c};border-radius:1px;width:${p}%"></div></div>
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:${c}">${p}%</div>
+    </div>`).join('');
+}
+
+/* ═══════════ TIERS ═══════════ */
+function buildTiers(){
+  document.getElementById('tiers').innerHTML=FEES.map(f=>`
+    <div class="atier">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+        <div class="atier-name">${f.name}</div>
+        <div class="atier-price">${f.price}</div>
+      </div>
+      <div class="atier-desc">${f.desc.substring(0,120)}…</div>
+    </div>`).join('');
+}
+
+/* ═══════════ TAB / NAV ═══════════ */
+function setNav(el){document.querySelectorAll('.nl').forEach(n=>n.classList.remove('on'));el.classList.add('on');}
+function sTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+function setTab(el,tab){
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
+  document.getElementById('tp-'+tab)?.classList.add('on');
+}
+
+/* ═══════════ AI CALLS ═══════════ */
+async function callAPI(sys,usr,cb){
+  showLoader('HMH Intelligence Engine processing…');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})});
+    const d=await r.json();
+    cb(d.content.map(i=>i.text||'').join(''));
+  }catch(e){console.error(e);showToast('AI request failed. Please try again.');}
+  finally{hideLoader();}
+}
+
+const SYS_BASE=`You are the HMH Intelligence Engine powering AEC Gateway — the continental infrastructure project platform operated by HMH (Hybrid Mobility Holdings) and branded for the African Energy Chamber. You cover all sectors: oil & gas, LNG, renewables, power & grids, mining & minerals, logistics, marine & offshore, pipelines & storage, government priority programs, security, and digital infrastructure. You serve African and international DFIs, multilateral banks, commercial banks, private equity funds, ECAs, governments, and advisory firms including Mazars, ENS, Bowmans, White & Case, Deloitte, PwC, KPMG, and EY. Be sharp, institution-grade, and operator-focused. Output clean HTML with inline styles using these colors: fire #E8A020, ice #1BBFA8, sky #3080FF, jade #3EC97E, violet #7B5EE8, ember #C84B1A, mist #4A6B80, pale #C8DFF0, snow #ECF4FA.`;
+
+function runAI(){
+  const q=document.getElementById('aiq').value.trim();
+  if(!q){showToast('Enter a query first.');return;}
+  callAPI(
+    SYS_BASE+` Respond to project pipeline queries with: (1) a 2-sentence market intelligence assessment, then (2) JSON block: {"filters":{"sector":"...","region":"...","stage":"..."},"keywords":["..."],"match_count":<number>,"insight":"one operator insight"}. Return valid JSON in a code block.`,
+    `AEC Gateway query: "${q}"`,
+    txt=>{
+      const jm=txt.match(/```(?:json)?\s*([\s\S]*?)```/);
+      let p=null;if(jm)try{p=JSON.parse(jm[1].trim())}catch(e){}
+      document.getElementById('airesp-t').textContent=txt.split('```')[0].trim()||txt.substring(0,300);
+      const tags=p?[p.filters?.sector&&`Sector: ${p.filters.sector}`,p.filters?.region&&`Region: ${p.filters.region}`,p.filters?.stage&&`Stage: ${p.filters.stage}`,p.match_count&&`~${p.match_count} matches`,...(p.keywords||[])].filter(Boolean):[];
+      document.getElementById('aitags').innerHTML=tags.map(t=>`<span class="aitag">${t}</span>`).join('');
+      document.getElementById('airesp').classList.add('on');
+    }
+  );
+}
+
+function runVerify(){
+  const v=document.getElementById('vin').value.trim();
+  if(!v){showToast('Describe the project first.');return;}
+  callAPI(SYS_BASE+` Verify projects against the HMH INFRAGATE Standard. Produce: VS score /5, BS score /100, ESG rating (1–5), KYC flag, Local Content %, stage classification, technical quality, financial model quality, top 2 risks, recommended DFI instruments, and next actions. Be institution-grade and precise.`,
+    `Verify for AEC Gateway HMH Standard: "${v}"`,
+    txt=>{document.getElementById('vout').innerHTML=txt;document.getElementById('vresult').style.display='block';}
+  );
+}
+
+function genDossier(id,title){
+  callAPI(SYS_BASE+` Generate institution-grade investor dossiers for AEC Gateway clients — AfDB, IFC, EIB, commercial banks, private equity funds, ECAs. Include: executive summary, sector context, capital structure + IRR range + tenor, risk register, ESG and ESD assessment, KYC status, local content score, top 3 DFI instrument recommendations, co-financing structure, and next steps.`,
+    `Generate AEC Gateway dossier for ${id}: "${title}"`,
+    txt=>{document.getElementById('dout').innerHTML=txt;const r=document.getElementById('dresult');r.style.display='block';r.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  );
+}
+
+function runBS(){
+  const v=document.getElementById('bsin').value.trim();
+  if(!v){showToast('Enter an actor name first.');return;}
+  callAPI(SYS_BASE+` You are the HMH Behavioural Intelligence Engine using HCS-U7 (IA-SOLUTION). Assess actors across: (1) responsiveness/engagement, (2) delivery consistency, (3) sanctions/conflict status, (4) cognitive/platform signals. Combine HCS-U7, platform history, OFAC/EU/UN screening, credit bureau data. Produce BS 0-100 + full profile.`,
+    `BS Assessment for AEC Gateway: "${v}"`,
+    txt=>{document.getElementById('bsout').innerHTML=txt;document.getElementById('bsresult').style.display='block';}
+  );
+}
+
+function runDFI(){
+  const v=document.getElementById('dfiq').value.trim();
+  if(!v){showToast('Describe the project first.');return;}
+  callAPI(SYS_BASE+` Match projects to all relevant financing institutions: African DFIs (AfDB, AFC, DBSA, TDB, Afreximbank, BOAD, BDEAC, EADB), international DFIs (IFC, EIB, DFC, DEG, FMO, Proparco, BII, JBIC), ECAs (US Exim, UKEF, Euler Hermes, SINOSURE), commercial banks (Standard Bank, Absa, RMB, Citi, Standard Chartered), and private funds (Actis, Helios, AfricInvest). Rank top 5 with: match %, rationale, recommended instrument, entry point.`,
+    `Full institutional match for AEC Gateway: "${v}"`,
+    txt=>{document.getElementById('dfiout').innerHTML=txt;document.getElementById('dfiresult').style.display='block';}
+  );
+}
+
+function runTrack(){
+  const v=document.getElementById('trkq').value.trim();
+  if(!v){showToast('Enter project ID or name.');return;}
+  callAPI(SYS_BASE+` You are retrieving live project status from HMH's TGPDC and Flex operational software. Produce a live status report covering: financial disbursement vs committed, ESG event log, KYC/AML actor status, employment numbers (local vs expat), local content %, stage gate audit trail, next milestone and responsible party. Be operational and precise. Simulate realistic data.`,
+    `Live tracking status for: "${v}"`,
+    txt=>{document.getElementById('trkout').innerHTML=txt;document.getElementById('trkresult').style.display='block';}
+  );
+}
+
+/* ═══════════ PROFILE MODAL ═══════════ */
+function openProfile(name,type,score){
+  const col=score>=80?'#3EC97E':score>=60?'#E8A020':'#D94F4F';
+  const dims=[['Responsiveness / Engagement',Math.max(10,Math.min(100,score+Math.round((Math.random()-.5)*14)))],['Document / Delivery Consistency',Math.max(10,Math.min(100,score+Math.round((Math.random()-.5)*10)))],['Sanctions & Conflict Status',score>=50?Math.min(100,score+15):35],['HCS-U7 Cognitive Signals',Math.max(10,Math.min(100,score+Math.round((Math.random()-.5)*8)))]];
+  document.getElementById('mcontent').innerHTML=`
+    <div style="font-family:'DM Sans',sans-serif;font-size:17px;font-weight:600;color:var(--snow);margin-bottom:3px">${name}</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);margin-bottom:16px">Behavioural Intelligence Profile · AEC Gateway · HMH · ${type}</div>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:14px;background:var(--lift);border-radius:2px;border:1px solid var(--rim)">
+      <div style="text-align:center"><div style="font-family:'DM Mono',monospace;font-size:48px;font-weight:500;color:${col};line-height:1">${score}</div><div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist)">BS / 100</div></div>
+      <div style="flex:1">${dims.map(([l,v])=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);width:170px;flex-shrink:0">${l}</div><div style="flex:1;height:3px;background:var(--rim);border-radius:2px"><div style="height:3px;background:${col};border-radius:2px;width:${v}%"></div></div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--pale);width:22px;text-align:right">${v}</div></div>`).join('')}</div>
+    </div>
+    <div style="margin-bottom:14px">
+      ${[['Data Source','HCS-U7 + Platform + Third-party'],['Sanctions (OFAC/EU/UN)',score>=50?'<span style="color:#3EC97E">Clean</span>':'<span style="color:#D94F4F">Review required</span>'],['VS Gate Eligibility',score>=75?'<span style="color:#3EC97E">VS 4.0 & 5.0 open</span>':score>=65?'<span style="color:#E8A020">VS 4.0 only</span>':'<span style="color:#D94F4F">Below threshold</span>'],['Risk Rating',score>=80?'<span style="color:#3EC97E">Low</span>':score>=60?'<span style="color:#E8A020">Medium</span>':'<span style="color:#D94F4F">High — Review</span>'],['Last Updated','Today · Auto-refresh 24h']].map(([l,v])=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(28,48,68,0.4)"><div style="font-size:12px;color:var(--fog)">${l}</div><div style="font-size:12px;color:var(--pale)">${v}</div></div>`).join('')}
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--mist);line-height:1.8;padding:12px;background:var(--lift);border-radius:2px;border:1px solid var(--rim)"><strong style="color:var(--fire);display:block;margin-bottom:4px">Recommendation</strong>${score>=80?'Profile strong. Proceed with standard DFI due diligence. All stage gates open.':score>=60?'Medium confidence. Request additional documentation on flagged dimensions before VS 4.0 advancement.':'Low confidence. Full manual review required before any stage advancement.'}</div>`;
+  document.getElementById('mbg').classList.add('on');
+}
+
+/* ═══════════ UTILS ═══════════ */
+function showLoader(msg){document.getElementById('lmsg').textContent=msg||'Processing';document.getElementById('loader').classList.add('on');}
+function hideLoader(){document.getElementById('loader').classList.remove('on');}
+function showToast(msg){const t=document.getElementById('toast');t.classList.remove('on');void t.offsetWidth;t.innerHTML=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3500);}
+function submitAccess(){const org=document.getElementById('af-org').value.trim(),em=document.getElementById('af-em').value.trim(),type=document.getElementById('af-type').value;if(!org||!em||!type){showToast('Please complete all required fields.');return

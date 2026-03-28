@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFRAGATE AFRICA — The Continental Project Gateway</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500&display=swap');
+
+:root {
+  --void:#04080C; --deep:#080f16; --surf:#0c1820; --panel:#0f1e28;
+  --b1:#1a3044; --b2:#1f3a52; --b3:#243e56;
+  --gold:#C9A84C; --gold2:#e8c96a; --gdim:rgba(201,168,76,0.10); --gdim2:rgba(201,168,76,0.05);
+  --teal:#1DB8A0; --tdim:rgba(29,184,160,0.10);
+  --blue:#2E7FFF; --bdim:rgba(46,127,255,0.10);
+  --red:#E05555; --orange:#E07840; --purple:#8B6FE8; --green:#3EC97E;
+  --txt:#8BAFC8; --txt2:#4d6e84; --bright:#D4E8F5; --white:#EEF4F8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--txt);font-family:'Barlow',sans-serif;font-size:13px;font-weight:300;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--b2);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;height:54px;background:rgba(4,8,12,0.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 28px;z-index:800;gap:0;}
+.nlogo{display:flex;align-items:baseline;gap:7px;margin-right:28px;flex-shrink:0;}
+.nm{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;letter-spacing:0.14em;color:var(--white);}
+.nm span{color:var(--gold);}
+.ns{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11px;color:var(--txt2);}
+.nlinks{display:flex;gap:1px;flex:1;overflow:hidden;}
+.nl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--txt2);padding:6px 10px;cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;white-space:nowrap;}
+.nl:hover{color:var(--bright);}
+.nl.on{color:var(--gold);border-bottom-color:var(--gold);}
+.nright{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0;}
+.ia-pill{display:flex;align-items:center;gap:6px;padding:5px 11px;background:var(--gdim2);border:1px solid rgba(201,168,76,0.18);border-radius:3px;font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold);cursor:pointer;}
+.dot{width:5px;height:5px;border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.nbtn{padding:7px 16px;background:var(--gold);border:none;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--void);cursor:pointer;transition:all 0.2s;}
+.nbtn:hover{background:var(--gold2);}
+
+/* HERO */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 80px 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-46deg,transparent,transparent 40px,rgba(201,168,76,0.011) 40px,rgba(201,168,76,0.011) 41px);pointer-events:none;}
+.hmap{position:absolute;right:-40px;top:50%;transform:translateY(-50%);width:52vw;max-width:680px;opacity:0.04;pointer-events:none;color:var(--txt2);}
+.h-ey{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;display:flex;align-items:center;gap:12px;animation:fadeUp 0.7s ease forwards;opacity:0;}
+.h-ey::before{content:'';width:28px;height:1px;background:var(--gold);}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,7vw,96px);font-weight:300;line-height:0.93;color:var(--white);max-width:760px;animation:fadeUp 0.7s 0.1s ease forwards;opacity:0;}
+.h-title em{color:var(--gold);font-style:italic;}
+.h-title .l2{display:block;font-size:clamp(32px,4.5vw,60px);color:var(--txt);margin-top:8px;}
+.h-sub{font-size:15px;font-weight:300;color:var(--txt);line-height:1.85;max-width:500px;margin:28px 0 40px;animation:fadeUp 0.7s 0.18s ease forwards;opacity:0;}
+.h-ctas{display:flex;gap:12px;animation:fadeUp 0.7s 0.26s ease forwards;opacity:0;}
+.cta1{padding:13px 32px;background:var(--gold);border:none;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--void);cursor:pointer;transition:all 0.2s;}
+.cta1:hover{background:var(--gold2);transform:translateY(-1px);}
+.cta2{padding:13px 32px;background:transparent;border:1px solid var(--b2);border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--txt);cursor:pointer;transition:all 0.2s;}
+.cta2:hover{border-color:var(--gold);color:var(--gold);}
+.h-stats{display:flex;gap:0;margin-top:68px;padding-top:32px;border-top:1px solid var(--b1);animation:fadeUp 0.7s 0.34s ease forwards;opacity:0;}
+.hst{padding-right:40px;margin-right:40px;border-right:1px solid var(--b1);}
+.hst:last-child{border-right:none;}
+.hst-n{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:700;color:var(--white);line-height:1;margin-bottom:4px;}
+.hst-n span{color:var(--gold);}
+.hst-l{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--txt2);}
+
+/* TICKER */
+.ticker-wrap{background:var(--deep);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);padding:11px 0;overflow:hidden;}
+.ticker{display:flex;animation:scroll 50s linear infinite;white-space:nowrap;}
+@keyframes scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.ti{display:flex;align-items:center;gap:7px;padding:0 22px;font-family:'Barlow Condensed',sans-serif;font-size:10.5px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--txt2);flex-shrink:0;}
+.td{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+
+/* SECTIONS */
+.sec{padding:88px 80px;}
+.sec-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.sec-lbl::before{content:'';width:22px;height:1px;background:var(--gold);}
+.sec-ttl{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,54px);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:14px;}
+.sec-ttl em{font-style:italic;color:var(--gold);}
+.sec-sub{font-size:14px;font-weight:300;color:var(--txt);line-height:1.9;max-width:540px;}
+
+/* HOW IT WORKS */
+.how-grid{display:grid;grid-template-columns:repeat(5,1fr);margin-top:56px;position:relative;}
+.how-grid::before{content:'';position:absolute;top:31px;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,var(--b2),var(--gold),var(--b2),transparent);}
+.sg{padding:18px 14px;text-align:center;}
+.snum{width:62px;height:62px;border-radius:50%;border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--txt2);background:var(--deep);transition:all 0.3s;position:relative;z-index:1;}
+.sg:hover .snum{border-color:var(--gold);color:var(--gold);background:var(--gdim);}
+.sname{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bright);margin-bottom:7px;}
+.sdesc{font-size:11px;color:var(--txt2);line-height:1.7;}
+.sbadge{display:inline-block;margin-top:9px;padding:3px 10px;border-radius:20px;font-size:9px;letter-spacing:0.09em;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;font-weight:600;}
+
+/* PLATFORM */
+.plat-wrap{margin-top:52px;border:1px solid var(--b1);border-radius:4px;overflow:hidden;background:var(--deep);}
+.ptabs{display:flex;background:var(--surf);border-bottom:1px solid var(--b1);overflow-x:auto;}
+.ptab{font-family:'Barlow Condensed',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:13px 16px;color:var(--txt2);cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0;}
+.ptab:hover{color:var(--txt);}
+.ptab.on{color:var(--gold);border-bottom-color:var(--gold);}
+.pbody{display:grid;grid-template-columns:228px 1fr 268px;min-height:580px;}
+.pleft{border-right:1px solid var(--b1);padding:14px 0;background:var(--surf);overflow-y:auto;}
+.pcenter{padding:18px;overflow-y:auto;max-height:580px;}
+.pright{border-left:1px solid var(--b1);padding:14px 0;background:var(--surf);overflow-y:auto;}
+
+/* Left sidebar */
+.psl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--txt2);padding:0 13px;margin:13px 0 6px;}
+.pfi{display:flex;align-items:center;justify-content:space-between;padding:6px 13px;cursor:pointer;transition:all 0.15s;}
+.pfi:hover{background:rgba(255,255,255,0.02);}
+.pfi.on{background:var(--gdim);}
+.pfi-l{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--txt);}
+.pfi.on .pfi-l{color:var(--gold);}
+.pfdot{width:6px;height:6px;border-radius:1px;flex-shrink:0;}
+.pfc{font-size:9px;color:var(--txt2);background:rgba(255,255,255,0.04);padding:1px 5px;border-radius:8px;}
+
+/* AI bar */
+.aibar{display:flex;gap:8px;background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:9px 12px;margin-bottom:12px;align-items:center;transition:border-color 0.2s;}
+.aibar:focus-within{border-color:var(--gold);}
+.aibar input{flex:1;background:none;border:none;outline:none;font-family:'Barlow',sans-serif;font-size:12px;font-weight:300;color:var(--white);}
+.aibar input::placeholder{color:var(--txt2);}
+.aibtn{padding:6px 13px;background:var(--gold);border:none;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--void);cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+.aibtn:hover{background:var(--gold2);}
+.aibtn:disabled{background:var(--b2);color:var(--txt2);cursor:default;}
+
+/* AI response */
+.airesp{background:linear-gradient(135deg,rgba(29,184,160,0.05),rgba(46,127,255,0.03));border:1px solid rgba(29,184,160,0.18);border-radius:3px;padding:12px 14px;margin-bottom:12px;display:none;}
+.airesp.on{display:block;}
+.airesp-h{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.airesp-h::before{content:'●';animation:blink 1.5s infinite;}
+.airesp-t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--txt);line-height:1.8;}
+.aitags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
+.aitag{padding:3px 7px;border-radius:2px;font-size:9px;background:rgba(29,184,160,0.08);border:1px solid rgba(29,184,160,0.18);color:var(--teal);font-family:'Barlow Condensed',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;}
+
+/* Stats strip */
+.sstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px;}
+.sst{background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:10px 12px;transition:border-color 0.2s;}
+.sst:hover{border-color:var(--gold);}
+.sst-l{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--txt2);margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;}
+.sst-v{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--white);line-height:1;}
+.sst-v span{color:var(--gold);}
+.sst-s{font-size:9px;color:var(--teal);margin-top:3px;}
+
+/* Chips */
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px;}
+.chip{padding:4px 10px;border-radius:20px;font-size:9.5px;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;transition:all 0.15s;border:1px solid var(--b1);color:var(--txt2);background:var(--panel);font-family:'Barlow Condensed',sans-serif;font-weight:600;}
+.chip:hover{border-color:var(--txt);color:var(--txt);}
+.chip.on{border-color:var(--gold);color:var(--gold);background:var(--gdim);}
+
+/* Project cards */
+.pcards{display:flex;flex-direction:column;gap:7px;}
+.pcard{background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:12px 14px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.pcard:hover{border-color:var(--gold);background:rgba(201,168,76,0.02);}
+.pcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;}
+.pcard-id{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.14em;color:var(--txt2);margin-bottom:3px;text-transform:uppercase;}
+.pcard-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:var(--white);line-height:1.2;}
+.pcard-val{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--gold);text-align:right;margin-bottom:4px;}
+.sp{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:9px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;}
+.s-b{background:rgba(29,184,160,0.1);color:var(--teal);border:1px solid rgba(29,184,160,0.22);}
+.s-f{background:rgba(46,127,255,0.1);color:var(--blue);border:1px solid rgba(46,127,255,0.22);}
+.s-p{background:rgba(224,120,64,0.1);color:var(--orange);border:1px solid rgba(224,120,64,0.22);}
+.s-c{background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.22);}
+.pcard-meta{display:flex;gap:12px;margin-bottom:7px;flex-wrap:wrap;}
+.pmi{font-size:11px;color:var(--txt2);}
+.pmi span{color:var(--txt);}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;}
+.sc{font-size:9px;padding:2px 6px;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;margin-right:3px;}
+.sc-oil{background:rgba(201,168,76,0.12);color:var(--gold);}
+.sc-mining{background:rgba(139,111,232,0.12);color:var(--purple);}
+.sc-energy{background:rgba(29,184,160,0.12);color:var(--teal);}
+.sc-logistics{background:rgba(46,127,255,0.12);color:var(--blue);}
+.sc-finance{background:rgba(224,85,85,0.12);color:var(--red);}
+.sc-cofi{background:rgba(29,184,160,0.08);color:var(--teal);border:1px solid rgba(29,184,160,0.14);}
+.sc-lc{background:rgba(201,168,76,0.08);color:var(--gold);border:1px solid rgba(201,168,76,0.14);}
+.vs-w{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt2);}
+.vs-pips{display:flex;gap:2px;}
+.vp{width:11px;height:3px;border-radius:1px;background:var(--b1);}
+.vp.on{background:var(--teal);}
+.bsr-w{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--txt2);}
+.bsr-ring{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;border:1.5px solid;}
+
+/* Right panel */
+.prs{padding:0 13px 13px;border-bottom:1px solid var(--b1);margin-bottom:13px;}
+.prs:last-child{border-bottom:none;margin-bottom:0;}
+.prl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--txt2);margin-bottom:8px;}
+.act{display:flex;gap:7px;padding:5px 0;border-bottom:1px solid rgba(26,48,68,0.4);}
+.act:last-child{border:none;}
+.act-d{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.act-t{font-size:11px;color:var(--txt);line-height:1.45;flex:1;}
+.act-tm{font-size:9px;color:var(--txt2);}
+.sr{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(26,48,68,0.35);}
+.sr:last-child{border:none;}
+.si{display:flex;align-items:center;gap:7px;}
+.sic{width:22px;height:22px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;}
+.sn{font-size:11px;color:var(--txt);}
+.sc2{font-size:9px;color:var(--txt2);}
+.dr{display:flex;align-items:center;padding:4px 0;}
+.dn{font-size:11px;color:var(--txt);width:64px;}
+.db{flex:1;height:2px;background:var(--b1);border-radius:1px;margin:0 7px;}
+.df{height:2px;background:var(--blue);border-radius:1px;}
+.dp{font-size:10px;color:var(--txt2);width:26px;text-align:right;}
+
+/* Tab content */
+.tc{display:none;}
+.tc.on{display:block;}
+
+/* Behavioural */
+.bsi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px;}
+.bsi-card{background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:12px;transition:border-color 0.2s;cursor:pointer;}
+.bsi-card:hover{border-color:var(--gold);}
+.bsi-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:9px;}
+.bsi-type{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--txt2);}
+.bsi-score{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;line-height:1;}
+.bsi-dim{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.bsi-dl{font-size:10.5px;color:var(--txt2);width:110px;flex-shrink:0;}
+.bsi-db{flex:1;height:2px;background:var(--b1);border-radius:1px;}
+.bsi-df{height:2px;border-radius:1px;}
+.bsi-dv{font-size:10px;color:var(--txt);width:22px;text-align:right;}
+
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(4,8,12,0.9);backdrop-filter:blur(8px);z-index:700;align-items:center;justify-content:center;}
+.modal-bg.on{display:flex;}
+.modal{background:var(--surf);border:1px solid var(--b2);border-radius:4px;padding:26px;max-width:580px;width:90%;max-height:85vh;overflow-y:auto;position:relative;}
+.modal-x{position:absolute;top:13px;right:14px;background:none;border:none;color:var(--txt2);font-size:18px;cursor:pointer;transition:color 0.2s;}
+.modal-x:hover{color:var(--white);}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:3px;}
+.modal-sub{font-size:12px;color:var(--txt2);margin-bottom:18px;}
+.modal-sec-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid var(--b1);}
+.modal-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(26,48,68,0.4);}
+.modal-row:last-child{border:none;}
+.modal-row-l{font-size:12px;color:var(--txt);}
+.modal-row-v{font-size:12px;color:var(--bright);font-weight:500;}
+
+/* ECOSYSTEM */
+.eco-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--b1);margin-top:52px;border:1px solid var(--b1);}
+.eco-col{background:var(--deep);padding:26px 22px;}
+.eco-ch{font-family:'Barlow Condensed',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:16px;padding-bottom:9px;border-bottom:1px solid var(--b1);}
+.eco-item{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid rgba(26,48,68,0.4);transition:all 0.15s;}
+.eco-item:last-child{border:none;}
+.eco-item:hover{padding-left:4px;}
+.eco-d{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.eco-n{font-size:12px;color:var(--txt);flex:1;transition:color 0.15s;}
+.eco-item:hover .eco-n{color:var(--bright);}
+.eco-t{font-size:9px;letter-spacing:0.07em;color:var(--txt2);text-transform:uppercase;}
+
+/* PARTNERS */
+.partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:52px;}
+.pspot{background:var(--deep);border:1px solid var(--b1);border-radius:3px;padding:24px;transition:all 0.2s;}
+.pspot:hover{border-color:var(--gold);transform:translateY(-2px);}
+.pspot-tag{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:7px;}
+.pspot-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:3px;}
+.pspot-url{font-size:11px;color:var(--teal);margin-bottom:11px;cursor:pointer;}
+.pspot-desc{font-size:12px;color:var(--txt2);line-height:1.8;margin-bottom:13px;}
+.pspot-feat{display:flex;align-items:flex-start;gap:6px;font-size:11px;color:var(--txt2);margin-bottom:5px;}
+.pspot-feat::before{content:'›';color:var(--gold);font-size:12px;flex-shrink:0;}
+
+/* STANDARD */
+.std-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:52px;border:1px solid var(--b1);}
+.std-col{padding:22px 16px;border-right:1px solid var(--b1);transition:background 0.2s;}
+.std-col:last-child{border-right:none;}
+.std-col:hover{background:rgba(201,168,76,0.02);}
+.std-n{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:800;color:rgba(201,168,76,0.07);line-height:1;margin-bottom:9px;}
+.std-name{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:var(--bright);margin-bottom:9px;}
+.std-ck{display:flex;align-items:flex-start;gap:5px;font-size:11px;color:var(--txt2);line-height:1.5;margin-bottom:4px;}
+.std-ck::before{content:'›';color:var(--gold);font-size:11px;flex-shrink:0;}
+.std-badge{margin-top:13px;display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;}
+
+/* BEHAVIOURAL SECTION */
+.bs-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:56px;align-items:start;}
+.bsdim-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px;}
+.bsdim{background:var(--surf);border:1px solid var(--b1);border-radius:3px;padding:16px;transition:border-color 0.2s;}
+.bsdim:hover{border-color:var(--teal);}
+.bsdim-tag{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;}
+.bsdim-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--bright);margin-bottom:5px;}
+.bsdim-desc{font-size:11px;color:var(--txt2);line-height:1.7;}
+.bs-score-panel{background:var(--surf);border:1px solid var(--b1);border-radius:3px;padding:22px;}
+.bs-score-h{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--txt2);margin-bottom:14px;}
+.bs-actor{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--b1);cursor:pointer;transition:all 0.15s;}
+.bs-actor:last-child{border:none;}
+.bs-actor:hover{background:rgba(255,255,255,0.02);padding-left:4px;}
+.bs-ring{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;flex-shrink:0;border:2px solid;}
+.bs-name{font-size:12px;color:var(--bright);margin-bottom:2px;font-weight:500;}
+.bs-type{font-size:10px;color:var(--txt2);}
+.bs-sc{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;}
+
+/* LOCAL CONTENT */
+.lc-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:52px;align-items:start;}
+.lc-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surf);border:1px solid var(--b1);border-radius:3px;margin-bottom:7px;transition:all 0.2s;}
+.lc-row:hover{border-color:var(--gold);background:var(--gdim2);}
+.lc-feat{background:var(--surf);border:1px solid var(--b1);border-radius:3px;padding:16px;margin-bottom:9px;transition:border-color 0.2s;}
+.lc-feat:hover{border-color:var(--teal);}
+.lc-feat-t{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:var(--bright);margin-bottom:5px;}
+.lc-feat-d{font-size:12px;color:var(--txt2);line-height:1.7;}
+
+/* IA SECTION */
+.ia-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:52px;align-items:center;}
+.ia-feats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px;}
+.ia-feat{background:var(--surf);border:1px solid var(--b1);border-radius:3px;padding:14px;transition:border-color 0.2s;}
+.ia-feat:hover{border-color:var(--gold);}
+.ia-feat-tag{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.ia-feat-t{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--bright);margin-bottom:4px;}
+.ia-feat-d{font-size:11px;color:var(--txt2);line-height:1.7;}
+.ia-stack{background:var(--surf);border:1px solid var(--b1);border-radius:3px;padding:22px;}
+.ia-stack-h{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--txt2);margin-bottom:14px;}
+.ia-layer{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--b1);}
+.ia-layer:last-child{border:none;}
+.ia-ln{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--txt2);width:18px;flex-shrink:0;}
+.ia-lb{width:3px;height:30px;border-radius:2px;flex-shrink:0;}
+.ia-li-n{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--bright);margin-bottom:1px;}
+.ia-li-d{font-size:10.5px;color:var(--txt2);}
+.ia-lt{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.09em;padding:2px 7px;border-radius:2px;text-transform:uppercase;flex-shrink:0;}
+
+/* CO-FINANCE */
+.cofi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px;}
+.cofi-card{background:var(--deep);border:1px solid var(--b1);border-radius:3px;padding:20px;transition:all 0.2s;}
+.cofi-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+.cofi-tier{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--txt2);margin-bottom:5px;}
+.cofi-name{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.cofi-role{font-size:12px;color:var(--txt2);line-height:1.7;margin-bottom:9px;}
+.cofi-m{display:flex;align-items:center;gap:5px;font-size:10px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.09em;}
+.cofi-m::before{content:'●';font-size:7px;}
+
+/* ACCESS */
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:52px;}
+.acc-form{background:var(--surf);border:1px solid var(--b1);border-radius:3px;padding:26px;}
+.afl{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--txt2);margin-bottom:5px;font-family:'Barlow Condensed',sans-serif;font-weight:600;display:block;}
+.afi{width:100%;background:var(--panel);border:1px solid var(--b1);border-radius:2px;padding:8px 11px;color:var(--white);font-family:'Barlow',sans-serif;font-size:12px;font-weight:300;outline:none;margin-bottom:10px;transition:border-color 0.2s;}
+.afi:focus{border-color:var(--gold);}
+.afi-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.afbtn{width:100%;padding:11px;background:var(--gold);border:none;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--void);cursor:pointer;transition:all 0.2s;margin-top:3px;}
+.afbtn:hover{background:var(--gold2);}
+.atier{background:var(--surf);border:1px solid var(--b1);border-radius:3px;padding:16px;margin-bottom:10px;transition:border-color 0.2s;}
+.atier:hover{border-color:var(--gold);}
+.atier-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:3px;}
+.atier-desc{font-size:12px;color:var(--txt2);line-height:1.7;margin-bottom:7px;}
+.atier-price{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--gold);}
+
+/* FOOTER */
+footer{background:var(--deep);border-top:1px solid var(--b1);padding:44px 80px 30px;}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px;}
+.fl{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:0.14em;color:var(--white);margin-bottom:5px;}
+.fl span{color:var(--gold);}
+.ft-tgl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--txt2);margin-bottom:11px;}
+.ft-ia{display:flex;align-items:center;gap:7px;padding:7px 11px;background:var(--gdim);border:1px solid rgba(201,168,76,0.18);border-radius:3px;margin-top:12px;font-size:10px;color:var(--txt2);max-width:230px;}
+.ft-ia strong{color:var(--gold);}
+.ft-col-t{font-family:'Barlow Condensed',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--txt2);margin-bottom:12px;}
+.flink{display:block;font-size:12px;color:var(--txt2);margin-bottom:6px;cursor:pointer;transition:color 0.2s;}
+.flink:hover{color:var(--gold);}
+.fb{display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid var(--b1);}
+.fcopy{font-size:11px;color:var(--txt2);}
+.fcopy a{color:var(--gold);cursor:pointer;text-decoration:none;}
+.flangs{display:flex;gap:5px;}
+.flang{font-size:9.5px;letter-spacing:0.09em;color:var(--txt2);padding:3px 7px;border:1px solid var(--b1);border-radius:2px;cursor:pointer;transition:all 0.2s;font-family:'Barlow Condensed',sans-serif;font-weight:600;text-transform:uppercase;}
+.flang:hover,.flang.on{color:var(--gold);border-color:var(--gold);}
+
+/* UTILITIES */
+.loader{display:none;position:fixed;inset:0;background:rgba(4,8,12,0.9);backdrop-filter:blur(6px);z-index:600;align-items:center;justify-content:center;flex-direction:column;gap:14px;}
+.loader.on{display:flex;}
+.lring{width:34px;height:34px;border:1px solid var(--b2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ltxt{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--txt2);}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surf);border:1px solid var(--teal);border-radius:3px;padding:11px 16px;font-size:12px;color:var(--bright);z-index:900;display:none;align-items:center;gap:9px;max-width:320px;animation:fadeUp 0.3s ease;}
+.toast.on{display:flex;}
+.toast::before{content:'✓';color:var(--teal);font-weight:700;}
+input[type=text],input[type=email],select,textarea{color:var(--white);}
+select option{background:var(--panel);}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader"><div class="lring"></div><div class="ltxt" id="lmsg">Processing</div></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="mbg" onclick="if(event.target===this)this.classList.remove('on')">
+  <div class="modal">
+    <button class="modal-x" onclick="document.getElementById('mbg').classList.remove('on')">✕</button>
+    <div id="mcontent"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nlogo"><div class="nm">INFRA<span>GATE</span></div><div class="ns">Africa</div></div>
+  <div class="nlinks">
+    <div class="nl on" onclick="setNav(this);sTo('hero')">Platform</div>
+    <div class="nl" onclick="setNav(this);sTo('how')">Process</div>
+    <div class="nl" onclick="setNav(this);sTo('ecosystem')">Ecosystem</div>
+    <div class="nl" onclick="setNav(this);sTo('partners')">Partners</div>
+    <div class="nl" onclick="setNav(this);sTo('standard')">Standard</div>
+    <div class="nl" onclick="setNav(this);sTo('behavioural')">Behavioural</div>
+    <div class="nl" onclick="setNav(this);sTo('local')">Local Content</div>
+    <div class="nl" onclick="setNav(this);sTo('security')">Security</div>
+    <div class="nl" onclick="setNav(this);sTo('cofinance')">Co-Finance</div>
+    <div class="nl" onclick="setNav(this);sTo('access')">Access</div>
+  </div>
+  <div class="nright">
+    <div class="ia-pill" onclick="sTo('security')"><div class="dot" style="background:var(--teal)"></div>HCS-U7 Secured · ia-solution.fr</div>
+    <button class="nbtn" onclick="sTo('access')">Request Access</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <svg class="hmap" viewBox="0 0 420 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M185 18 L225 12 L268 28 L298 52 L318 84 L328 126 L322 168 L316 196 L338 228 L348 272 L336 316 L314 358 L282 400 L252 440 L224 472 L204 495 L184 472 L162 440 L138 406 L108 368 L76 326 L66 284 L76 242 L88 202 L76 170 L70 138 L76 108 L92 78 L118 52 L152 30 Z" fill="currentColor" stroke="rgba(201,168,76,0.22)" stroke-width="0.8"/>
+    <circle cx="204" cy="185" r="4" fill="rgba(201,168,76,0.7)"/><circle cx="175" cy="290" r="4" fill="rgba(29,184,160,0.7)"/>
+    <circle cx="228" cy="335" r="4" fill="rgba(46,127,255,0.7)"/><circle cx="248" cy="205" r="3" fill="rgba(201,168,76,0.5)"/>
+    <circle cx="155" cy="210" r="3" fill="rgba(29,184,160,0.5)"/><circle cx="190" cy="360" r="3" fill="rgba(224,120,64,0.5)"/>
+    <circle cx="260" cy="160" r="3" fill="rgba(139,111,232,0.5)"/><circle cx="130" cy="160" r="3" fill="rgba(224,85,85,0.5)"/>
+    <circle cx="210" cy="120" r="3" fill="rgba(201,168,76,0.4)"/><circle cx="290" cy="270" r="3" fill="rgba(29,184,160,0.4)"/>
+    <line x1="204" y1="185" x2="175" y2="290" stroke="rgba(201,168,76,0.1)" stroke-width="1" stroke-dasharray="3,5"/>
+    <line x1="175" y1="290" x2="228" y2="335" stroke="rgba(29,184,160,0.1)" stroke-width="1" stroke-dasharray="3,5"/>
+    <line x1="204" y1="185" x2="248" y2="205" stroke="rgba(46,127,255,0.1)" stroke-width="1" stroke-dasharray="3,5"/>
+    <line x1="228" y1="335" x2="190" y2="360" stroke="rgba(224,120,64,0.1)" stroke-width="1" stroke-dasharray="3,5"/>
+    <line x1="260" cy="160" x2="290" y2="270" stroke="rgba(139,111,232,0.1)" stroke-width="1" stroke-dasharray="3,5"/>
+  </svg>
+  <div class="h-ey">The Continental Infrastructure Gateway · HMH — Hybrid Mobility Holdings</div>
+  <h1 class="h-title">Africa's <em>one standard.</em><span class="l2">Every project. Every institution.</span></h1>
+  <p class="h-sub">INFRAGATE AFRICA is the continent's first verified, behavioural-scored infrastructure aggregation platform — connecting project sponsors, DFIs, banks, contractors, auditors, and governments through a single standardized gateway from concept to financial close.</p>
+  <div class="h-ctas">
+    <button class="cta1" onclick="sTo('plat')">Enter Platform</button>
+    <button class="cta2" onclick="sTo('how')">How It Works</button>
+  </div>
+  <div class="h-stats">
+    <div class="hst"><div class="hst-n" id="c1">0<span>+</span></div><div class="hst-l">African DFIs Connected</div></div>
+    <div class="hst"><div class="hst-n" id="c2">0</div><div class="hst-l">Countries Covered</div></div>
+    <div class="hst"><div class="hst-n" id="c3">$0<span>T</span></div><div class="hst-l">Capital to Mobilize</div></div>
+    <div class="hst"><div class="hst-n" id="c4">0</div><div class="hst-l">Active Projects</div></div>
+    <div class="hst"><div class="hst-n">5</div><div class="hst-l">Verification Stages</div></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap"><div class="ticker" id="tkr"></div></div>
+
+<!-- HOW IT WORKS -->
+<section class="sec" id="how" style="background:var(--deep);border-top:1px solid var(--b1)">
+  <div class="sec-lbl">The Process</div>
+  <h2 class="sec-ttl">From concept to <em>financial close</em> — fully traceable</h2>
+  <p class="sec-sub">Every project moves through five verifiable stages. Nothing skips. Every assessment is logged, timestamped, and auditable by any authorized institution. Behavioural Score is mandatory at VS 4.0 and VS 5.0.</p>
+  <div class="how-grid">
+    <div class="sg"><div class="snum">01</div><div class="sname">Concept Registration</div><div class="sdesc">Project identity, sector, country, promoter, capital estimate, government intent letter</div><div class="sbadge" style="background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.22)">VS 1.0</div></div>
+    <div class="sg"><div class="snum">02</div><div class="sname">Pre-Feasibility</div><div class="sdesc">Technical merit, environmental pre-screen, financial model draft, promoter BS score baseline</div><div class="sbadge" style="background:rgba(224,120,64,0.1);color:var(--orange);border:1px solid rgba(224,120,64,0.22)">VS 2.0</div></div>
+    <div class="sg"><div class="snum">03</div><div class="sname">Full Feasibility</div><div class="sdesc">Independent technical report, ESIA, detailed financial model, legal structure, permits confirmed</div><div class="sbadge" style="background:rgba(46,127,255,0.1);color:var(--blue);border:1px solid rgba(46,127,255,0.22)">VS 3.0</div></div>
+    <div class="sg"><div class="snum">04</div><div class="sname">Bankability Certified</div><div class="sdesc">Audited accounts, offtake structure, risk matrix, lender's engineer appointed · BS ≥ 65 required</div><div class="sbadge" style="background:rgba(29,184,160,0.1);color:var(--teal);border:1px solid rgba(29,184,160,0.22)">VS 4.0</div></div>
+    <div class="sg"><div class="snum">05</div><div class="sname">Finance Ready</div><div class="sdesc">Term sheet level. Full data room. DFI matched. Credit committee ready. BS ≥ 75 required.</div><div class="sbadge" style="background:rgba(29,184,160,0.14);color:var(--teal);border:1px solid var(--teal)">VS 5.0 ★</div></div>
+  </div>
+</section>
+
+<!-- PLATFORM -->
+<section class="sec" id="plat" style="background:var(--void);padding-top:68px;padding-bottom:68px">
+  <div class="sec-lbl">Live Platform</div>
+  <h2 class="sec-ttl">The <em>intelligence layer</em> for African infrastructure</h2>
+  <div class="plat-wrap">
+    <div class="ptabs">
+      <div class="ptab on" onclick="setTab(this,'pipeline')">Pipeline</div>
+      <div class="ptab" onclick="setTab(this,'verify')">AI Verify</div>
+      <div class="ptab" onclick="setTab(this,'dossiers')">Dossiers</div>
+      <div class="ptab" onclick="setTab(this,'behaviour')">Behavioural Score</div>
+      <div class="ptab" onclick="setTab(this,'submit')">Submit Project</div>
+      <div class="ptab" onclick="setTab(this,'dfimatch')">DFI Match</div>
+      <div class="ptab" onclick="setTab(this,'lctab')">Local Content</div>
+    </div>
+    <div class="pbody">
+      <!-- LEFT -->
+      <div class="pleft" id="pleft">
+        <div class="psl">Sector</div>
+        <div class="pfi on" onclick="filt(this,'s','all')"><span class="pfi-l">⬡ All Sectors</span><span class="pfc">247</span></div>
+        <div class="pfi" onclick="filt(this,'s','oil')"><span class="pfi-l"><span class="pfdot" style="background:var(--gold)"></span>Oil &amp; Gas</span><span class="pfc">64</span></div>
+        <div class="pfi" onclick="filt(this,'s','mining')"><span class="pfi-l"><span class="pfdot" style="background:var(--purple)"></span>Mining</span><span class="pfc">51</span></div>
+        <div class="pfi" onclick="filt(this,'s','energy')"><span class="pfi-l"><span class="pfdot" style="background:var(--teal)"></span>Energy</span><span class="pfc">72</span></div>
+        <div class="pfi" onclick="filt(this,'s','logistics')"><span class="pfi-l"><span class="pfdot" style="background:var(--blue)"></span>Logistics</span><span class="pfc">38</span></div>
+        <div class="pfi" onclick="filt(this,'s','finance')"><span class="pfi-l"><span class="pfdot" style="background:var(--red)"></span>Finance</span><span class="pfc">22</span></div>
+        <div class="psl">Region</div>
+        <div class="pfi" onclick="filt(this,'r','west')"><span class="pfi-l">West Africa</span><span class="pfc">82</span></div>
+        <div class="pfi" onclick="filt(this,'r','east')"><span class="pfi-l">East Africa</span><span class="pfc">61</span></div>
+        <div class="pfi" onclick="filt(this,'r','south')"><span class="pfi-l">Southern Africa</span><span class="pfc">57</span></div>
+        <div class="pfi" onclick="filt(this,'r','central')"><span class="pfi-l">Central Africa</span><span class="pfc">30</span></div>
+        <div class="pfi" onclick="filt(this,'r','north')"><span class="pfi-l">North Africa</span><span class="pfc">17</span></div>
+        <div class="psl">Stage</div>
+        <div class="pfi" onclick="filt(this,'t','bankable')"><span class="pfi-l" style="color:var(--teal)">● Bankable</span><span class="pfc">38</span></div>
+        <div class="pfi" onclick="filt(this,'t','feasibility')"><span class="pfi-l" style="color:var(--blue)">● Feasibility</span><span class="pfc">67</span></div>
+        <div class="pfi" onclick="filt(this,'t','prefeas')"><span class="pfi-l" style="color:var(--orange)">● Pre-Feas</span><span class="pfc">89</span></div>
+        <div class="pfi" onclick="filt(this,'t','concept')"><span class="pfi-l" style="color:var(--gold)">● Concept</span><span class="pfc">53</span></div>
+        <div class="psl">BS Score</div>
+        <div class="pfi" onclick="filt(this,'b','high')"><span class="pfi-l" style="color:var(--green)">● High ≥ 80</span><span class="pfc">94</span></div>
+        <div class="pfi" onclick="filt(this,'b','med')"><span class="pfi-l" style="color:var(--gold)">● Medium 50–79</span><span class="pfc">118</span></div>
+        <div class="pfi" onclick="filt(this,'b','low')"><span class="pfi-l" style="color:var(--red)">● Low &lt; 50</span><span class="pfc">35</span></div>
+      </div>
+
+      <!-- CENTER -->
+      <div class="pcenter">
+
+        <!-- PIPELINE -->
+        <div id="tp-pipeline" class="tc on">
+          <div class="aibar">
+            <span style="color:var(--gold);font-size:15px;flex-shrink:0">⌕</span>
+            <input id="aiq" placeholder="e.g. bankable oil projects West Africa above $200M with co-financing available…">
+            <button class="aibtn" id="aibtn" onclick="runAI()">Query AI</button>
+          </div>
+          <div class="airesp" id="airesp">
+            <div class="airesp-h">AI Intelligence Layer</div>
+            <div class="airesp-t" id="airesp-t"></div>
+            <div class="aitags" id="aitags"></div>
+          </div>
+          <div class="sstrip">
+            <div class="sst"><div class="sst-l">Active Projects</div><div class="sst-v">247</div><div class="sst-s">+14 this week</div></div>
+            <div class="sst"><div class="sst-l">Capital Sought</div><div class="sst-v">$84<span>B</span></div><div class="sst-s">All sectors</div></div>
+            <div class="sst"><div class="sst-l">Bankable</div><div class="sst-v" style="color:var(--teal)">38</div><div class="sst-s">DFI-ready now</div></div>
+            <div class="sst"><div class="sst-l">Avg BS Score</div><div class="sst-v" style="color:var(--green)">74</div><div class="sst-s">Behavioural</div></div>
+          </div>
+          <div class="chips">
+            <div class="chip on" onclick="setChip(this,'all')">All</div>
+            <div class="chip" onclick="setChip(this,'bankable')">Bankable</div>
+            <div class="chip" onclick="setChip(this,'afdb')">AfDB</div>
+            <div class="chip" onclick="setChip(this,'dbsa')">DBSA</div>
+            <div class="chip" onclick="setChip(this,'tdb')">TDB</div>
+            <div class="chip" onclick="setChip(this,'afc')">AFC</div>
+            <div class="chip" onclick="setChip(this,'cofi')">Co-fi open</div>
+            <div class="chip" onclick="setChip(this,'highbs')">High BS Score</div>
+            <div class="chip" onclick="setChip(this,'highlc')">High Local Content</div>
+          </div>
+          <div id="rcount" style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--txt2);margin-bottom:9px">Showing 10 of 247 projects</div>
+          <div class="pcards" id="pcards"></div>
+        </div>
+
+        <!-- VERIFY -->
+        <div id="tp-verify" class="tc">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--txt2);margin-bottom:6px">AI Verification Engine — INFRAGATE Standard</div>
+          <p style="font-size:12px;color:var(--txt2);line-height:1.85;margin-bottom:12px">Submit project details for AI assessment. Produces a Verification Score (VS 1–5) and Behavioural Score (BS 0–100) compatible with AfDB, DBSA, TDB, AFC, and IFC submission requirements.</p>
+          <textarea id="vin" style="width:100%;background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:11px 13px;color:var(--white);font-family:'Barlow',sans-serif;font-size:12px;font-weight:300;resize:vertical;min-height:100px;outline:none;margin-bottom:9px;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--b1)'" placeholder="Paste project summary, feasibility excerpt, or describe the project — sector, country, stage, capital, promoter…"></textarea>
+          <button class="aibtn" style="padding:8px 20px;font-size:11px" onclick="runVerify()">Run AI Verification</button>
+          <div id="vresult" style="display:none;margin-top:12px;background:var(--panel);border:1px solid rgba(29,184,160,0.22);border-radius:3px;padding:16px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:9px">Verification Report · INFRAGATE Standard</div>
+            <div id="vout"></div>
+          </div>
+        </div>
+
+        <!-- DOSSIERS -->
+        <div id="tp-dossiers" class="tc">
+          <p style="font-size:12px;color:var(--txt2);line-height:1.85;margin-bottom:14px">Select a verified project to generate an investor-ready dossier for DFI submission — technical summary, financial overview, risk register, ESG flags, local content score, and co-financing structure.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px" id="dlist"></div>
+          <div id="dresult" style="display:none;margin-top:13px;background:var(--panel);border:1px solid rgba(201,168,76,0.22);border-radius:3px;padding:16px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:9px">AI-Generated Investor Dossier · HMH INFRAGATE</div>
+            <div id="dout"></div>
+          </div>
+        </div>
+
+        <!-- BEHAVIOURAL SCORE -->
+        <div id="tp-behaviour" class="tc">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--txt2);margin-bottom:5px">Behavioural Intelligence Scoring</div>
+          <p style="font-size:12px;color:var(--txt2);line-height:1.85;margin-bottom:13px">The INFRAGATE Behavioural Score (BS 0–100) assesses every platform actor across four dimensions — drawn from HCS-U7 cognitive signals, platform interaction history, and third-party data. Click any profile for full detail.</p>
+          <div class="bsi-grid" id="bsigrid"></div>
+          <div style="background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:13px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--txt2);margin-bottom:9px">Run Behavioural Assessment on Any Actor</div>
+            <div style="display:flex;gap:8px">
+              <input id="bsin" style="flex:1;background:var(--void);border:1px solid var(--b1);border-radius:2px;padding:8px 11px;color:var(--white);font-family:'Barlow',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--b1)'" placeholder="Actor name, organisation, or project ID…">
+              <button class="aibtn" onclick="runBS()">Assess</button>
+            </div>
+            <div id="bsresult" style="display:none;margin-top:12px;background:var(--void);border:1px solid rgba(29,184,160,0.2);border-radius:3px;padding:14px">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:9px">Behavioural Intelligence Report</div>
+              <div id="bsout"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <div id="tp-submit" class="tc">
+          <p style="font-size:12px;color:var(--txt2);line-height:1.85;margin-bottom:13px">Governments, project sponsors, developers, and advisors submit projects for AI pre-screening, VS scoring, behavioural assessment, and DFI matching. All submissions authenticated via HCS-U7 (IA-SOLUTION). Response within 48 hours.</p>
+          <div style="border:1px dashed var(--b2);border-radius:3px;padding:20px;text-align:center;cursor:pointer;margin-bottom:12px;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--b2)'">
+            <div style="font-size:24px;margin-bottom:6px">⬆</div>
+            <div style="font-size:12px;color:var(--txt2)">Drop project documents here · PDF, DOCX, XLSX · Max 50MB per file</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px">
+            <div><label class="afl">Project Name</label><input class="afi" placeholder="Full project name" style="margin-bottom:0"></div>
+            <div><label class="afl">Country</label><input class="afi" placeholder="Country of project" style="margin-bottom:0"></div>
+            <div><label class="afl">Sector</label><select class="afi" style="margin-bottom:0"><option>Oil &amp; Gas</option><option>Mining</option><option>Energy</option><option>Logistics</option><option>Finance &amp; Infrastructure</option><option>Digital Infrastructure</option></select></div>
+            <div><label class="afl">Capital Required (USD)</label><input class="afi" placeholder="e.g. 250,000,000" style="margin-bottom:0"></div>
+            <div><label class="afl">Current Stage</label><select class="afi" style="margin-bottom:0"><option>Concept</option><option>Pre-Feasibility</option><option>Full Feasibility</option><option>Bankable</option><option>Finance Ready</option></select></div>
+            <div><label class="afl">Promoter / Organisation</label><input class="afi" placeholder="Promoter name" style="margin-bottom:0"></div>
+          </div>
+          <textarea class="afi" style="resize:vertical;min-height:60px;margin-bottom:10px" placeholder="Brief project description (optional)…"></textarea>
+          <button class="aibtn" style="padding:10px 24px;font-size:11px" onclick="showToast('Submitted for AI pre-screening. HMH INFRAGATE team will respond within 48 hours.')">Submit for AI Pre-Screening</button>
+        </div>
+
+        <!-- DFI MATCH -->
+        <div id="tp-dfimatch" class="tc">
+          <p style="font-size:12px;color:var(--txt2);line-height:1.85;margin-bottom:13px">Match any project to the most relevant African and international financing institutions based on sector mandate, country eligibility, stage requirements, ticket size, and current deployment priorities.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px" id="dfigrid"></div>
+          <div style="background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:13px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--txt2);margin-bottom:9px">Run Full AI DFI Match</div>
+            <div style="display:flex;gap:8px">
+              <input id="dfiq" style="flex:1;background:var(--void);border:1px solid var(--b1);border-radius:2px;padding:8px 11px;color:var(--white);font-family:'Barlow',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--b1)'" placeholder="Describe the project to match against all DFIs…">
+              <button class="aibtn" onclick="runDFI()">Match</button>
+            </div>
+            <div id="dfiresult" style="display:none;margin-top:11px;background:var(--void);border:1px solid rgba(46,127,255,0.2);border-radius:3px;padding:14px">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin-bottom:9px">DFI Match Report · INFRAGATE</div>
+              <div id="dfiout"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOCAL CONTENT TAB -->
+        <div id="tp-lctab" class="tc">
+          <p style="font-size:12px;color:var(--txt2);line-height:1.85;margin-bottom:13px">Track local content compliance per project per country. Map regulatory requirements against project procurement plans, employment commitments, and supply chain participation.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px" id="lctabgrid"></div>
+        </div>
+
+      </div><!-- end pcenter -->
+
+      <!-- RIGHT PANEL -->
+      <div class="pright">
+        <div class="prs">
+          <div class="prl">Live Activity</div>
+          <div class="act"><div class="act-d" style="background:var(--teal)"></div><div><div class="act-t">Tanzania LNG Terminal — new bankable project added</div><div class="act-tm">2m · AfDB Portal</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--blue)"></div><div><div class="act-t">DRC Cobalt Corridor · VS 4.2 verified · BS 81</div><div class="act-tm">8m · AI Engine</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--gold)"></div><div><div class="act-t">DBSA confirmed — Nacala Port match</div><div class="act-tm">15m · DFI Match</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--orange)"></div><div><div class="act-t">AEC Roadshow — 3 projects featured</div><div class="act-tm">38m · Energy Chamber</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--purple)"></div><div><div class="act-t">Mauritanian Iron Ore Rail — submitted</div><div class="act-tm">52m · Sponsor</div></div></div>
+          <div class="act"><div class="act-d" style="background:var(--red)"></div><div><div class="act-t">Flag: Cameroon Gas — BS 42, permit gap</div><div class="act-tm">1h · Behavioural AI</div></div></div>
+        </div>
+        <div class="prs">
+          <div class="prl">Data Sources</div>
+          <div class="sr"><div class="si"><div class="sic" style="background:var(--gdim);color:var(--gold)">AB</div><div><div class="sn">AfDB Portal</div><div class="sc2">312 indexed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--teal)"></div></div>
+          <div class="sr"><div class="si"><div class="sic" style="background:var(--bdim);color:var(--blue)">WB</div><div><div class="sn">World Bank</div><div class="sc2">891 indexed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--teal)"></div></div>
+          <div class="sr"><div class="si"><div class="sic" style="background:var(--tdim);color:var(--teal)">DB</div><div><div class="sn">DBSA Pipeline</div><div class="sc2">148 indexed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--teal)"></div></div>
+          <div class="sr"><div class="si"><div class="sic" style="background:rgba(224,120,64,0.1);color:var(--orange)">AE</div><div><div class="sn">African Energy Chamber</div><div class="sc2">Live feed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--teal)"></div></div>
+          <div class="sr"><div class="si"><div class="sic" style="background:rgba(46,127,255,0.1);color:var(--blue)">EC</div><div><div class="sn">Energy Capital Power</div><div class="sc2">Live feed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--teal)"></div></div>
+          <div class="sr"><div class="si"><div class="sic" style="background:rgba(224,85,85,0.1);color:var(--red)">CN</div><div><div class="sn">CBEX China</div><div class="sc2">Live feed</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--gold)"></div></div>
+          <div class="sr"><div class="si"><div class="sic" style="background:rgba(139,111,232,0.1);color:var(--purple)">TN</div><div><div class="sn">Gov Tenders · 54 countries</div><div class="sc2">Crawl active</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--teal)"></div></div>
+          <div class="sr"><div class="si"><div class="sic" style="background:var(--gdim);color:var(--gold)">SP</div><div><div class="sn">Self-Submitted</div><div class="sc2">84 pending</div></div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--orange)"></div></div>
+        </div>
+        <div class="prs" style="border:none">
+          <div class="prl">DFI Demand</div>
+          <div class="dr"><div class="dn">AfDB</div><div class="db"><div class="df" style="width:92%"></div></div><div class="dp">92%</div></div>
+          <div class="dr"><div class="dn">DBSA</div><div class="db"><div class="df" style="width:78%"></div></div><div class="dp">78%</div></div>
+          <div class="dr"><div class="dn">AFC</div><div class="db"><div class="df" style="width:73%"></div></div><div class="dp">73%</div></div>
+          <div class="dr"><div class="dn">TDB</div><div class="db"><div class="df" style="width:66%"></div></div><div class="dp">66%</div></div>
+          <div class="dr"><div class="dn">Afrexim</div><div class="db"><div class="df" style="width:60%"></div></div><div class="dp">60%</div></div>
+          <div class="dr"><div class="dn">IFC</div><div class="db"><div class="df" style="width:54%"></div></div><div class="dp">54%</div></div>
+          <div class="dr"><div class="dn">EIB</div><div class="db"><div class="df" style="width:48%"></div></div><div class="dp">48%</div></div>
+          <div class="dr"><div class="dn">DFC</div><div class="db"><div class="df" style="width:44%"></div></div><div class="dp">44%</div></div>
+        </div>
+      </div>
+    </div><!-- end pbody -->
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section class="sec" id="ecosystem" style="background:var(--deep);border-top:1px solid var(--b1)">
+  <div class="sec-lbl">The Ecosystem</div>
+  <h2 class="sec-ttl">Every stakeholder.<br><em>One platform.</em></h2>
+  <p class="sec-sub">INFRAGATE connects every participant in the African infrastructure financing chain — not as separate modules, but as a single integrated ecosystem with shared data, verified identities, and behavioural scores.</p>
+  <div class="eco-grid">
+    <div class="eco-col">
+      <div class="eco-ch" style="color:var(--gold)">The Money — DFIs &amp; Banks</div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">African Development Bank (AfDB)</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">Africa Finance Corporation (AFC)</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">Afreximbank</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">DBSA</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">TDB Group</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">BOAD · BDEAC · EADB · EBID</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">IFC · EIB · DFC · DEG · FMO</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">Proparco · BII · Norfund · Swedfund</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">China Exim · CDB · AIIB · IsDB</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">Standard Bank · Absa · RMB · Stanbic</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">Ecobank · UBA · Access Bank · GTBank</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">80+ AADFI member DFIs</div></div>
+    </div>
+    <div class="eco-col">
+      <div class="eco-ch" style="color:var(--teal)">Sponsors · Developers · Contractors</div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--teal)"></div><div class="eco-n">African governments &amp; ministries</div><div class="eco-t">Sponsor</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--teal)"></div><div class="eco-n">State-owned enterprises</div><div class="eco-t">Sponsor</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--teal)"></div><div class="eco-n">TotalEnergies · ENI · Shell Africa</div><div class="eco-t">O&amp;G</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--teal)"></div><div class="eco-n">ExxonMobil · Galp · Sasol · Oando</div><div class="eco-t">O&amp;G</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--teal)"></div><div class="eco-n">Seplat · Tullow · Perenco · Kosmos</div><div class="eco-t">O&amp;G</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--teal)"></div><div class="eco-n">IPPs &amp; private energy developers</div><div class="eco-t">Energy</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--teal)"></div><div class="eco-n">Mining majors, mid-tiers &amp; juniors</div><div class="eco-t">Mining</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--blue)"></div><div class="eco-n">COVEC · China Power · Sinohydro · CRCC</div><div class="eco-t">EPC</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--blue)"></div><div class="eco-n">Bouygues · Vinci · Engie · Saipem</div><div class="eco-t">EPC</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--blue)"></div><div class="eco-n">Murray &amp; Roberts · WBHO · Aveng</div><div class="eco-t">EPC</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--blue)"></div><div class="eco-n">POWERCHINA · CSCEC · CMEC</div><div class="eco-t">EPC</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--blue)"></div><div class="eco-n">Local contractors per country</div><div class="eco-t">Local</div></div>
+    </div>
+    <div class="eco-col">
+      <div class="eco-ch" style="color:var(--orange)">Exposure &amp; Advisory Partners</div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--orange)"></div><div class="eco-n">African Energy Chamber (AEC)</div><div class="eco-t" style="color:var(--orange)">Strategic</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--orange)"></div><div class="eco-n">Energy Capital Power</div><div class="eco-t" style="color:var(--orange)">Strategic</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--purple)"></div><div class="eco-n">Deloitte Africa</div><div class="eco-t">Audit</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--purple)"></div><div class="eco-n">PwC Africa · KPMG Africa · EY Africa</div><div class="eco-t">Audit</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--purple)"></div><div class="eco-n">ENS Africa · Bowmans · Werksmans</div><div class="eco-t">Legal</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--purple)"></div><div class="eco-n">White &amp; Case · Clifford Chance</div><div class="eco-t">Legal</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--purple)"></div><div class="eco-n">Allen &amp; Overy · Linklaters</div><div class="eco-t">Legal</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--purple)"></div><div class="eco-n">SRK · SMEC · WSP · Aurecon · AECOM</div><div class="eco-t">Technical</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--red)"></div><div class="eco-n">CBEX China · UN DPP · UNDB</div><div class="eco-t">Tenders</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--red)"></div><div class="eco-n">Gov e-procurement · 54 countries</div><div class="eco-t">Tenders</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">IA-SOLUTION · HCS-U7</div><div class="eco-t" style="color:var(--gold)">Security</div></div>
+      <div class="eco-item"><div class="eco-d" style="background:var(--gold)"></div><div class="eco-n">HMH — Hybrid Mobility Holdings</div><div class="eco-t" style="color:var(--gold)">Operator</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEDIA PARTNERS -->
+<section class="sec" id="partners" style="background:var(--void);border-top:1px solid var(--b1);padding-top:72px;padding-bottom:72px">
+  <div class="sec-lbl">Strategic Exposure Partners</div>
+  <h2 class="sec-ttl">Reach. Voice. <em>Amplification.</em></h2>
+  <p class="sec-sub">INFRAGATE partners with the continent's premier energy intelligence and advocacy platforms to ensure every verified project reaches the right audience at the right moment — DFI deal desks, institutional investors, and government ministries.</p>
+  <div class="partner-grid">
+    <div class="pspot">
+      <div class="pspot-tag">Voice of the African Energy Sector · energychamber.org</div>
+      <div class="pspot-name">African Energy Chamber</div>
+      <div class="pspot-url" onclick="window.open('https://www.energychamber.org','_blank')">www.energychamber.org ↗</div>
+      <p class="pspot-desc">The AEC is the foremost advocacy, advisory, and intelligence body for Africa's energy sector — covering oil, gas, renewables, and energy transition across the continent. Its Africa Energy Week (AEW) and investor roadshow series represent the continent's premier deal-making forum for DFIs, operators, and governments. Partnership with INFRAGATE delivers verified project listings direct exposure to the AEC's network of 1,500+ institutional energy stakeholders.</p>
+      <div class="pspot-feat">Africa Energy Week (AEW) — verified INFRAGATE projects featured to institutional energy investors</div>
+      <div class="pspot-feat">AEC Investor Roadshow Series — INFRAGATE projects pitched to targeted DFI and fund audiences</div>
+      <div class="pspot-feat">AEC Advisory Services — cross-referral arrangement for project structuring and government advisory mandates</div>
+      <div class="pspot-feat">Mutual data feed — AEC market intelligence and energy outlook integrated into INFRAGATE AI query layer</div>
+    </div>
+    <div class="pspot">
+      <div class="pspot-tag">Africa Energy Intelligence Platform · energycapitalpower.com</div>
+      <div class="pspot-name">Energy Capital Power</div>
+      <div class="pspot-url" onclick="window.open('https://www.energycapitalpower.com','_blank')">www.energycapitalpower.com ↗</div>
+      <p class="pspot-desc">Africa's leading energy investment and project development intelligence platform — covering upstream oil and gas, power generation, renewables, and energy financing across all 54 African markets. Energy Capital Power provides in-depth project tracking, deal intelligence, DFI financing data, and country-level market analysis consumed daily by DFI deal desks, developers, and institutional investors across the continent. INFRAGATE projects are cross-listed and verified through the ECP intelligence network.</p>
+      <div class="pspot-feat">Project intelligence feed — INFRAGATE verified project listings published across ECP's daily readership</div>
+      <div class="pspot-feat">DFI financing tracker — ECP deal data and closing information integrated into INFRAGATE pipeline analytics</div>
+      <div class="pspot-feat">Country intelligence — ECP regulatory and market analysis feeds INFRAGATE country risk and local content layers</div>
+      <div class="pspot-feat">Co-branded quarterly reports — joint African infrastructure pipeline publications distributed to ECP and INFRAGATE networks</div>
+    </div>
+  </div>
+</section>
+
+<!-- STANDARD -->
+<section class="sec" id="standard" style="background:var(--deep);border-top:1px solid var(--b1)">
+  <div class="sec-lbl">The Standard</div>
+  <h2 class="sec-ttl">One <em>verified framework.</em><br>Accepted by all institutions.</h2>
+  <p class="sec-sub">The INFRAGATE Standard is the continent's first unified project verification methodology — co-designed with anchor DFIs, published and auditable. Not proprietary. Not opaque. The BS Score is integrated into VS 4.0 and 5.0 as a mandatory gate.</p>
+  <div class="std-grid">
+    <div class="std-col">
+      <div class="std-n">01</div><div class="std-name">Concept</div>
+      <div class="std-ck">Project identity registered</div>
+      <div class="std-ck">Sector &amp; country confirmed</div>
+      <div class="std-ck">Promoter KYC baseline</div>
+      <div class="std-ck">Capital estimate range</div>
+      <div class="std-ck">Government intent letter</div>
+      <div class="std-badge" style="background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.22)">VS 1.0</div>
+    </div>
+    <div class="std-col">
+      <div class="std-n">02</div><div class="std-name">Pre-Feas</div>
+      <div class="std-ck">Technical merit review</div>
+      <div class="std-ck">Environmental pre-screen</div>
+      <div class="std-ck">Financial model draft</div>
+      <div class="std-ck">Land / permit status</div>
+      <div class="std-ck">Promoter BS score baseline</div>
+      <div class="std-badge" style="background:rgba(224,120,64,0.1);color:var(--orange);border:1px solid rgba(224,120,64,0.22)">VS 2.0</div>
+    </div>
+    <div class="std-col">
+      <div class="std-n">03</div><div class="std-name">Feasibility</div>
+      <div class="std-ck">Independent technical report</div>
+      <div class="std-ck">Full ESIA completed</div>
+      <div class="std-ck">Detailed financial model</div>
+      <div class="std-ck">Legal structure confirmed</div>
+      <div class="std-ck">All permits documented</div>
+      <div class="std-badge" style="background:rgba(46,127,255,0.1);color:var(--blue);border:1px solid rgba(46,127,255,0.22)">VS 3.0</div>
+    </div>
+    <div class="std-col">
+      <div class="std-n">04</div><div class="std-name">Bankable</div>
+      <div class="std-ck">Audited promoter accounts</div>
+      <div class="std-ck">Offtake / revenue structure</div>
+      <div class="std-ck">Risk allocation matrix</div>
+      <div class="std-ck">Lender's engineer appointed</div>
+      <div class="std-ck" style="color:var(--green)">BS Score ≥ 65 required</div>
+      <div class="std-badge" style="background:rgba(29,184,160,0.1);color:var(--teal);border:1px solid rgba(29,184,160,0.22)">VS 4.0</div>
+    </div>
+    <div class="std-col" style="background:rgba(29,184,160,0.015)">
+      <div class="std-n" style="color:rgba(29,184,160,0.12)">05</div><div class="std-name" style="color:var(--teal)">Finance Ready</div>
+      <div class="std-ck">Term sheet level complete</div>
+      <div class="std-ck">Full data room sealed</div>
+      <div class="std-ck">DFI match confirmed</div>
+      <div class="std-ck">Credit committee ready</div>
+      <div class="std-ck" style="color:var(--green)">BS Score ≥ 75 required</div>
+      <div class="std-badge" style="background:rgba(29,184,160,0.14);color:var(--teal);border:1px solid var(--teal)">VS 5.0 ★</div>
+    </div>
+  </div>
+</section>
+
+<!-- BEHAVIOURAL -->
+<section class="sec" id="behavioural" style="background:var(--deep);border-top:1px solid var(--b1)">
+  <div class="sec-lbl">Behavioural Intelligence</div>
+  <h2 class="sec-ttl">The <em>BS Score —</em><br>behavioural trust verified</h2>
+  <p class="sec-sub">The INFRAGATE Behavioural Score (BS 0–100) adds a trust dimension that document verification alone cannot provide. It measures how actors actually behave — not just what they claim. Four dimensions. Three data sources. One score.</p>
+  <div class="bs-grid">
+    <div>
+      <div class="bsdim-grid">
+        <div class="bsdim">
+          <div class="bsdim-tag">Dimension 01</div>
+          <div class="bsdim-title">Promoter Behaviour</div>
+          <div class="bsdim-desc">Responsiveness to requests, document consistency over time, disclosed vs actual project status, prior platform history, and HCS-U7 cognitive authentication signals.</div>
+        </div>
+        <div class="bsdim">
+          <div class="bsdim-tag">Dimension 02</div>
+          <div class="bsdim-title">Institutional Behaviour</div>
+          <div class="bsdim-desc">DFI and bank engagement patterns, mandate adherence, speed to respond, historical deal closure rate, and alignment between stated priorities and actual deployment.</div>
+        </div>
+        <div class="bsdim">
+          <div class="bsdim-tag">Dimension 03</div>
+          <div class="bsdim-title">Contractor Behaviour</div>
+          <div class="bsdim-desc">Project delivery track record, local content compliance history, dispute resolution pattern, sanctioned entities cross-check, and subcontractor management quality.</div>
+        </div>
+        <div class="bsdim">
+          <div class="bsdim-tag">Dimension 04</div>
+          <div class="bsdim-title">Advisor Behaviour</div>
+          <div class="bsdim-desc">Conflict of interest flags, quality and consistency of past advisory work, professional sanctions history, independence from project sponsor, and accreditation status.</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:14px;background:var(--surf);border:1px solid var(--b1);border-radius:3px;font-size:12px;color:var(--txt2);line-height:1.85">
+        <strong style="color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:0.05em;display:block;margin-bottom:5px">Three data sources combined:</strong>
+        HCS-U7 cognitive authentication signals (via IA-SOLUTION) · Platform interaction and engagement history · Third-party data (credit bureaus, OFAC / EU / UN sanctions lists, public records, court filings, regulatory databases)
+      </div>
+    </div>
+    <div>
+      <div class="bs-score-panel">
+        <div class="bs-score-h">Live Behavioural Profiles — click any actor for full report</div>
+        <div class="bs-actor" onclick="openProfile('Kenya National Oil Corp.','Promoter',82)">
+          <div class="bs-ring" style="border-color:var(--green);color:var(--green)">PR</div>
+          <div style="flex:1"><div class="bs-name">Kenya National Oil Corp.</div><div class="bs-type">Promoter · Lamu Basin · Kenya</div></div>
+          <div style="text-align:right"><div class="bs-sc" style="color:var(--green)">82 <span style="font-size:10px">↑</span></div><div style="font-size:9px;color:var(--txt2)">High</div></div>
+        </div>
+        <div class="bs-actor" onclick="openProfile('AfDB PICU.3 Division','Institution',91)">
+          <div class="bs-ring" style="border-color:var(--teal);color:var(--teal)">IN</div>
+          <div style="flex:1"><div class="bs-name">AfDB PICU.3 Division</div><div class="bs-type">Institution · DFI · Pan-African</div></div>
+          <div style="text-align:right"><div class="bs-sc" style="color:var(--teal)">91 <span style="font-size:10px">↑</span></div><div style="font-size:9px;color:var(--txt2)">Excellent</div></div>
+        </div>
+        <div class="bs-actor" onclick="openProfile('China Power Engineering','Contractor',74)">
+          <div class="bs-ring" style="border-color:var(--blue);color:var(--blue)">CT</div>
+          <div style="flex:1"><div class="bs-name">China Power Engineering</div><div class="bs-type">Contractor · EPC · Multi-country</div></div>
+          <div style="text-align:right"><div class="bs-sc" style="color:var(--blue)">74 <span style="font-size:10px">→</span></div><div style="font-size:9px;color:var(--txt2)">Medium</div></div>
+        </div>
+        <div class="bs-actor" onclick="openProfile('ENS Africa','Advisor',88)">
+          <div class="bs-ring" style="border-color:var(--purple);color:var(--purple)">AD</div>
+          <div style="flex:1"><div class="bs-name">ENS Africa</div><div class="bs-type">Advisor · Legal · Pan-African</div></div>
+          <div style="text-align:right"><div class="bs-sc" style="color:var(--purple)">88 <span style="font-size:10px">↑</span></div><div style="font-size:9px;color:var(--txt2)">High</div></div>
+        </div>
+        <div class="bs-actor" onclick="openProfile('Cameroon Gas Promoter','Promoter',42)">
+          <div class="bs-ring" style="border-color:var(--red);color:var(--red)">PR</div>
+          <div style="flex:1"><div class="bs-name">Cameroon Gas Promoter X</div><div class="bs-type">Promoter · Gas Pipeline · Cameroon</div></div>
+          <div style="text-align:right"><div class="bs-sc" style="color:var(--red)">42 <span style="font-size:10px">↓</span></div><div style="font-size:9px;color:var(--red)">Flagged</div></div>
+        </div>
+        <div class="bs-actor" onclick="openProfile('Sinohydro Corporation','Contractor',79)">
+          <div class="bs-ring" style="border-color:var(--blue);color:var(--blue)">CT</div>
+          <div style="flex:1"><div class="bs-name">Sinohydro Corporation</div><div class="bs-type">Contractor · EPC Hydro · Multi-country</div></div>
+          <div style="text-align:right"><div class="bs-sc" style="color:var(--blue)">79 <span style="font-size:10px">↑</span></div><div style="font-size:9px;color:var(--txt2)">Medium+</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCAL CONTENT -->
+<section class="sec" id="local" style="background:var(--void);border-top:1px solid var(--b1)">
+  <div class="sec-lbl">Local Content</div>
+  <h2 class="sec-ttl">Africa's <em>political moat</em> — mapped and tracked</h2>
+  <p class="sec-sub">Every African government has local content legislation. No platform maps this comprehensively today. INFRAGATE tracks compliance per project per country — your competitive differentiator with DFIs, governments, and developers.</p>
+  <div class="lc-grid">
+    <div>
+      <div class="lc-row"><span style="font-size:18px">🇿🇦</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">South Africa</div><div style="font-size:10px;color:var(--txt2)">BBBEE + MPRDA</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--gold);border-radius:1px;width:85%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--gold)">85%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇳🇬</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Nigeria</div><div style="font-size:10px;color:var(--txt2)">NCDMB Framework</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--teal);border-radius:1px;width:78%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--teal)">78%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇦🇴</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Angola</div><div style="font-size:10px;color:var(--txt2)">Angolanization Policy</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--blue);border-radius:1px;width:70%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--blue)">70%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇲🇿</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Mozambique</div><div style="font-size:10px;color:var(--txt2)">Lei n.15/2011</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--purple);border-radius:1px;width:65%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--purple)">65%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇹🇿</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Tanzania</div><div style="font-size:10px;color:var(--txt2)">Local Content Regulations 2014</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--orange);border-radius:1px;width:62%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--orange)">62%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇨🇩</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">DRC</div><div style="font-size:10px;color:var(--txt2)">Mining Code 2018</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--red);border-radius:1px;width:55%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--red)">55%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇬🇭</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Ghana</div><div style="font-size:10px;color:var(--txt2)">GNPC / Local Content Regs</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--teal);border-radius:1px;width:60%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--teal)">60%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇸🇳</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Senegal</div><div style="font-size:10px;color:var(--txt2)">Code Pétrolier 2019</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--gold);border-radius:1px;width:58%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--gold)">58%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇰🇪</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Kenya</div><div style="font-size:10px;color:var(--txt2)">NEMA + Mining Act 2016</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--blue);border-radius:1px;width:63%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--blue)">63%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇿🇲</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Zambia</div><div style="font-size:10px;color:var(--txt2)">Mines and Minerals Act 2015</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--purple);border-radius:1px;width:57%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--purple)">57%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇨🇲</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Cameroon</div><div style="font-size:10px;color:var(--txt2)">Hydrocarbons Code 1999</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--orange);border-radius:1px;width:52%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--orange)">52%</div></div>
+      <div class="lc-row"><span style="font-size:18px">🇪🇬</span><div style="flex:1"><div style="font-size:12px;color:var(--bright);font-weight:500">Egypt</div><div style="font-size:10px;color:var(--txt2)">Investment Law 72/2017</div><div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px"><div style="height:2px;background:var(--teal);border-radius:1px;width:66%"></div></div></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--teal)">66%</div></div>
+    </div>
+    <div>
+      <div class="lc-feat"><div class="lc-feat-t">Compliance Dashboard per Project</div><div class="lc-feat-d">Every project on INFRAGATE carries a local content compliance score mapped against the specific regulatory framework of its host country. DFIs see it instantly. Developers get a compliance gap report with recommended actions to reach minimum thresholds.</div></div>
+      <div class="lc-feat"><div class="lc-feat-t">Cross-border Project Mapping</div><div class="lc-feat-d">Multi-country projects — corridors, pipelines, interconnectors — are assessed against each country's framework simultaneously. The platform identifies the binding constraint and the highest local content leverage point for each leg of the project.</div></div>
+      <div class="lc-feat"><div class="lc-feat-t">Government Reporting Window</div><div class="lc-feat-d">Governments see which projects in their country are generating local employment, supply chain participation, and skills transfer. This window makes INFRAGATE a government partnership tool — not just a private market product.</div></div>
+      <div class="lc-feat"><div class="lc-feat-t">Behavioural Score Integration</div><div class="lc-feat-d">Contractors with a history of under-delivering on local content commitments see this reflected in their BS score. Promoters who structure projects with strong local content pipelines are rewarded with higher visibility in DFI matching.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="sec" id="security" style="background:var(--deep);border-top:1px solid var(--b1)">
+  <div class="sec-lbl">Platform Security</div>
+  <h2 class="sec-ttl">Secured by <em>IA-SOLUTION</em><br>HCS-U7 Authentication</h2>
+  <p class="sec-sub">INFRAGATE AFRICA runs on HCS-U7 — the post-quantum cognitive authentication layer developed by IA-SOLUTION. Every participant, project, and transaction is verified through patented neuropsychological and cryptographic identity. HCS-U7 cognitive signals feed directly into every Behavioural Score on the platform.</p>
+  <div class="ia-grid">
+    <div>
+      <div class="ia-feats">
+        <div class="ia-feat"><div class="ia-feat-tag">Post-Quantum</div><div class="ia-feat-t">NIST FIPS 203/204</div><div class="ia-feat-d">Kyber + Dilithium. Every project submission and DFI access is quantum-resistant by design. Zero known attacks.</div></div>
+        <div class="ia-feat"><div class="ia-feat-tag">Cognitive Shield</div><div class="ia-feat-t">Hiéroglyphe Layer</div><div class="ia-feat-d">Neuropsychological identity signature — feeds directly into the INFRAGATE Behavioural Score. Impossible to simulate.</div></div>
+        <div class="ia-feat"><div class="ia-feat-tag">Celestial Entropy</div><div class="ia-feat-t">Astronomical Seeds</div><div class="ia-feat-d">Session keys derived from Swiss Ephemeris data — unpredictable, non-reproducible, unique per session.</div></div>
+        <div class="ia-feat"><div class="ia-feat-tag">DGA Defense Review</div><div class="ia-feat-t">Three French Patents</div><div class="ia-feat-d">FR2514274 · FR2514546 · FR2515560. Filed November 2025. Under French Defense Procurement Agency review.</div></div>
+      </div>
+      <div style="margin-top:14px;padding:14px;background:var(--gdim);border:1px solid rgba(201,168,76,0.18);border-radius:3px;font-size:12px;color:var(--txt2);line-height:1.85">
+        <strong style="color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:0.05em;display:block;margin-bottom:5px">Why this matters for INFRAGATE:</strong>
+        DFIs handling multi-billion dollar infrastructure decisions require authentication that cannot be compromised by bots, deepfakes, or quantum-assisted attacks. HCS-U7 is the only system that meets this requirement today — and it is ours. Pilot live in South Africa, Portugal, and France. Visit <a href="https://www.ia-solution.fr" target="_blank" style="color:var(--gold)">ia-solution.fr</a>
+      </div>
+    </div>
+    <div>
+      <div class="ia-stack">
+        <div class="ia-stack-h">HCS-U7 Security Stack — Live on INFRAGATE AFRICA</div>
+        <div class="ia-layer"><div class="ia-ln">L5</div><div class="ia-lb" style="background:var(--gold)"></div><div style="flex:1"><div class="ia-li-n">Post-Quantum Cryptography</div><div class="ia-li-d">NIST FIPS 203/204 — Kyber + Dilithium</div></div><div class="ia-lt" style="background:var(--gdim);color:var(--gold);border:1px solid rgba(201,168,76,0.22)">PQC</div></div>
+        <div class="ia-layer"><div class="ia-ln">L4</div><div class="ia-lb" style="background:var(--teal)"></div><div style="flex:1"><div class="ia-li-n">Celestial Entropy Engine</div><div class="ia-li-d">Swiss Ephemeris · Unique per session · ±10yr irreversible</div></div><div class="ia-lt" style="background:var(--tdim);color:var(--teal);border:1px solid rgba(29,184,160,0.22)">Patent</div></div>
+        <div class="ia-layer"><div class="ia-ln">L3</div><div class="ia-lb" style="background:var(--purple)"></div><div style="flex:1"><div class="ia-li-n">Cognitive Shield — Hiéroglyphe</div><div class="ia-li-d">Neuropsychological signature → BS Score feed</div></div><div class="ia-lt" style="background:rgba(139,111,232,0.1);color:var(--purple);border:1px solid rgba(139,111,232,0.22)">Patent</div></div>
+        <div class="ia-layer"><div class="ia-ln">L2</div><div class="ia-lb" style="background:var(--blue)"></div><div style="flex:1"><div class="ia-li-n">4-Factor Biometric Fusion</div><div class="ia-li-d">Face · Voice · Reflex · Digit Span — real-time ML fusion</div></div><div class="ia-lt" style="background:var(--bdim);color:var(--blue);border:1px solid rgba(46,127,255,0.22)">Patent</div></div>
+        <div class="ia-layer"><div class="ia-ln">L1</div><div class="ia-lb" style="background:var(--b2)"></div><div style="flex:1"><div class="ia-li-n">INFRAGATE Platform Layer</div><div class="ia-li-d">All project data, actor profiles, DFI matching — HMH</div></div><div class="ia-lt" style="background:rgba(255,255,255,0.03);color:var(--txt2);border:1px solid var(--b1)">Base</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CO-FINANCE -->
+<section class="sec" id="cofinance" style="background:var(--void);border-top:1px solid var(--b1)">
+  <div class="sec-lbl">Strategic Co-Finance</div>
+  <h2 class="sec-ttl">Who <em>builds this</em> with us</h2>
+  <p class="sec-sub">INFRAGATE is a platform business with institutional co-investors who gain strategic value from the platform existing — credibility, data access, and deal flow. This is not a grant application. HMH — Hybrid Mobility Holdings holds operating majority.</p>
+  <div class="cofi-grid">
+    <div class="cofi-card">
+      <div class="cofi-tier" style="color:var(--gold)">Tier 1 — Anchor Endorsement</div>
+      <div class="cofi-name">AADFI</div>
+      <div class="cofi-role">80+ African DFI umbrella body in Abidjan. Their endorsement of the INFRAGATE Standard makes every member institution a potential subscriber. One conversation — 80 doors opened.</div>
+      <div class="cofi-m" style="color:var(--gold)">Master credibility key</div>
+    </div>
+    <div class="cofi-card">
+      <div class="cofi-tier" style="color:var(--gold)">Tier 1 — Anchor Endorsement</div>
+      <div class="cofi-name">AfDB / NEPAD-IPPF</div>
+      <div class="cofi-role">Proposed this exact platform in 2017 and did not build it. Approach as founding data partner and standard co-designer. Their endorsement is worth more than their money.</div>
+      <div class="cofi-m" style="color:var(--gold)">Standard co-designer</div>
+    </div>
+    <div class="cofi-card">
+      <div class="cofi-tier" style="color:var(--teal)">Tier 2 — Strategic Co-Investor</div>
+      <div class="cofi-name">AFC</div>
+      <div class="cofi-role">Co-launched $1.5B AAMFI Infrastructure Facility with AUDA-NEPAD in 2025. Actively building pipeline infrastructure. A verified aggregation platform directly complements their mandate.</div>
+      <div class="cofi-m">Most likely first check</div>
+    </div>
+    <div class="cofi-card">
+      <div class="cofi-tier" style="color:var(--teal)">Tier 2 — Strategic Co-Investor</div>
+      <div class="cofi-name">Afreximbank</div>
+      <div class="cofi-role">Signed joint project preparation facility with South Africa worth $750M in 2025. Needs a verified pipeline platform to feed it. Direct strategic alignment — approach now.</div>
+      <div class="cofi-m">Pipeline feed partner</div>
+    </div>
+    <div class="cofi-card">
+      <div class="cofi-tier" style="color:var(--teal)">Tier 2 — Strategic Co-Investor</div>
+      <div class="cofi-name">IFC</div>
+      <div class="cofi-role">SME Ventures and Disruptive Technology fund invests in infrastructure data platforms in EMDEs. Direct mandate fit. Their endorsement opens every MDB door globally.</div>
+      <div class="cofi-m">Global credibility layer</div>
+    </div>
+    <div class="cofi-card">
+      <div class="cofi-tier" style="color:var(--blue)">Tier 3 — Revenue Partners</div>
+      <div class="cofi-name">Big 4 + Law Firms</div>
+      <div class="cofi-role">Deloitte, PwC, EY, KPMG Africa. ENS, Bowmans, White &amp; Case, Clifford Chance. Pay for early deal flow access and preferred partner status. Revenue — not equity.</div>
+      <div class="cofi-m" style="color:var(--blue)">Subscription revenue</div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section class="sec" id="access" style="background:var(--deep);border-top:1px solid var(--b1)">
+  <div class="sec-lbl">Platform Access</div>
+  <h2 class="sec-ttl">Request <em>institutional access</em></h2>
+  <p class="sec-sub">INFRAGATE is available by institutional application. All participants are onboarded through HCS-U7 authentication. Access tiers are structured by participant type. Operated by HMH — Hybrid Mobility Holdings.</p>
+  <div class="acc-grid">
+    <div class="acc-form">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--txt2);margin-bottom:18px">Request Institutional Access — HMH INFRAGATE AFRICA</div>
+      <label class="afl">Organisation Name</label>
+      <input class="afi" placeholder="Full institution or company name" id="af-org">
+      <div class="afi-2">
+        <div><label class="afl">First Name</label><input class="afi" placeholder="First name" id="af-fn" style="margin-bottom:0"></div>
+        <div><label class="afl">Last Name</label><input class="afi" placeholder="Last name" id="af-ln" style="margin-bottom:0"></div>
+      </div>
+      <div style="margin-bottom:10px"></div>
+      <label class="afl">Work Email</label>
+      <input class="afi" placeholder="name@institution.org" type="email" id="af-em">
+      <label class="afl">Participant Type</label>
+      <select class="afi" id="af-type">
+        <option value="">Select participant type…</option>
+        <option>Development Finance Institution (DFI)</option>
+        <option>Commercial Bank</option>
+        <option>Private Equity / Infrastructure Fund</option>
+        <option>Project Sponsor / Developer</option>
+        <option>Government / Ministry</option>
+        <option>Oil &amp; Gas Operator</option>
+        <option>Mining Company</option>
+        <option>EPC Contractor</option>
+        <option>Legal Advisory Firm</option>
+        <option>Audit / Financial Advisory Firm</option>
+        <option>Technical Advisory Firm</option>
+        <option>Media / Intelligence Platform</option>
+      </select>
+      <label class="afl">Country</label>
+      <input class="afi" placeholder="Country of headquarters">
+      <label class="afl">Brief Note (optional)</label>
+      <textarea class="afi" style="resize:vertical;min-height:60px" placeholder="Describe your use case or interest in INFRAGATE AFRICA…"></textarea>
+      <button class="afbtn" onclick="submitAccess()">Submit Access Request</button>
+      <div style="margin-top:10px;font-size:10px;color:var(--txt2);line-height:1.8">All participants are authenticated via HCS-U7 (IA-SOLUTION) before platform access is granted. HMH — Hybrid Mobility Holdings will respond within 48 hours. <a href="https://www.ia-solution.fr" target="_blank" style="color:var(--gold)">ia-solution.fr</a></div>
+    </div>
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--txt);line-height:1.9;margin-bottom:24px">"The continent has the capital. The continent has the projects. What has always been missing is the trusted intermediary layer — the standard that every institution can rely on."</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--txt2);margin-bottom:14px">Access Tiers — HMH INFRAGATE AFRICA</div>
+      <div class="atier">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px"><div class="atier-name">DFI &amp; Bank Access</div><div class="atier-price">$80,000 – $200,000 / yr</div></div>
+        <div class="atier-desc">Full pipeline access, AI query layer, VS + BS scoring, DFI match tools, dossier generation, local content module, full behavioural profiles of all platform actors.</div>
+      </div>
+      <div class="atier">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px"><div class="atier-name">Project Sponsor Listing</div><div class="atier-price">$5,000 – $25,000 / project</div></div>
+        <div class="atier-desc">Project intake, AI pre-screening, VS verification, BS score generation, DFI matching, investor dossier production, and platform visibility to all institutional subscribers.</div>
+      </div>
+      <div class="atier">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px"><div class="atier-name">Advisory Partner</div><div class="atier-price">$30,000 – $80,000 / yr</div></div>
+        <div class="atier-desc">Early deal flow access, preferred partner status on verified projects, behavioural accreditation badge, and co-branded dossier placement across the platform.</div>
+      </div>
+      <div class="atier" style="border-color:rgba(29,184,160,0.22)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px"><div class="atier-name" style="color:var(--teal)">Transaction Success Fee</div><div class="atier-price" style="color:var(--teal)">0.10 – 0.25% of close</div></div>
+        <div class="atier-desc">Applied to all projects that reach financial close through INFRAGATE. Paid by project sponsor at closing. The long-term revenue engine of the platform.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="fl">INFRA<span>GATE</span> AFRICA</div>
+      <div class="ft-tgl">The Continental Infrastructure Gateway</div>
+      <p style="font-size:12px;color:var(--txt2);line-height:1.85;max-width:280px">One standard. Every project. Every institution. From concept to financial close — verified, behavioural-scored, and matched. Operated by HMH — Hybrid Mobility Holdings.</p>
+      <div class="ft-ia"><div class="dot" style="background:var(--teal)"></div><div>Secured by <strong>IA-SOLUTION HCS-U7</strong><br><a href="https://www.ia-solution.fr" style="color:var(--txt2);font-size:10px;text-decoration:none" target="_blank">ia-solution.fr</a></div></div>
+      <div style="margin-top:10px;font-size:11px;color:var(--txt2)">HMH — Hybrid Mobility Holdings<br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="84e7ebeaf0e5e7f0c4edeae2f6e5e3e5f0e1aae5e2f6ede7e5">[email&#160;protected]</a></div>
+    </div>
+    <div>
+      <div class="ft-col-t">Platform</div>
+      <div class="flink" onclick="sTo('plat')">Project Pipeline</div>
+      <div class="flink" onclick="sTo('plat')">AI Verification</div>
+      <div class="flink" onclick="sTo('plat')">Investor Dossiers</div>
+      <div class="flink" onclick="sTo('plat')">Behavioural Score</div>
+      <div class="flink" onclick="sTo('plat')">DFI Match</div>
+      <div class="flink" onclick="sTo('plat')">Local Content</div>
+      <div class="flink" onclick="sTo('access')">Request Access</div>
+    </div>
+    <div>
+      <div class="ft-col-t">Sectors</div>
+      <div class="flink">Oil &amp; Gas</div>
+      <div class="flink">Mining</div>
+      <div class="flink">Energy</div>
+      <div class="flink">Logistics</div>
+      <div class="flink">Finance Infrastructure</div>
+      <div class="flink">Digital Infrastructure</div>
+      <div class="ft-col-t" style="margin-top:14px">Partners</div>
+      <div class="flink" onclick="window.open('https://www.energychamber.org','_blank')">African Energy Chamber ↗</div>
+      <div class="flink" onclick="window.open('https://www.energycapitalpower.com','_blank')">Energy Capital Power ↗</div>
+      <div class="flink" onclick="window.open('https://www.ia-solution.fr','_blank')">IA-SOLUTION ↗</div>
+    </div>
+    <div>
+      <div class="ft-col-t">Institutions</div>
+      <div class="flink">African DFIs (80+)</div>
+      <div class="flink">International DFIs</div>
+      <div class="flink">Commercial Banks</div>
+      <div class="flink">Advisory Firms</div>
+      <div class="flink">EPC Contractors</div>
+      <div class="flink">CBEX &amp; China Partners</div>
+      <div class="ft-col-t" style="margin-top:14px">Legal</div>
+      <div class="flink">Privacy Policy</div>
+      <div class="flink">Terms of Access</div>
+      <div class="flink">Verification Methodology</div>
+    </div>
+  </div>
+  <div class="fb">
+    <div class="fcopy">© 2026 INFRAGATE AFRICA — Operated by <a>HMH — Hybrid Mobility Holdings</a> · Secured by <a href="https://www.ia-solution.fr" target="_blank">IA-SOLUTION</a></div>
+    <div class="flangs">
+      <div class="flang on" onclick="setLang(this)">EN</div>
+      <div class="flang" onclick="setLang(this)">FR</div>
+      <div class="flang" onclick="setLang(this)">PT</div>
+      <div class="flang" onclick="setLang(this)">AR</div>
+      <div class="flang" onclick="setLang(this)">ZH</div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ═══════════════════════════════
+   DATA — 10 PROJECTS, 5 REGIONS, 2 EACH
+═══════════════════════════════ */
+const PROJECTS = [
+  // WEST AFRICA
+  {id:'NXG-OIL-0011',title:'Sao Tome Kariya Block Upstream',country:'São Tomé & Príncipe',region:'west',sector:'oil',val:'$340M',stage:'concept',sc:'s-c',sl:'Concept',promoter:'Ministry of Natural Resources, STP',src:'Self-Submitted',vs:[1,1,0,0,0],bs:55,cofi:true,afdb:false,local:55},
+  {id:'NXG-ENE-0204',title:'Sahel Solar Belt 500MW IPP',country:'Niger / Mali',region:'west',sector:'energy',val:'$610M',stage:'prefeas',sc:'s-p',sl:'Pre-Feas',promoter:'West Africa Power Pool (WAPP)',src:'Gov Tenders / AfDB',vs:[1,1,0,0,0],bs:62,cofi:true,afdb:true,local:61},
+  // EAST AFRICA
+  {id:'NXG-OIL-0042',title:'Lamu Basin Upstream Development',country:'Kenya',region:'east',sector:'oil',val:'$2.4B',stage:'bankable',sc:'s-b',sl:'Bankable',promoter:'Kenya National Oil Corporation',src:'AfDB Portal',vs:[1,1,1,1,1],bs:82,cofi:true,afdb:true,local:82},
+  {id:'NXG-ENE-0301',title:'Tanzania LNG Phase 2 Onshore Terminal',country:'Tanzania',region:'east',sector:'energy',val:'$1.9B',stage:'feasibility',sc:'s-f',sl:'Feasibility',promoter:'TPDC / TotalEnergies JV',src:'World Bank / ECP',vs:[1,1,1,0,0],bs:76,cofi:true,afdb:true,tdb:true,local:69},
+  // SOUTHERN AFRICA
+  {id:'NXG-MIN-0031',title:'DRC Cobalt Corridor Mining PPP',country:'DRC / Zambia',region:'south',sector:'mining',val:'$1.8B',stage:'bankable',sc:'s-b',sl:'Bankable',promoter:'Gécamines / Private JV',src:'World Bank',vs:[1,1,1,1,0],bs:74,cofi:true,tdb:true,local:71},
+  {id:'NXG-LOG-0089',title:'Nacala Dry Port & Rail Expansion',country:'Mozambique',region:'south',sector:'logistics',val:'$420M',stage:'feasibility',sc:'s-f',sl:'Feasibility',promoter:'Port Authority of Mozambique',src:'DBSA Pipeline',vs:[1,1,1,0,0],bs:71,cofi:false,dbsa:true,local:74},
+  // CENTRAL AFRICA
+  {id:'NXG-OIL-0055',title:'Congo Basin Gas-to-Power Project',country:'Republic of Congo',region:'central',sector:'oil',val:'$780M',stage:'prefeas',sc:'s-p',sl:'Pre-Feas',promoter:'SNPC / Eni JV',src:'AfDB Portal',vs:[1,1,0,0,0],bs:60,cofi:true,afdb:true,local:58},
+  {id:'NXG-MIN-0077',title:'Cameroon Bauxite-to-Alumina Complex',country:'Cameroon',region:'central',sector:'mining',val:'$1.1B',stage:'concept',sc:'s-c',sl:'Concept',promoter:'Ministry of Mines / SIMBOCK',src:'Self-Submitted',vs:[1,0,0,0,0],bs:48,cofi:true,local:52},
+  // NORTH AFRICA
+  {id:'NXG-ENE-0408',title:'Egypt Suez Wind Farm — 800MW',country:'Egypt',region:'north',sector:'energy',val:'$920M',stage:'bankable',sc:'s-b',sl:'Bankable',promoter:'NREA / IFC Co-dev',src:'World Bank / ECP',vs:[1,1,1,1,1],bs:86,cofi:true,afdb:true,local:73},
+  {id:'NXG-LOG-0412',title:'Morocco Atlantic Logistics Hub',country:'Morocco',region:'north',sector:'logistics',val:'$540M',stage:'feasibility',sc:'s-f',sl:'Feasibility',promoter:'TMSA / Ministry of Transport',src:'AfDB Portal',vs:[1,1,1,0,0],bs:79,cofi:false,afdb:true,local:80},
+];
+
+const SCOL = {oil:'var(--gold)',mining:'var(--purple)',energy:'var(--teal)',logistics:'var(--blue)',finance:'var(--red)'};
+const SCLS = {oil:'sc-oil',mining:'sc-mining',energy:'sc-energy',logistics:'sc-logistics',finance:'sc-finance'};
+
+let CF = {s:'all',r:null,t:null,b:null,chip:'all'};
+
+/* ═══════════════════════════════
+   INIT
+═══════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  buildTicker();
+  animCounters();
+  renderProjects(PROJECTS);
+  buildDossierList();
+  buildBSGrid();
+  buildDFIGrid();
+  buildLCTabGrid();
+});
+
+/* ═══════════════════════════════
+   TICKER
+═══════════════════════════════ */
+function buildTicker() {
+  const items = [
+    ['var(--gold)','African Development Bank'],['var(--teal)','Africa Finance Corporation'],['var(--blue)','DBSA'],
+    ['var(--purple)','TDB Group'],['var(--gold)','Afreximbank'],['var(--teal)','IFC'],
+    ['var(--orange)','African Energy Chamber'],['var(--blue)','Energy Capital Power'],['var(--red)','CBEX China'],
+    ['var(--purple)','EIB Global'],['var(--gold)','US DFC'],['var(--teal)','BOAD · BDEAC · EADB'],
+    ['var(--blue)','Deloitte · PwC · KPMG · EY'],['var(--gold)','ENS Africa · Bowmans · White & Case'],
+    ['var(--orange)','TotalEnergies · ENI · Shell Africa'],['var(--purple)','COVEC · China Power · Sinohydro'],
+    ['var(--gold)','HMH — Hybrid Mobility Holdings'],['var(--teal)','IA-SOLUTION · HCS-U7'],
+  ];
+  const html = [...items,...items].map(([c,t]) =>
+    `<div class="ti"><div class="td" style="background:${c}"></div>${t}</div>`).join('');
+  document.getElementById('tkr').innerHTML = html;
+}
+
+/* ═══════════════════════════════
+   COUNTERS
+═══════════════════════════════ */
+function animCounters() {
+  const cnt = (id,to,pre,suf,ms) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const start = Date.now();
+    const tick = () => {
+      const p = Math.min((Date.now()-start)/ms,1);
+      const e = 1-Math.pow(1-p,3);
+      el.innerHTML = pre + (Number.isInteger(to) ? Math.round(e*to) : (e*to).toFixed(1)) + suf;
+      if (p<1) requestAnimationFrame(tick);
+    };
+    tick();
+  };
+  setTimeout(() => {
+    cnt('c1',80,'','<span>+</span>',1400);
+    cnt('c2',54,'','',1200);
+    cnt('c3',1.1,'$','<span>T</span>',1600);
+    cnt('c4',247,'','',1800);
+  }, 700);
+}
+
+/* ═══════════════════════════════
+   NAV & TABS
+═══════════════════════════════ */
+function setNav(el) { document.querySelectorAll('.nl').forEach(n=>n.classList.remove('on')); el.classList.add('on'); }
+function sTo(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+
+function setTab(el, tab) {
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
+  document.getElementById('tp-'+tab)?.classList.add('on');
+}
+
+/* ═══════════════════════════════
+   FILTERS
+═══════════════════════════════ */
+function filt(el, type, val) {
+  if (type==='s') {
+    CF.s = val;
+    el.closest('.pleft').querySelectorAll('.pfi').forEach(f=>f.classList.remove('on'));
+    el.classList.add('on');
+  }
+  if (type==='r') CF.r = (CF.r===val?null:val);
+  if (type==='t') CF.t = (CF.t===val?null:val);
+  if (type==='b') CF.b = (CF.b===val?null:val);
+  applyFilters();
+}
+
+function setChip(el, val) {
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  CF.chip = val;
+  applyFilters();
+}
+
+function applyFilters() {
+  let list = [...PROJECTS];
+  if (CF.s !== 'all') list = list.filter(p=>p.sector===CF.s);
+  if (CF.r) list = list.filter(p=>p.region===CF.r);
+  if (CF.t) list = list.filter(p=>p.stage===CF.t);
+  if (CF.b==='high') list = list.filter(p=>p.bs>=80);
+  if (CF.b==='med') list = list.filter(p=>p.bs>=50&&p.bs<80);
+  if (CF.b==='low') list = list.filter(p=>p.bs<50);
+  if (CF.chip==='bankable') list = list.filter(p=>p.stage==='bankable');
+  if (CF.chip==='afdb') list = list.filter(p=>p.afdb);
+  if (CF.chip==='dbsa') list = list.filter(p=>p.dbsa);
+  if (CF.chip==='tdb') list = list.filter(p=>p.tdb);
+  if (CF.chip==='cofi') list = list.filter(p=>p.cofi);
+  if (CF.chip==='highbs') list = list.filter(p=>p.bs>=75);
+  if (CF.chip==='highlc') list = list.filter(p=>p.local>=70);
+  renderProjects(list);
+}
+
+function renderProjects(list) {
+  document.getElementById('rcount').textContent = `Showing ${list.length} of 247 projects`;
+  const c = document.getElementById('pcards');
+  if (!list.length) { c.innerHTML='<div style="text-align:center;padding:32px;color:var(--txt2);font-size:12px">No projects match current filters.</div>'; return; }
+  const bsCol = bs => bs>=80?'var(--green)':bs>=60?'var(--gold)':'var(--red)';
+  c.innerHTML = list.map((p,i) => `
+    <div class="pcard" style="border-left-color:${SCOL[p.sector]||'var(--b2)'};animation:fadeUp 0.4s ${i*0.04}s ease forwards;opacity:0">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px">
+        <div><div class="pcard-id">${p.id} · ${p.country}</div><div class="pcard-title">${p.title}</div></div>
+        <div style="text-align:right;flex-shrink:0;margin-left:12px"><div class="pcard-val">${p.val}</div><span class="sp ${p.sc}">${p.sl}</span></div>
+      </div>
+      <div class="pcard-meta">
+        <div class="pmi">Promoter: <span>${p.promoter}</span></div>
+        <div class="pmi">Source: <span>${p.src}</span></div>
+        <div class="pmi">Local Content: <span style="color:var(--teal)">${p.local}%</span></div>
+      </div>
+      <div class="pcard-foot">
+        <div style="display:flex;gap:3px;flex-wrap:wrap">
+          <span class="sc ${SCLS[p.sector]||''}">${p.sector}</span>
+          ${p.cofi?'<span class="sc sc-cofi">Co-fi</span>':''}
+          ${p.local>=70?'<span class="sc sc-lc">High LC</span>':''}
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="vs-w">VS <div class="vs-pips">${p.vs.map(v=>`<div class="vp${v?' on':''}"></div>`).join('')}</div></div>
+          <div class="bsr-w">BS <div class="bsr-ring" style="color:${bsCol(p.bs)};border-color:${bsCol(p.bs)}">${p.bs}</div></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════
+   DOSSIER LIST
+═══════════════════════════════ */
+function buildDossierList() {
+  document.getElementById('dlist').innerHTML = PROJECTS.map(p => `
+    <div style="background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:13px;cursor:pointer;transition:all 0.2s"
+      onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--b1)'"
+      onclick="genDossier(${JSON.stringify(p.id)},${JSON.stringify(p.title)})">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:0.13em;color:var(--txt2);margin-bottom:3px;text-transform:uppercase">${p.id} · ${p.country}</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:var(--white);margin-bottom:8px">${p.title}</div>
+      <div style="display:flex;gap:5px;align-items:center">
+        <span class="sc ${SCLS[p.sector]||''}">${p.sector}</span>
+        <span class="sp ${p.sc}">${p.sl}</span>
+        <span style="margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--gold)">${p.val}</span>
+      </div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════
+   BS GRID
+═══════════════════════════════ */
+function buildBSGrid() {
+  const actors = [
+    {name:'Kenya National Oil Corp.',type:'Promoter',score:82,color:'var(--green)',dims:[{l:'Responsiveness',v:88},{l:'Doc Consistency',v:79},{l:'HCS-U7 Signal',v:84},{l:'Platform History',v:76}]},
+    {name:'AfDB PICU.3 Division',type:'Institution',score:91,color:'var(--teal)',dims:[{l:'Engagement Pattern',v:94},{l:'Mandate Adherence',v:90},{l:'Response Speed',v:88},{l:'Closure Rate',v:92}]},
+    {name:'China Power Engineering',type:'Contractor',score:74,color:'var(--blue)',dims:[{l:'Delivery Record',v:76},{l:'Local Content',v:65},{l:'Sanctions Clean',v:90},{l:'Dispute History',v:68}]},
+    {name:'ENS Africa',type:'Advisor',score:88,color:'var(--purple)',dims:[{l:'Independence',v:92},{l:'Conflict Check',v:95},{l:'Work Quality',v:86},{l:'Accreditation',v:90}]},
+  ];
+  document.getElementById('bsigrid').innerHTML = actors.map(a => `
+    <div class="bsi-card" onclick="openProfile(${JSON.stringify(a.name)},${JSON.stringify(a.type)},${a.score})">
+      <div class="bsi-head">
+        <div><div class="bsi-type">${a.type}</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:var(--bright);margin-top:2px">${a.name}</div></div>
+        <div class="bsi-score" style="color:${a.color}">${a.score}</div>
+      </div>
+      ${a.dims.map(d=>`<div class="bsi-dim"><div class="bsi-dl">${d.l}</div><div class="bsi-db"><div class="bsi-df" style="background:${a.color};width:${d.v}%"></div></div><div class="bsi-dv">${d.v}</div></div>`).join('')}
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════
+   DFI GRID
+═══════════════════════════════ */
+function buildDFIGrid() {
+  const dfis = [
+    ['AfDB','Pan-African · All sectors · $10M+','94'],['DBSA','SADC focus · All sectors · $5M+','88'],
+    ['AFC','Pan-African · Infrastructure · $50M+','85'],['TDB Group','East & South · Trade · $10M+','81'],
+    ['Afreximbank','Pan-African · Trade infra · $20M+','76'],['IFC','Global · Private sector · $10M+','72'],
+    ['EIB Global','European · Climate · $20M+','68'],['DFC (US)','Global · Energy security · $30M+','65'],
+    ['BOAD','West Africa · Regional · $5M+','58'],
+  ];
+  document.getElementById('dfigrid').innerHTML = dfis.map(([n,d,m]) => `
+    <div style="background:var(--panel);border:1px solid var(--b1);border-radius:3px;padding:12px;cursor:default;transition:all 0.2s"
+      onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--b1)'">
+      <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:3px;font-family:'Barlow Condensed',sans-serif;font-weight:600">Match ${m}%</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:2px">${n}</div>
+      <div style="font-size:10px;color:var(--txt2)">${d}</div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════
+   LC TAB GRID
+═══════════════════════════════ */
+function buildLCTabGrid() {
+  const data = [
+    ['🇿🇦','South Africa','BBBEE + MPRDA','var(--gold)',85],
+    ['🇳🇬','Nigeria','NCDMB Framework','var(--teal)',78],
+    ['🇦🇴','Angola','Angolanization','var(--blue)',70],
+    ['🇲🇿','Mozambique','Lei n.15/2011','var(--purple)',65],
+    ['🇹🇿','Tanzania','LCR 2014','var(--orange)',62],
+    ['🇨🇩','DRC','Mining Code 2018','var(--red)',55],
+    ['🇬🇭','Ghana','GNPC / LCR','var(--teal)',60],
+    ['🇸🇳','Senegal','Code Pétrolier 2019','var(--gold)',58],
+    ['🇰🇪','Kenya','NEMA + Mining Act','var(--blue)',63],
+    ['🇿🇲','Zambia','Mines Act 2015','var(--purple)',57],
+    ['🇨🇲','Cameroon','Hydrocarbons Code','var(--orange)',52],
+    ['🇪🇬','Egypt','Investment Law 72/2017','var(--teal)',66],
+  ];
+  document.getElementById('lctabgrid').innerHTML = data.map(([f,n,fw,c,p]) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--b1);border-radius:3px;transition:all 0.2s"
+      onmouseover="this.style.borderColor='${c}'" onmouseout="this.style.borderColor='var(--b1)'">
+      <span style="font-size:18px">${f}</span>
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--bright);font-weight:500;margin-bottom:1px">${n}</div>
+        <div style="font-size:10px;color:var(--txt2)">${fw}</div>
+        <div style="width:100%;height:2px;background:var(--b1);border-radius:1px;margin-top:5px">
+          <div style="height:2px;background:${c};border-radius:1px;width:${p}%"></div>
+        </div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:${c}">${p}%</div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════
+   MODAL — BS PROFILE
+═══════════════════════════════ */
+function openProfile(name, type, score) {
+  const col = score>=80?'var(--green)':score>=60?'var(--gold)':'var(--red)';
+  const rating = score>=80?'Low Risk':score>=60?'Medium Risk':'High Risk — Review Required';
+  const eligible = score>=65?'<span style="color:var(--teal)">Eligible</span>':'<span style="color:var(--orange)">Conditional — additional requirements apply</span>';
+  const dims = [
+    {l:'Responsiveness / Engagement', v: Math.max(10, Math.min(100, score + Math.round((Math.random()-0.5)*14)))},
+    {l:'Document / Delivery Consistency', v: Math.max(10, Math.min(100, score + Math.round((Math.random()-0.5)*10)))},
+    {l:'Sanctions &amp; Conflict Status', v: score>=50 ? Math.min(100, score+15) : 35},
+    {l:'HCS-U7 Cognitive Signals', v: Math.max(10, Math.min(100, score + Math.round((Math.random()-0.5)*8)))},
+  ];
+  document.getElementById('mcontent').innerHTML = `
+    <div class="modal-title">${name}</div>
+    <div class="modal-sub">Behavioural Intelligence Profile · INFRAGATE AFRICA · ${type}</div>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;padding:14px;background:var(--panel);border-radius:3px;border:1px solid var(--b1)">
+      <div style="text-align:center">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:700;color:${col};line-height:1">${score}</div>
+        <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--txt2)">BS / 100</div>
+      </div>
+      <div style="flex:1">
+        ${dims.map(d=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+          <div style="font-size:11px;color:var(--txt2);width:175px;flex-shrink:0">${d.l}</div>
+          <div style="flex:1;height:3px;background:var(--b1);border-radius:2px"><div style="height:3px;background:${col};border-radius:2px;width:${d.v}%"></div></div>
+          <div style="font-size:10px;color:var(--bright);width:24px;text-align:right">${d.v}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div class="modal-sec-lbl">Data Sources</div>
+      <div class="modal-row"><div class="modal-row-l">HCS-U7 Cognitive Authentication</div><div class="modal-row-v" style="color:var(--teal)">Active · ${Math.round(score*0.04)} sessions logged</div></div>
+      <div class="modal-row"><div class="modal-row-l">Platform Interaction History</div><div class="modal-row-v">${Math.round(score*0.9)} interactions · 12 months</div></div>
+      <div class="modal-row"><div class="modal-row-l">OFAC / EU / UN Sanctions Check</div><div class="modal-row-v" style="color:${score>=50?'var(--teal)':'var(--red)'}">${score>=50?'Clean — no matches':'Review required — flag raised'}</div></div>
+      <div class="modal-row"><div class="modal-row-l">Credit Bureau Cross-check</div><div class="modal-row-v" style="color:${score>=65?'var(--teal)':'var(--orange)'}">${score>=65?'Clear':'Flagged — review advised'}</div></div>
+      <div class="modal-row"><div class="modal-row-l">Public Records &amp; Court Filings</div><div class="modal-row-v" style="color:var(--teal)">No adverse findings</div></div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div class="modal-sec-lbl">Assessment</div>
+      <div class="modal-row"><div class="modal-row-l">Actor Type</div><div class="modal-row-v">${type}</div></div>
+      <div class="modal-row"><div class="modal-row-l">Overall Risk Rating</div><div class="modal-row-v" style="color:${col}">${rating}</div></div>
+      <div class="modal-row"><div class="modal-row-l">DFI Interaction Eligibility</div><div class="modal-row-v">${eligible}</div></div>
+      <div class="modal-row"><div class="modal-row-l">VS Stage Gate</div><div class="modal-row-v" style="color:${score>=75?'var(--teal)':score>=65?'var(--gold)':'var(--red)'}">${score>=75?'Eligible for VS 4.0 &amp; VS 5.0':score>=65?'Eligible for VS 4.0 only':'Below VS 4.0 threshold'}</div></div>
+      <div class="modal-row"><div class="modal-row-l">Last Updated</div><div class="modal-row-v">Today · Auto-refreshes every 24h</div></div>
+    </div>
+    <div style="font-size:11px;color:var(--txt2);line-height:1.8;padding:12px;background:var(--panel);border-radius:3px;border:1px solid var(--b1)">
+      <strong style="color:var(--gold);display:block;margin-bottom:4px">Recommended Next Action</strong>
+      ${score>=80?'Profile is strong. Proceed with standard due diligence. All INFRAGATE stage gates are open.':score>=60?'Medium confidence. Request additional documentation on flagged dimensions before advancing to VS 4.0 stage.':'Low confidence. Full manual review required. Project stage must not advance until BS score exceeds 60.'}
+    </div>`;
+  document.getElementById('mbg').classList.add('on');
+}
+
+/* ═══════════════════════════════
+   AI CALLS
+═══════════════════════════════ */
+async function callAPI(system, user, onSuccess) {
+  showLoader('Processing…');
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system,
+        messages: [{role:'user',content:user}]
+      })
+    });
+    const d = await r.json();
+    const text = d.content.map(i=>i.text||'').join('');
+    onSuccess(text);
+  } catch(e) {
+    console.error(e);
+    showToast('AI request failed. Please try again.');
+  } finally {
+    hideLoader();
+  }
+}
+
+function runAI() {
+  const q = document.getElementById('aiq').value.trim();
+  if (!q) { showToast('Enter a query first.'); return; }
+  callAPI(
+    `You are INFRAGATE AFRICA's AI intelligence engine — the continent's premier verified infrastructure project aggregation platform covering oil & gas, mining, energy, logistics, and finance across all 54 African countries. You serve African DFIs, international banks, and institutional investors. Be sharp, concise, and operator-focused. Respond with: (1) a 2-sentence market intelligence assessment, then (2) a JSON block: {"filters":{"sector":"...","region":"...","stage":"..."},"keywords":["..."],"match_count":<number>,"insight":"one sharp operator insight"}. Return valid JSON in a code block.`,
+    `Platform query: "${q}"`,
+    (text) => {
+      const jm = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+      let parsed = null;
+      if (jm) { try { parsed = JSON.parse(jm[1].trim()); } catch(e) {} }
+      const analysis = text.split('```')[0].trim();
+      document.getElementById('airesp-t').textContent = analysis || text.substring(0,300);
+      const tags = parsed ? [
+        parsed.filters?.sector && `Sector: ${parsed.filters.sector}`,
+        parsed.filters?.region && `Region: ${parsed.filters.region}`,
+        parsed.filters?.stage && `Stage: ${parsed.filters.stage}`,
+        parsed.match_count && `~${parsed.match_count} matches`,
+        ...(parsed.keywords||[])
+      ].filter(Boolean) : [];
+      document.getElementById('aitags').innerHTML = tags.map(t=>`<span class="aitag">${t}</span>`).join('');
+      document.getElementById('airesp').classList.add('on');
+    }
+  );
+}
+
+function runVerify() {
+  const input = document.getElementById('vin').value.trim();
+  if (!input) { showToast('Describe the project first.'); return; }
+  callAPI(
+    `You are INFRAGATE AFRICA's AI verification engine. Assess projects against the INFRAGATE Standard (VS 1–5) and produce a Behavioural Score (BS 0–100) estimate. Output clean HTML with inline styles only. Use colors: teal #1DB8A0, blue #2E7FFF, gold #C9A84C, red #E05555, orange #E07840, muted #5c7e96, text #8BAFC8, bright #D4E8F5. Structure: VS score, BS score estimate, stage classification, legal status, technical quality, financial model quality, ESG and local content score, top 2 risks, recommended next actions. Be DFI-grade and precise.`,
+    `Verify against INFRAGATE Standard: "${input}"`,
+    (text) => {
+      document.getElementById('vout').innerHTML = text;
+      document.getElementById('vresult').style.display = 'block';
+    }
+  );
+}
+
+function genDossier(id, title) {
+  callAPI(
+    `You are INFRAGATE AFRICA's investor dossier engine operated by HMH — Hybrid Mobility Holdings. Create institution-grade project summaries for AfDB, DBSA, TDB, AFC, and IFC submission. Output clean HTML with inline styles only. Colors: gold #C9A84C, teal #1DB8A0, blue #2E7FFF, muted #5c7e96, text #8BAFC8, bright #D4E8F5. Include: executive summary (2 sentences), sector and market context, capital structure with IRR range and tenor, key risks and mitigants, ESG and local content score, recommended DFI instruments (top 3), co-financing structure, and next steps. Be sharp and institution-grade.`,
+    `Generate INFRAGATE investor dossier for project ${id}: "${title}"`,
+    (text) => {
+      document.getElementById('dout').innerHTML = text;
+      const r = document.getElementById('dresult');
+      r.style.display = 'block';
+      r.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  );
+}
+
+function runBS() {
+  const actor = document.getElementById('bsin').value.trim();
+  if (!actor) { showToast('Enter an actor name or project ID first.'); return; }
+  callAPI(
+    `You are INFRAGATE AFRICA's Behavioural Intelligence Engine powered by HCS-U7 (IA-SOLUTION). Assess actors across four dimensions: (1) Promoter/engagement responsiveness and document consistency, (2) Institutional patterns and mandate adherence, (3) Contractor delivery and local content compliance, (4) Advisor independence and conflict status. Combine HCS-U7 cognitive signals, platform history, and third-party data (OFAC/EU/UN sanctions, credit bureaus, public records). Produce a BS score 0-100 and full profile as clean HTML. Colors: green #3EC97E, teal #1DB8A0, gold #C9A84C, red #E05555, muted #5c7e96, text #8BAFC8, bright #D4E8F5.`,
+    `Produce a Behavioural Intelligence Profile for: "${actor}". Include BS score /100, actor type, scores on all four dimensions, positive and negative flags, data source summary, and recommended due diligence actions.`,
+    (text) => {
+      document.getElementById('bsout').innerHTML = text;
+      document.getElementById('bsresult').style.display = 'block';
+    }
+  );
+}
+
+function runDFI() {
+  const q = document.getElementById('dfiq').value.trim();
+  if (!q) { showToast('Describe the project first.'); return; }
+  callAPI(
+    `You are INFRAGATE AFRICA's DFI matching engine operated by HMH. Match projects to African and international DFIs based on sector mandate, country eligibility, stage, ticket size, and 2025/2026 deployment priorities. Output clean HTML. Colors: gold #C9A84C, teal #1DB8A0, blue #2E7FFF, muted #5c7e96, text #8BAFC8, bright #D4E8F5.`,
+    `Match this project to relevant DFIs: "${q}". Rank top 4 matches with: match score %, rationale (1 sentence), recommended instrument, entry point contact, and eligibility gaps if any.`,
+    (text) => {
+      document.getElementById('dfiout').innerHTML = text;
+      document.getElementById('dfiresult').style.display = 'block';
+    }
+  );
+}
+
+/* ═══════════════════════════════
+   UTILITIES
+═══════════════════════════════ */
+function showLoader(msg) {
+  document.getElementById('lmsg').textContent = msg || 'Processing';
+  document.getElementById('loader').classList.add('on');
+}
+function hideLoader() { document.getElementById('loader').classList.remove('on'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.classList.remove('on');
+  void t.offsetWidth;
+  t.innerHTML = msg;
+  t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 3500);
+}
+
+function submitAccess() {
+  const org = document.getElementById('af-org').value.trim();
+  const em = document.getElementById('af-em').value.trim();
+  const type = document.getElementById('af-type').value;
+  if (!org || !em || !type) { showToast('Please complete all required fields.'); return; }
+  showToast(`Acces

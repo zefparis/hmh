@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS GATEWAY — Africa Project Intelligence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap');
+
+  :root {
+    --bg: #080b0f;
+    --surface: #0e1318;
+    --surface2: #141b22;
+    --border: #1e2d3a;
+    --accent: #c8a84b;
+    --accent2: #3d7fff;
+    --accent3: #2ec97e;
+    --danger: #e85d5d;
+    --text: #d4dde8;
+    --muted: #5a7080;
+    --bright: #f0f4f8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(61,127,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(61,127,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Top nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background: rgba(8,11,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 32px;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--bright);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .nav-link {
+    padding: 6px 14px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: var(--bright);
+    background: var(--surface2);
+  }
+  .nav-link.active { color: var(--accent); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+  }
+
+  .badge-live {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid rgba(46,201,126,0.3);
+    border-radius: 20px;
+    font-size: 10px;
+    color: var(--accent3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .badge-live::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent3);
+    animation: pulse 1.5s infinite;
+  }
+
+  /* Main layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr 300px;
+    gap: 0;
+    margin-top: 56px;
+    min-height: calc(100vh - 56px);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Left sidebar */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    overflow-y: auto;
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+  }
+
+  .sidebar-section {
+    padding: 0 16px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+
+  .sidebar-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+
+  .filter-item:hover {
+    background: var(--surface2);
+    border-color: var(--border);
+  }
+
+  .filter-item.active {
+    background: rgba(200,168,75,0.08);
+    border-color: rgba(200,168,75,0.25);
+  }
+
+  .filter-item .label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .filter-item.active .label { color: var(--accent); }
+
+  .filter-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+  }
+
+  .filter-count {
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 10px;
+  }
+
+  .sector-oil { background: #c8a84b; }
+  .sector-mining { background: #9b7fff; }
+  .sector-energy { background: #2ec97e; }
+  .sector-logistics { background: #3d7fff; }
+  .sector-finance { background: #e85d5d; }
+  .sector-digital { background: #ff8c42; }
+
+  /* Region items */
+  .region-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .region-item:hover { background: var(--surface2); }
+  .region-item .name { font-size: 12px; color: var(--text); }
+  .region-item .bar-wrap { width: 60px; height: 3px; background: var(--border); border-radius: 2px; }
+  .region-item .bar { height: 3px; border-radius: 2px; background: var(--accent2); }
+
+  /* Main content */
+  .main {
+    padding: 24px;
+    overflow-y: auto;
+  }
+
+  /* Search / AI query bar */
+  .search-block {
+    margin-bottom: 24px;
+  }
+
+  .search-header {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    transition: border-color 0.2s;
+  }
+
+  .search-bar:focus-within {
+    border-color: var(--accent);
+  }
+
+  .search-icon {
+    color: var(--muted);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .search-bar input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--bright);
+    caret-color: var(--accent);
+  }
+
+  .search-bar input::placeholder { color: var(--muted); }
+
+  .search-btn {
+    padding: 6px 14px;
+    background: var(--accent);
+    border: none;
+    border-radius: 5px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #080b0f;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .search-btn:hover { background: #e0c060; }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover { border-color: var(--accent); }
+
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--bright);
+    line-height: 1;
+  }
+
+  .stat-sub {
+    font-size: 10px;
+    color: var(--accent3);
+    margin-top: 4px;
+  }
+
+  /* Section header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bright);
+  }
+
+  .section-count {
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .view-toggle {
+    display: flex;
+    gap: 4px;
+  }
+
+  .view-btn {
+    padding: 4px 10px;
+    font-size: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .view-btn.active {
+    background: var(--surface2);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* AI Response Block */
+  .ai-response {
+    background: linear-gradient(135deg, rgba(61,127,255,0.06), rgba(200,168,75,0.04));
+    border: 1px solid rgba(61,127,255,0.25);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    display: none;
+  }
+
+  .ai-response.visible { display: block; }
+
+  .ai-response-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+  }
+
+  .ai-response-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .ai-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+  .ai-tag {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    background: rgba(61,127,255,0.12);
+    border: 1px solid rgba(61,127,255,0.2);
+    color: var(--accent2);
+    cursor: pointer;
+  }
+
+  /* Project cards */
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.4s ease forwards;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+
+  .card-oil::before { background: #c8a84b; }
+  .card-mining::before { background: #9b7fff; }
+  .card-energy::before { background: #2ec97e; }
+  .card-logistics::before { background: #3d7fff; }
+  .card-finance::before { background: #e85d5d; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .card-title-block {}
+
+  .card-id {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bright);
+    line-height: 1.3;
+  }
+
+  .card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .card-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .card-stage {
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .stage-bankable { background: rgba(46,201,126,0.12); color: var(--accent3); border: 1px solid rgba(46,201,126,0.25); }
+  .stage-feasibility { background: rgba(61,127,255,0.12); color: var(--accent2); border: 1px solid rgba(61,127,255,0.25); }
+  .stage-concept { background: rgba(200,168,75,0.12); color: var(--accent); border: 1px solid rgba(200,168,75,0.25); }
+  .stage-prefeasibility { background: rgba(255,140,66,0.12); color: #ff8c42; border: 1px solid rgba(255,140,66,0.25); }
+
+  .card-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .card-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .card-meta-item .val { color: var(--text); }
+
+  .card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-sectors {
+    display: flex;
+    gap: 5px;
+  }
+
+  .sector-tag {
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .tag-oil { background: rgba(200,168,75,0.15); color: #c8a84b; }
+  .tag-mining { background: rgba(155,127,255,0.15); color: #9b7fff; }
+  .tag-energy { background: rgba(46,201,126,0.15); color: #2ec97e; }
+  .tag-logistics { background: rgba(61,127,255,0.15); color: #3d7fff; }
+  .tag-finance { background: rgba(232,93,93,0.15); color: #e85d5d; }
+
+  .verification-score {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .score-bar {
+    display: flex;
+    gap: 2px;
+  }
+
+  .score-pip {
+    width: 14px; height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+  }
+  .score-pip.filled { background: var(--accent3); }
+  .score-pip.partial { background: var(--accent); }
+
+  .source-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* Right panel */
+  .right-panel {
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    padding: 20px 0;
+    overflow-y: auto;
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+  }
+
+  .panel-section {
+    padding: 0 16px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+
+  .panel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  /* Activity feed */
+  .activity-item {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(30,45,58,0.5);
+  }
+
+  .activity-item:last-child { border-bottom: none; }
+
+  .activity-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .activity-content { flex: 1; }
+  .activity-title { font-size: 11px; color: var(--text); line-height: 1.4; margin-bottom: 2px; }
+  .activity-time { font-size: 9px; color: var(--muted); }
+
+  /* Source indicators */
+  .source-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .source-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: var(--surface2);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .source-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .source-icon {
+    width: 24px; height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .source-name { font-size: 11px; color: var(--text); }
+  .source-count { font-size: 9px; color: var(--muted); }
+
+  .source-status {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+
+  /* DFI Demand panel */
+  .dfi-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(30,45,58,0.5);
+  }
+
+  .dfi-name {
+    font-size: 11px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .dfi-interest {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .interest-bar {
+    width: 50px; height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .interest-fill { height: 100%; background: var(--accent2); border-radius: 2px; }
+
+  /* Loading animation */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(8,11,15,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .loading-overlay.active { display: flex; }
+
+  .loading-spinner {
+    width: 40px; height: 40px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    padding: 10px 16px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Upload section */
+  .upload-zone {
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+  }
+
+  .upload-zone:hover {
+    border-color: var(--accent);
+    background: rgba(200,168,75,0.04);
+  }
+
+  .upload-icon { font-size: 24px; margin-bottom: 8px; }
+  .upload-text { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* Chip filter row */
+  .chip-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .chip {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--surface);
+  }
+
+  .chip:hover { border-color: var(--text); color: var(--text); }
+  .chip.active { border-color: var(--accent); color: var(--accent); background: rgba(200,168,75,0.08); }
+
+  /* animation delays for cards */
+  .project-card:nth-child(1) { animation-delay: 0.05s; }
+  .project-card:nth-child(2) { animation-delay: 0.1s; }
+  .project-card:nth-child(3) { animation-delay: 0.15s; }
+  .project-card:nth-child(4) { animation-delay: 0.2s; }
+  .project-card:nth-child(5) { animation-delay: 0.25s; }
+  .project-card:nth-child(6) { animation-delay: 0.3s; }
+
+  .no-results {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loader">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loader-text">AI sourcing in progress...</div>
+</div>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-logo">
+    <div class="dot"></div>
+    NEXUS GATEWAY
+  </div>
+  <div class="nav-links">
+    <div class="nav-link active" onclick="setView('pipeline')">Pipeline</div>
+    <div class="nav-link" onclick="setView('verify')">Verify</div>
+    <div class="nav-link" onclick="setView('dossiers')">Dossiers</div>
+    <div class="nav-link" onclick="setView('upload')">Submit Project</div>
+    <div class="nav-link" onclick="setView('dfi')">DFI Match</div>
+  </div>
+  <div class="nav-right">
+    <div class="badge-live">Live Feed</div>
+  </div>
+</nav>
+
+<!-- Main Layout -->
+<div class="layout">
+
+  <!-- Left sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Sector</div>
+      <div class="filter-group">
+        <div class="filter-item active" onclick="filterSector('all')">
+          <span class="label">⬡ All Sectors</span>
+          <span class="filter-count">247</span>
+        </div>
+        <div class="filter-item" onclick="filterSector('oil')">
+          <span class="label"><span class="filter-dot sector-oil"></span>Oil & Gas</span>
+          <span class="filter-count">64</span>
+        </div>
+        <div class="filter-item" onclick="filterSector('mining')">
+          <span class="label"><span class="filter-dot sector-mining"></span>Mining</span>
+          <span class="filter-count">51</span>
+        </div>
+        <div class="filter-item" onclick="filterSector('energy')">
+          <span class="label"><span class="filter-dot sector-energy"></span>Energy</span>
+          <span class="filter-count">72</span>
+        </div>
+        <div class="filter-item" onclick="filterSector('logistics')">
+          <span class="label"><span class="filter-dot" style="background:#3d7fff"></span>Logistics</span>
+          <span class="filter-count">38</span>
+        </div>
+        <div class="filter-item" onclick="filterSector('finance')">
+          <span class="label"><span class="filter-dot sector-finance"></span>Finance</span>
+          <span class="filter-count">22</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Region</div>
+      <div class="filter-group">
+        <div class="region-item" onclick="filterRegion('west')">
+          <span class="name">West Africa</span>
+          <div class="bar-wrap"><div class="bar" style="width:80%"></div></div>
+        </div>
+        <div class="region-item" onclick="filterRegion('east')">
+          <span class="name">East Africa</span>
+          <div class="bar-wrap"><div class="bar" style="width:65%"></div></div>
+        </div>
+        <div class="region-item" onclick="filterRegion('south')">
+          <span class="name">Southern Africa</span>
+          <div class="bar-wrap"><div class="bar" style="width:70%"></div></div>
+        </div>
+        <div class="region-item" onclick="filterRegion('central')">
+          <span class="name">Central Africa</span>
+          <div class="bar-wrap"><div class="bar" style="width:45%"></div></div>
+        </div>
+        <div class="region-item" onclick="filterRegion('north')">
+          <span class="name">North Africa</span>
+          <div class="bar-wrap"><div class="bar" style="width:35%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Readiness Stage</div>
+      <div class="filter-group">
+        <div class="filter-item" onclick="filterStage('bankable')">
+          <span class="label" style="color: var(--accent3)">● Bankable</span>
+          <span class="filter-count">38</span>
+        </div>
+        <div class="filter-item" onclick="filterStage('feasibility')">
+          <span class="label" style="color: var(--accent2)">● Full Feasibility</span>
+          <span class="filter-count">67</span>
+        </div>
+        <div class="filter-item" onclick="filterStage('prefeasibility')">
+          <span class="label" style="color: #ff8c42">● Pre-Feasibility</span>
+          <span class="filter-count">89</span>
+        </div>
+        <div class="filter-item" onclick="filterStage('concept')">
+          <span class="label" style="color: var(--accent)">● Concept</span>
+          <span class="filter-count">53</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section" style="border-bottom:none">
+      <div class="sidebar-label">Capital Range</div>
+      <div class="filter-group">
+        <div class="filter-item" onclick="filterSize('large')">
+          <span class="label">$500M+</span>
+          <span class="filter-count">28</span>
+        </div>
+        <div class="filter-item" onclick="filterSize('mid')">
+          <span class="label">$50M–$500M</span>
+          <span class="filter-count">112</span>
+        </div>
+        <div class="filter-item" onclick="filterSize('small')">
+          <span class="label">$10M–$50M</span>
+          <span class="filter-count">107</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main" id="main-content">
+
+    <!-- Pipeline view -->
+    <div id="view-pipeline">
+      <!-- Search -->
+      <div class="search-block">
+        <div class="search-header">AI Project Query</div>
+        <div class="search-bar">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="ai-query" placeholder="e.g. bankable gas projects East Africa above $100M seeking DFI co-financing..." />
+          <button class="search-btn" onclick="runAIQuery()">Query AI</button>
+        </div>
+      </div>
+
+      <!-- AI Response -->
+      <div class="ai-response" id="ai-response-block">
+        <div class="ai-response-header">⬡ AI ANALYSIS</div>
+        <div class="ai-response-text" id="ai-response-text"></div>
+        <div class="ai-tags" id="ai-tags"></div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Active Projects</div>
+          <div class="stat-value" id="stat-projects">247</div>
+          <div class="stat-sub">+14 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Capital Sought</div>
+          <div class="stat-value">$84B</div>
+          <div class="stat-sub">Across all sectors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Verified Bankable</div>
+          <div class="stat-value" style="color:var(--accent3)">38</div>
+          <div class="stat-sub">DFI-ready</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Countries Covered</div>
+          <div class="stat-value">46</div>
+          <div class="stat-sub">54 target</div>
+        </div>
+      </div>
+
+      <!-- Chip filters -->
+      <div class="chip-row">
+        <div class="chip active" onclick="toggleChip(this,'all')">All</div>
+        <div class="chip" onclick="toggleChip(this,'bankable')">Bankable only</div>
+        <div class="chip" onclick="toggleChip(this,'afdb')">AfDB pipeline</div>
+        <div class="chip" onclick="toggleChip(this,'dbsa')">DBSA pipeline</div>
+        <div class="chip" onclick="toggleChip(this,'tdb')">TDB Group</div>
+        <div class="chip" onclick="toggleChip(this,'new')">Added this week</div>
+        <div class="chip" onclick="toggleChip(this,'cofi')">Co-financing open</div>
+      </div>
+
+      <!-- Project list header -->
+      <div class="section-header">
+        <div>
+          <div class="section-title">Project Pipeline</div>
+          <div class="section-count" id="results-count">Showing 6 of 247 projects</div>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active">List</button>
+          <button class="view-btn">Grid</button>
+          <button class="view-btn">Map</button>
+        </div>
+      </div>
+
+      <!-- Project cards -->
+      <div class="projects-grid" id="project-list">
+      </div>
+    </div>
+
+    <!-- Verify view -->
+    <div id="view-verify" style="display:none">
+      <div class="section-title" style="margin-bottom:16px">Project Verification Engine</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.7">
+          Submit a project ID or paste project details below. The AI will assess legal status, technical stage, financial model quality, ESG compliance, and promoter credibility — producing a standardized Verification Score (VS) on a 1–5 scale compatible with AfDB, DBSA, TDB, and BAD submission requirements.
+        </div>
+        <textarea style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;resize:vertical;min-height:120px;outline:none;margin-bottom:12px" placeholder="Paste project summary, feasibility excerpt, or project ID (e.g. NXG-OIL-0042)..."></textarea>
+        <button class="search-btn" onclick="runVerification()">Run Verification</button>
+      </div>
+      <div id="verification-result" style="display:none;background:var(--surface);border:1px solid rgba(46,201,126,0.3);border-radius:8px;padding:20px">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent3);margin-bottom:14px">Verification Report</div>
+        <div id="verification-content"></div>
+      </div>
+    </div>
+
+    <!-- Dossiers view -->
+    <div id="view-dossiers" style="display:none">
+      <div class="section-title" style="margin-bottom:16px">Investor-Ready Dossiers</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.7">Select any verified project to generate a formatted dossier aligned to AfDB/DBSA/TDB submission standards. The AI compiles technical summary, financial model overview, risk register, ESG flags, and co-financing structure.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;cursor:pointer" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:9px;letter-spacing:0.12em;color:var(--muted);margin-bottom:6px">NXG-OIL-0042</div>
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--bright);margin-bottom:8px">Lamu Basin Upstream Dev.</div>
+          <div style="display:flex;gap:6px"><span class="sector-tag tag-oil">Oil & Gas</span><span class="card-stage stage-bankable">Bankable</span></div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;cursor:pointer" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:9px;letter-spacing:0.12em;color:var(--muted);margin-bottom:6px">NXG-ENE-0118</div>
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--bright);margin-bottom:8px">Zambezi Hydro Phase II</div>
+          <div style="display:flex;gap:6px"><span class="sector-tag tag-energy">Energy</span><span class="card-stage stage-feasibility">Feasibility</span></div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;cursor:pointer" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:9px;letter-spacing:0.12em;color:var(--muted);margin-bottom:6px">NXG-MIN-0031</div>
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--bright);margin-bottom:8px">DRC Cobalt Corridor</div>
+          <div style="display:flex;gap:6px"><span class="sector-tag tag-mining">Mining</span><span class="card-stage stage-bankable">Bankable</span></div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;cursor:pointer" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:9px;letter-spacing:0.12em;color:var(--muted);margin-bottom:6px">NXG-LOG-0089</div>
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--bright);margin-bottom:8px">Nacala Dry Port Expansion</div>
+          <div style="display:flex;gap:6px"><span class="sector-tag tag-logistics">Logistics</span><span class="card-stage stage-feasibility">Feasibility</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload view -->
+    <div id="view-upload" style="display:none">
+      <div class="section-title" style="margin-bottom:8px">Submit a Project</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.7">Project sponsors, governments, and advisors can submit projects for AI pre-screening and DFI matching. Submissions are assessed within 48 hours.</div>
+      <div class="upload-zone" onclick="alert('Upload portal - connect to backend')">
+        <div class="upload-icon">⬆</div>
+        <div class="upload-text">Drop project documents here<br>PDF, DOCX, XLSX accepted · Max 50MB per file</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Project Name</div>
+          <input type="text" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none" placeholder="Full project name">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Country</div>
+          <input type="text" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none" placeholder="Country of project">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Sector</div>
+          <select style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none">
+            <option>Oil & Gas</option>
+            <option>Mining</option>
+            <option>Energy</option>
+            <option>Logistics</option>
+            <option>Finance</option>
+            <option>Digital Infrastructure</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Capital Required (USD)</div>
+          <input type="text" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none" placeholder="e.g. 250,000,000">
+        </div>
+      </div>
+      <button class="search-btn" style="margin-top:16px;padding:10px 24px;font-size:12px">Submit for AI Pre-Screening</button>
+    </div>
+
+    <!-- DFI Match view -->
+    <div id="view-dfi" style="display:none">
+      <div class="section-title" style="margin-bottom:8px">DFI Matching Engine</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.7">Match any project to the most relevant financing institutions based on sector mandate, country eligibility, stage requirements, and ticket size. Covers AfDB, DBSA, BAD, TDB Group, Afreximbank, IFC, DFC, and 40+ local DFIs.</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+          <div style="background:var(--surface2);border:1px solid rgba(46,201,126,0.3);border-radius:8px;padding:14px">
+            <div style="font-size:9px;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">Match Score 94%</div>
+            <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--bright)">AfDB</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:4px">All regions · Energy, Infra</div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid rgba(61,127,255,0.3);border-radius:8px;padding:14px">
+            <div style="font-size:9px;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">Match Score 88%</div>
+            <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--bright)">DBSA</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:4px">SADC focus · All sectors</div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid rgba(200,168,75,0.3);border-radius:8px;padding:14px">
+            <div style="font-size:9px;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">Match Score 81%</div>
+            <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--bright)">TDB Group</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:4px">East & South · Trade</div>
+          </div>
+        </div>
+        <button class="search-btn" onclick="runDFIMatch()">Run Full DFI Match for Selected Project</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right panel -->
+  <div class="right-panel">
+    <div class="panel-section">
+      <div class="panel-title">Live Activity</div>
+      <div id="activity-feed">
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--accent3)"></div>
+          <div class="activity-content">
+            <div class="activity-title">New bankable project added — Tanzania LNG Terminal Phase 3</div>
+            <div class="activity-time">2 min ago · Source: AfDB Portal</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--accent2)"></div>
+          <div class="activity-content">
+            <div class="activity-title">Verification complete — DRC Cobalt Corridor · VS 4.2/5</div>
+            <div class="activity-time">8 min ago · AI Engine</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--accent)"></div>
+          <div class="activity-content">
+            <div class="activity-title">DBSA match confirmed — Nacala Dry Port Expansion</div>
+            <div class="activity-time">15 min ago · DFI Match</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#9b7fff"></div>
+          <div class="activity-content">
+            <div class="activity-title">Sponsor submitted — Mauritanian Iron Ore Railway</div>
+            <div class="activity-time">31 min ago · Self-submit</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--danger)"></div>
+          <div class="activity-content">
+            <div class="activity-title">Flag raised — Cameroon Gas Pipeline · permit gap</div>
+            <div class="activity-time">1h ago · AI Verification</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-title">Data Sources</div>
+      <div class="source-list">
+        <div class="source-row">
+          <div class="source-info">
+            <div class="source-icon" style="background:rgba(200,168,75,0.15);color:var(--accent)">AB</div>
+            <div><div class="source-name">AfDB Portal</div><div class="source-count">312 projects indexed</div></div>
+          </div>
+          <div class="source-status" style="background:var(--accent3)"></div>
+        </div>
+        <div class="source-row">
+          <div class="source-info">
+            <div class="source-icon" style="background:rgba(61,127,255,0.15);color:var(--accent2)">WB</div>
+            <div><div class="source-name">World Bank</div><div class="source-count">891 projects indexed</div></div>
+          </div>
+          <div class="source-status" style="background:var(--accent3)"></div>
+        </div>
+        <div class="source-row">
+          <div class="source-info">
+            <div class="source-icon" style="background:rgba(46,201,126,0.15);color:var(--accent3)">DB</div>
+            <div><div class="source-name">DBSA Pipeline</div><div class="source-count">148 projects indexed</div></div>
+          </div>
+          <div class="source-status" style="background:var(--accent3)"></div>
+        </div>
+        <div class="source-row">
+          <div class="source-info">
+            <div class="source-icon" style="background:rgba(155,127,255,0.15);color:#9b7fff">TN</div>
+            <div><div class="source-name">Gov. Tenders</div><div class="source-count">Live crawl · 46 countries</div></div>
+          </div>
+          <div class="source-status" style="background:var(--accent3)"></div>
+        </div>
+        <div class="source-row">
+          <div class="source-info">
+            <div class="source-icon" style="background:rgba(232,93,93,0.15);color:var(--danger)">SP</div>
+            <div><div class="source-name">Self-Submitted</div><div class="source-count">84 projects pending</div></div>
+          </div>
+          <div class="source-status" style="background:var(--accent)"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section" style="border-bottom:none">
+      <div class="panel-title">DFI Demand Signals</div>
+      <div class="dfi-item">
+        <div class="dfi-name">AfDB</div>
+        <div class="dfi-interest">
+          <div class="interest-bar"><div class="interest-fill" style="width:92%"></div></div>
+          <span style="font-size:10px;color:var(--text)">92%</span>
+        </div>
+      </div>
+      <div class="dfi-item">
+        <div class="dfi-name">DBSA</div>
+        <div class="dfi-interest">
+          <div class="interest-bar"><div class="interest-fill" style="width:78%"></div></div>
+          <span style="font-size:10px;color:var(--text)">78%</span>
+        </div>
+      </div>
+      <div class="dfi-item">
+        <div class="dfi-name">TDB Group</div>
+        <div class="dfi-interest">
+          <div class="interest-bar"><div class="interest-fill" style="width:65%"></div></div>
+          <span style="font-size:10px;color:var(--text)">65%</span>
+        </div>
+      </div>
+      <div class="dfi-item">
+        <div class="dfi-name">BAD</div>
+        <div class="dfi-interest">
+          <div class="interest-bar"><div class="interest-fill" style="width:55%"></div></div>
+          <span style="font-size:10px;color:var(--text)">55%</span>
+        </div>
+      </div>
+      <div class="dfi-item">
+        <div class="dfi-name">Afreximbank</div>
+        <div class="dfi-interest">
+          <div class="interest-bar"><div class="interest-fill" style="width:48%"></div></div>
+          <span style="font-size:10px;color:var(--text)">48%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PROJECTS = [
+  {
+    id: 'NXG-OIL-0042',
+    title: 'Lamu Basin Upstream Development',
+    country: 'Kenya',
+    region: 'east',
+    sector: 'oil',
+    value: '$2.4B',
+    stage: 'bankable',
+    stageLabel: 'Bankable',
+    promoter: 'Kenya National Oil Corp.',
+    source: 'AfDB Portal',
+    score: [1,1,1,1,1],
+    tags: ['oil'],
+    cofi: true,
+    afdb: true
+  },
+  {
+    id: 'NXG-MIN-0031',
+    title: 'DRC Cobalt Corridor Mining PPP',
+    country: 'DRC',
+    region: 'central',
+    sector: 'mining',
+    value: '$1.8B',
+    stage: 'bankable',
+    stageLabel: 'Bankable',
+    promoter: 'Gécamines / Private JV',
+    source: 'World Bank',
+    score: [1,1,1,1,0],
+    tags: ['mining'],
+    cofi: true,
+    tdb: true
+  },
+  {
+    id: 'NXG-ENE-0118',
+    title: 'Zambezi Hydro Phase II Expansion',
+    country: 'Mozambique',
+    region: 'south',
+    sector: 'energy',
+    value: '$780M',
+    stage: 'feasibility',
+    stageLabel: 'Full Feasibility',
+    promoter: 'EDM / AfDB Co-dev',
+    source: 'AfDB Portal',
+    score: [1,1,1,0,0],
+    tags: ['energy'],
+    cofi: true,
+    afdb: true,
+    dbsa: true
+  },
+  {
+    id: 'NXG-LOG-0089',
+    title: 'Nacala Dry Port & Rail Expansion',
+    country: 'Mozambique',
+    region: 'south',
+    sector: 'logistics',
+    value: '$420M',
+    stage: 'feasibility',
+    stageLabel: 'Full Feasibility',
+    promoter: 'Port Authority of Mozambique',
+    source: 'DBSA Pipeline',
+    score: [1,1,1,0,0],
+    tags: ['logistics'],
+    cofi: false,
+    dbsa: true
+  },
+  {
+    id: 'NXG-OIL-0011',
+    title: 'Sao Tome Kariya Block Dev.',
+    country: 'São Tomé & Príncipe',
+    region: 'west',
+    sector: 'oil',
+    value: '$340M',
+    stage: 'concept',
+    stageLabel: 'Concept',
+    promoter: 'Ministry of Natural Resources',
+    source: 'Self-Submitted',
+    score: [1,1,0,0,0],
+    tags: ['oil'],
+    cofi: true,
+    afdb: false
+  },
+  {
+    id: 'NXG-ENE-0204',
+    title: 'Sahel Solar Belt — 500MW IPP',
+    country: 'Niger / Mali',
+    region: 'west',
+    sector: 'energy',
+    value: '$610M',
+    stage: 'prefeasibility',
+    stageLabel: 'Pre-Feasibility',
+    promoter: 'West Africa Power Pool',
+    source: 'Gov. Tenders',
+    score: [1,1,0,0,0],
+    tags: ['energy'],
+    cofi: true,
+    afdb: true
+  }
+];
+
+let currentFilter = { sector: 'all', region: null, stage: null, size: null, chip: 'all' };
+
+function renderProjects(list) {
+  const container = document.getElementById('project-list');
+  if (!list.length) {
+    container.innerHTML = '<div class="no-results">No projects match current filters.</div>';
+    document.getElementById('results-count').textContent = 'No results';
+    return;
+  }
+  document.getElementById('results-count').textContent = `Showing ${list.length} of 247 projects`;
+  container.innerHTML = list.map(p => `
+    <div class="project-card card-${p.sector}">
+      <div class="card-top">
+        <div class="card-title-block">
+          <div class="card-id">${p.id} · ${p.country}</div>
+          <div class="card-title">${p.title}</div>
+        </div>
+        <div class="card-right">
+          <div class="card-value">${p.value}</div>
+          <span class="card-stage stage-${p.stage}">${p.stageLabel}</span>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="card-meta-item">Promoter: <span class="val">&nbsp;${p.promoter}</span></div>
+        <div class="card-meta-item">Source: <span class="val">&nbsp;${p.source}</span></div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-sectors">
+          ${p.tags.map(t => `<span class="sector-tag tag-${t}">${t}</span>`).join('')}
+          ${p.cofi ? '<span class="sector-tag" style="background:rgba(46,201,126,0.1);color:var(--accent3)">Co-fi open</span>' : ''}
+        </div>
+        <div class="verification-score">
+          VS
+          <div class="score-bar">
+            ${p.score.map(s => `<div class="score-pip ${s?'filled':''}"></div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function applyFilters() {
+  let list = [...PROJECTS];
+  if (currentFilter.sector !== 'all') list = list.filter(p => p.sector === currentFilter.sector);
+  if (currentFilter.region) list = list.filter(p => p.region === currentFilter.region);
+  if (currentFilter.stage) list = list.filter(p => p.stage === currentFilter.stage);
+  if (currentFilter.chip === 'bankable') list = list.filter(p => p.stage === 'bankable');
+  if (currentFilter.chip === 'afdb') list = list.filter(p => p.afdb);
+  if (currentFilter.chip === 'dbsa') list = list.filter(p => p.dbsa);
+  if (currentFilter.chip === 'tdb') list = list.filter(p => p.tdb);
+  if (currentFilter.chip === 'cofi') list = list.filter(p => p.cofi);
+  renderProjects(list);
+}
+
+function filterSector(s) {
+  currentFilter.sector = s;
+  document.querySelectorAll('.filter-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  applyFilters();
+}
+
+function filterRegion(r) {
+  currentFilter.region = currentFilter.region === r ? null : r;
+  applyFilters();
+}
+
+function filterStage(s) {
+  currentFilter.stage = currentFilter.stage === s ? null : s;
+  applyFilters();
+}
+
+function filterSize(s) {
+  currentFilter.size = s;
+  applyFilters();
+}
+
+function toggleChip(el, val) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentFilter.chip = val;
+  applyFilters();
+}
+
+function setView(v) {
+  ['pipeline','verify','dossiers','upload','dfi'].forEach(view => {
+    const el = document.getElementById('view-' + view);
+    if (el) el.style.display = view === v ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+async function runAIQuery() {
+  const query = document.getElementById('ai-query').value.trim();
+  if (!query) return;
+
+  const loader = document.getElementById('loader');
+  const loaderText = document.getElementById('loader-text');
+  loaderText.textContent = 'AI sourcing in progress...';
+  loader.classList.add('active');
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are an AI project intelligence engine for an African infrastructure project gateway platform called NEXUS GATEWAY. You help DFIs, banks, and investors find and evaluate infrastructure projects across Africa in oil & gas, mining, energy, logistics, and finance sectors.
+
+When given a query, respond with:
+1. A concise analysis (2-3 sentences) of what the query is looking for and what the market context is
+2. A JSON block with: {"filters": {"sector": "...", "region": "...", "stage": "..."}, "keywords": ["tag1","tag2","tag3"], "match_count": <number 10-80>, "recommendation": "one sentence action recommendation"}
+
+Always return valid JSON in a code block. Keep analysis sharp and operator-focused.`,
+        messages: [{ role: 'user', content: `Project query: "${query}"` }]
+      })
+    });
+
+    const data = await response.json();
+    const fullText = data.content.map(i => i.text || '').join('');
+
+    // Extract JSON
+    const jsonMatch = fullText.match(/```(?:json)?\s*([\s\S]*?)```/);
+    let parsed = null;
+    if (jsonMatch) {
+      try { parsed = JSON.parse(jsonMatch[1].trim()); } catch(e) {}
+    }
+
+    // Extract analysis text (before the code block)
+    const analysisText = fullText.split('```')[0].trim();
+
+    const block = document.getElementById('ai-response-block');
+    const textEl = document.getElementById('ai-response-text');
+    const tagsEl = document.getElementById('ai-tags');
+
+    textEl.textContent = analysisText || fullText.substring(0, 300);
+
+    if (parsed) {
+      const tags = [
+        parsed.filters?.sector && `Sector: ${parsed.filters.sector}`,
+        parsed.filters?.region && `Region: ${parsed.filters.region}`,
+        parsed.filters?.stage && `Stage: ${parsed.filters.stage}`,
+        parsed.match_count && `~${parsed.match_count} matches`,
+        ...(parsed.keywords || [])
+      ].filter(Boolean);
+
+      tagsEl.innerHTML = tags.map(t => `<span class="ai-tag">${t}</span>`).join('');
+
+      // Apply filters if provided
+      if (parsed.filters?.sector) currentFilter.sector = parsed.filters.sector.toLowerCase().replace(/ & /g,'').replace(' ','');
+      if (parsed.filters?.stage) currentFilter.stage = parsed.filters.stage.toLowerCase();
+      applyFilters();
+    }
+
+    block.classList.add('visible');
+  } catch(err) {
+    console.error(err);
+  } finally {
+    loader.classList.remove('active');
+  }
+}
+
+async function runVerification() {
+  const loader = document.getElementById('loader');
+  document.getElementById('loader-text').textContent = 'Running AI verification...';
+  loader.classList.add('active');
+
+  const textarea = document.querySelector('#view-verify textarea');
+  const input = textarea.value.trim() || 'Generic infrastructure project in Africa';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are an AI project verification engine for an African DFI gateway platform. Assess submitted project details and produce a structured Verification Score (VS) report. Be sharp, factual, and DFI-oriented. Output HTML using only inline styles with colors: accent green #2ec97e, accent blue #3d7fff, amber #c8a84b, red #e85d5d, muted text #5a7080, main text #d4dde8.`,
+        messages: [{ role: 'user', content: `Assess this project for DFI bankability: "${input}". Produce a short VS report with: overall score /5, legal status, technical stage, financial model quality, ESG flags, and one key risk. Format as clean HTML with colored labels.` }]
+      })
+    });
+    const data = await response.json();
+    const html = data.content.map(i => i.text || '').join('');
+    document.getElementById('verification-content').innerHTML = html;
+    document.getElementById('verification-result').style.display = 'block';
+  } catch(e) { console.error(e); }
+  finally { loader.classList.remove('active'); }
+}
+
+async function runDFIMatch() {
+  const loader = document.getElementById('loader');
+  document.getElementById('loader-text').textContent = 'Running DFI matching...';
+  loader.classList.add('active');
+  setTimeout(() => loader.classList.remove('active'), 1800);
+}
+
+// Init
+renderProjects(PROJECTS);
+</script>
+</body>
+</html>
